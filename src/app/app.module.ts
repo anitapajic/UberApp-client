@@ -14,7 +14,7 @@ import { RegistrationComponent } from './components/registration/registration.co
     NavbarComponent,
     LoginComponent,
     MapComponent,
-    RegistrationComponent
+    RegistrationComponent,
   ],
   imports: [
     BrowserModule,

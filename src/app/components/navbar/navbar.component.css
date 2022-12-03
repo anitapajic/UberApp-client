@@ -4,11 +4,11 @@
 body {
     background: #f5f5f5;
   }
-  
+
 a {
     cursor: pointer;
   }
-  
+
 .navbar {
     margin-bottom: 30px;
     margin-bottom: 0;
@@ -25,7 +25,7 @@ nav ul{
 .menu-text{
     justify-content: right;
     margin: 20px;
-    
+
 
 }
 .login-btn{
@@ -44,7 +44,7 @@ nav ul{
     border-color: #EBEAE5;
     color: #EBEAE5;
     margin: 0.5rem;
-   
+
 }
 .register-btn{
     width: 10%;
@@ -70,7 +70,10 @@ nav ul{
     transition-duration: 0.4s;
     cursor: pointer;
 }
-  
+
 .active a:hover{
     color: #25313C;
+}
+img:hover{
+  cursor: pointer;
 }
