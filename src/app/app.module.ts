@@ -5,7 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { LoginComponent } from './components/login/login.component';
-import { MapComponent } from './map/map.component';
+import { MapComponent } from './components/map/map.component';
 import { RegistrationComponent } from './components/registration/registration.component';
 
 @NgModule({
