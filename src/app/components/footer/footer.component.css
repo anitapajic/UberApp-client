@@ -1,0 +1,45 @@
+.footer{
+    display: flex;
+    background-color: #25313C;
+    color: #fff;
+    font-family: Arial, sans-serif;
+}
+
+.footer h2{
+    color: #D14054;
+}
+
+.foot-div{
+    width: 30%;
+    margin: 1%;
+}
+
+hr{
+    height: 1px;
+    background-color: #D14054;
+    border-color: transparent;
+}
+
+.container{
+    display: flex;
+    margin: 20px 0px;
+}
+
+.container p{
+    margin: 0;
+}
+
+.icon{
+    width: 34%;
+}
+
+.text{
+    width: 65%;
+    margin-top: 2%;
+}
+
+img{
+    width: 50%;
+    margin-left: 20%;
+    vertical-align: middle;
+}
