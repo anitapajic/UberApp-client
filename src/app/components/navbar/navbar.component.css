@@ -1,0 +1,79 @@
+@import 'https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css';
+@import 'https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css';
+
+body {
+    background: #f5f5f5;
+  }
+
+a {
+    cursor: pointer;
+  }
+
+.navbar {
+    margin-bottom: 30px;
+    margin-bottom: 0;
+    height: 3rem;
+    }
+nav{
+    background-color: #D14054;
+}
+nav ul{
+    float: right;
+    margin-right: 20px;
+}
+
+.menu-text{
+    justify-content: right;
+    margin: 20px;
+
+
+}
+.login-btn{
+    width: 10%;
+    background-color: #EBEAE5;
+    border-color: #EBEAE5;
+    color: #D14054;
+    margin: 0.5rem;
+    transition-duration: 0.4s;
+    cursor: pointer;
+
+}
+.login-btn:hover{
+    width: 10%;
+    background-color:transparent;
+    border-color: #EBEAE5;
+    color: #EBEAE5;
+    margin: 0.5rem;
+
+}
+.register-btn{
+    width: 10%;
+    background-color: transparent;
+    border-color: #EBEAE5;
+    color: #EBEAE5;
+    transition-duration: 0.4s;
+    cursor: pointer;
+
+}
+.register-btn:hover{
+    width: 10%;
+    background-color: #EBEAE5;
+    border-color: #EBEAE5;
+    color: #D14054;
+}
+.img-logo{
+    width: 12%;
+    height: 100%;
+    margin-left:12px ;
+}
+.nav-item{
+    transition-duration: 0.4s;
+    cursor: pointer;
+}
+
+.active a:hover{
+    color: #25313C;
+}
+img:hover{
+  cursor: pointer;
+}
