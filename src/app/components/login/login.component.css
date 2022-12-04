@@ -1,0 +1,41 @@
+.gradient-custom {
+   background-color: #25313C;
+  }
+  
+  .card-registration .select-input.form-control[readonly]:not([disabled]) {
+    font-size: 1rem;
+    line-height: 2.15;
+    padding-left: .75em;
+    padding-right: .75em;
+  }
+  .card-registration .select-arrow {
+    top: 13px;
+  }
+
+.card{
+    border-radius: 0;
+}
+
+.container{
+    width: 60%;
+}
+
+.btn{
+    border-radius: 0;
+    background-color: #D14054;
+    color: #FFF;
+    border-color: transparent;
+    font-weight: bold;
+    align-items: center;
+    width: 60%;
+}
+
+.btn:hover{
+    background-color: #D14054;
+}
+  
+.centriraj{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
