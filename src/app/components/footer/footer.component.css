@@ -3,6 +3,8 @@
     background-color: #25313C;
     color: #fff;
     font-family: Arial, sans-serif;
+    bottom: 0;
+    width: 100%;
 }
 
 .footer h2{
