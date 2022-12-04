@@ -1,5 +1,6 @@
 .gradient-custom {
   background: #25313C;
+  height: fit-content;
 }
 .card{
   border-radius: 0;
