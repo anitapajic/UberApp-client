@@ -14,6 +14,8 @@
 
 .card{
     border-radius: 0;
+    background-color: #EBEAE5;
+
 }
 
 .container{
@@ -38,4 +40,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+h3{
+  color:#D14054;
 }
