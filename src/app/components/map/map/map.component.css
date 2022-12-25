@@ -1,6 +1,6 @@
 #p40{
   display: block;
-  height: 40rem;  
+  height: 38rem;  
   z-index:1; 
   position:relative;
 }
@@ -8,16 +8,14 @@
 .map-container {
   position: absolute;
   height: 36rem;
-  top: 30px;
+  top: 40px;
   left: 0;
   right: 0;
   bottom: 0;
-  margin: 30px 10px;
   z-index: 10;
 }
 
 .map-frame {
-  border: 2px solid black;
   height: 100%;
 }
 
