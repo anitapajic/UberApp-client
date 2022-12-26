@@ -1,29 +1,32 @@
-.centriraj{
-  color: #D14054;
+.centriraj {
+    color: #D14054;
 }
-.gradient-custom {
-   background-color: #25313C;
-  }
 
-  .card-registration .select-input.form-control[readonly]:not([disabled]) {
+.gradient-custom {
+    background-color: #25313C;
+}
+
+.card-registration .select-input.form-control[readonly]:not([disabled]) {
     font-size: 1rem;
     line-height: 2.15;
     padding-left: .75em;
     padding-right: .75em;
-  }
-  .card-registration .select-arrow {
-    top: 13px;
-  }
-
-.card{
-    border-radius: 0;
 }
 
-.container{
+.card-registration .select-arrow {
+    top: 13px;
+}
+
+.card {
+    border-radius: 0;
+    background-color: #EBEAE5;
+}
+
+.container {
     width: 60%;
 }
 
-.btn{
+.btn {
     border-radius: 0;
     background-color: #D14054;
     color: #FFF;
@@ -33,12 +36,16 @@
     width: 60%;
 }
 
-.btn:hover{
+.btn:hover {
     background-color: #D14054;
 }
 
-.centriraj{
+.centriraj {
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+h3 {
+    color: #D14054;
 }

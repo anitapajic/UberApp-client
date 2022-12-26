@@ -1,28 +1,35 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { LoginComponent } from './components/login/login.component';
-import { MapComponent } from './components/map/map.component';
+import { MapModule } from './components/map/map/map.module';
 import { RegistrationComponent } from './components/registration/registration.component';
 import { ReactiveFormsModule} from "@angular/forms";
+import { FooterComponent } from './components/footer/footer.component';
+import {  HttpClientModule } from '@angular/common/http';
+
 
 @NgModule({
   declarations: [
     AppComponent,
     NavbarComponent,
     LoginComponent,
-    MapComponent,
     RegistrationComponent,
+    FooterComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    BrowserAnimationsModule,
+    AppRoutingModule,
+    MapModule,
+    HttpClientModule,
   ],
-  providers: [],
+  providers: [  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

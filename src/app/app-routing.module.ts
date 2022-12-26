@@ -1,7 +1,9 @@
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { RouterModule, Routes } from 'node_modules/@angular/router';
+
 import { LoginComponent } from './components/login/login.component';
-import { MapComponent } from './components/map/map.component';
+import { MapComponent } from './components/map/map/map.component';
+import { MapModule } from './components/map/map/map.module';
 import { RegistrationComponent } from './components/registration/registration.component';
 
 const routes: Routes = [
@@ -16,4 +18,4 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
-export class AppRoutingModule { }
+export class  AppRoutingModule { }
