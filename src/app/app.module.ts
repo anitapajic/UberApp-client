@@ -9,7 +9,6 @@ import { MapModule } from './components/map/map/map.module';
 import { RegistrationComponent } from './components/registration/registration.component';
 import { FooterComponent } from './components/footer/footer.component';
 import {  HttpClientModule } from '@angular/common/http';
-import { CoordinatesComponent } from './components/coordinates/coordinates.component';
 
 
 @NgModule({
@@ -19,7 +18,6 @@ import { CoordinatesComponent } from './components/coordinates/coordinates.compo
     LoginComponent,
     RegistrationComponent,
     FooterComponent,
-    CoordinatesComponent,
   ],
   imports: [
     BrowserModule,
