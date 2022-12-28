@@ -7,6 +7,12 @@
   border-radius: 0;
   background-color: #EBEAE5;
 }
+.vh-150{
+  height: 53rem;
+}
+.pt-5, .py-5 {
+  padding-top: 5rem!important;
+}
 
 .card-registration .select-input.form-control[readonly]:not([disabled]) {
   font-size: 1rem;
