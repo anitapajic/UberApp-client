@@ -33,7 +33,7 @@ export class LoginComponent implements OnInit{
           var user : Map<string, any> = new Map(Object.entries(res.get("user")));
           localStorage.setItem('user', JSON.stringify(user));
           this.router.navigate(['/home']);
-          alert("Welcome, " + user.get("firstname") + " " + user.get("lastname"))
+          alert("Welcome, " + user.get("name") + " " + user.get("surname"))
 
         },
         error: (error) => {
