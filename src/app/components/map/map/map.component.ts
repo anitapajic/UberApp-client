@@ -30,23 +30,34 @@ export class MapComponent implements AfterViewInit {
     );
     tiles.addTo(this.map);
 
-    //this.search();
+    this.registerOnInput();
     //this.addMarker();
     this.registerOnClick();
     this.route();
   }
 
-  search(): void {
-    this.mapService.search('Strazilovska 19').subscribe({
+
+  search(street : string): void {
+    this.mapService.search(street).subscribe({
       next: (result) => {
         console.log(result);
-        L.marker([result[0].lat, result[0].lon])
-          .addTo(this.map)
-          .bindPopup('Pozdrav iz ' + result[0].display_name )
-          .openPopup();
+        L.marker([result[0].lat, result[0].lon]).addTo(this.map)
       },
       error: () => {},
     });
+  }
+
+  registerOnInput() : void{
+    var findBtn = document.getElementById('findBtn');
+    findBtn?.addEventListener('click', (e : any) => {
+      var input =  document.getElementById('fromLocation') as HTMLInputElement;
+      var street = input.value;
+      this.search(street);
+
+      var input =  document.getElementById('toLocation') as HTMLInputElement;
+      var street = input.value;
+      this.search(street);
+    })
   }
 
   registerOnClick(): void {
