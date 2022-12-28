@@ -1,7 +1,9 @@
 .centriraj {
     color: #D14054;
 }
-
+.login-padding {
+    padding-top: 5rem;
+  }
 .gradient-custom {
     background-color: #25313C;
 }
