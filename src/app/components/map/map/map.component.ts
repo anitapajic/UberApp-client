@@ -41,15 +41,7 @@ export class MapComponent implements AfterViewInit {
   }
 
 
-  // search(street : string): void {
-  //   this.mapService.search(street).subscribe({
-  //     next: (result) => {
-  //       console.log(result);
-  //       L.marker([result[0].lat, result[0].lon]).addTo(this.map)
-  //     },
-  //     error: () => {},
-  //   });
-  // }
+
   async search(input: string): Promise<any> {
     return new Promise((resolve, reject) => {
       this.mapService.search(input).subscribe({
@@ -105,11 +97,7 @@ export class MapComponent implements AfterViewInit {
     });
   }
 
-  // route(): void {
-  //   L.Routing.control({
 
-  //   }).addTo(this.map);
-  // }
 
   route(r1: any, r2: any): void {
     L.Routing.control({
