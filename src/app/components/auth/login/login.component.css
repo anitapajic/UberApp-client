@@ -7,6 +7,17 @@
 .gradient-custom {
     background-color: #25313C;
 }
+.title{
+    font-style: normal;
+    font-weight: 700;
+    text-align: center;
+    text-align: center;
+    color: #25313C;
+  }
+  .titleForm{
+    color: #D14054;
+  }
+  
 
 .card-registration .select-input.form-control[readonly]:not([disabled]) {
     font-size: 1rem;
