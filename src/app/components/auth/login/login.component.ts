@@ -39,6 +39,7 @@ export class LoginComponent implements OnInit{
         error: (error) => {
           if (error instanceof HttpErrorResponse) {
             this.hasError = true;
+            alert("Activate your account")
           }
         },
       });
