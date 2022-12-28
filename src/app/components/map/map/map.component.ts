@@ -1,5 +1,6 @@
 import { Component, AfterViewInit } from '@angular/core';
 import * as L from 'leaflet';
+import { LatLng } from 'leaflet';
 import 'leaflet-routing-machine';
 import { MapService } from '../map.service';
 
@@ -10,6 +11,9 @@ import { MapService } from '../map.service';
 })
 export class MapComponent implements AfterViewInit {
   private map: any;
+  result!: any;
+  dep!: LatLng;
+  dest!: LatLng;
 
   constructor(private mapService: MapService) {}
 
@@ -33,32 +37,49 @@ export class MapComponent implements AfterViewInit {
     this.registerOnInput();
     //this.addMarker();
     this.registerOnClick();
-    this.route();
+    //this.route();
   }
 
 
-  search(street : string): void {
-    this.mapService.search(street).subscribe({
-      next: (result) => {
-        console.log(result);
-        L.marker([result[0].lat, result[0].lon]).addTo(this.map)
-      },
-      error: () => {},
+
+  async search(input: string): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.mapService.search(input).subscribe({
+        next: (result) => {
+          console.log(result);
+          L.marker([result[0].lat, result[0].lon])
+            .addTo(this.map)
+            .bindPopup(result[0].display_name)
+            .openPopup();
+          resolve(result);
+        },
+        error: (error) => {
+          reject(error);
+        },
+      });
     });
   }
 
+
   registerOnInput() : void{
     var findBtn = document.getElementById('findBtn');
-    findBtn?.addEventListener('click', (e : any) => {
+    findBtn?.addEventListener('click', async (e : any) => {
       var input =  document.getElementById('fromLocation') as HTMLInputElement;
       var street = input.value;
-      this.search(street);
+      const dep = await this.search(street);
+      this.dep = new LatLng(Number(dep[0].lat), Number(dep[0].lon));
 
       var input =  document.getElementById('toLocation') as HTMLInputElement;
       var street = input.value;
-      this.search(street);
+      const des = await this.search(street);
+      this.dest = new LatLng(Number(des[0].lat), Number(des[0].lon));
+      this.route(this.dep, this.dest);
+
+      
     })
   }
+
+
 
   registerOnClick(): void {
     this.map.on('click', (e: any) => {
@@ -76,9 +97,13 @@ export class MapComponent implements AfterViewInit {
     });
   }
 
-  route(): void {
-    L.Routing.control({
 
+
+  route(r1: any, r2: any): void {
+    L.Routing.control({
+      waypoints: [
+        r1, r2
+      ]
     }).addTo(this.map);
   }
 
