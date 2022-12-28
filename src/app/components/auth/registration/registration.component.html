@@ -5,13 +5,13 @@
         <div class="card shadow-2-strong card-registration">
           <div class="card-body p-4 p-md-5">
             <h3 class="mb-4 pb-2 pb-md-0 mb-md-5 centriraj">Registration Form</h3>
-            <form>
+            <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()">
 
               <div class="row">
                 <div class="col-md-6 mb-4">
 
                   <div class="form-outline">
-                    <input type="text" id="firstName" class="form-control form-control-lg" />
+                    <input type="text" id="firstName" formControlName="firstname" class="form-control form-control-lg" />
                     <label class="form-label" for="firstName">First Name</label>
                   </div>
 
@@ -19,7 +19,7 @@
                 <div class="col-md-6 mb-4">
 
                   <div class="form-outline">
-                    <input type="text" id="lastName" class="form-control form-control-lg" />
+                    <input type="text" id="lastName" formControlName="lastname" class="form-control form-control-lg" />
                     <label class="form-label" for="lastName">Last Name</label>
                   </div>
 
@@ -30,7 +30,7 @@
                 <div class="col-md-6 mb-4 d-flex align-items-center">
 
                   <div class="form-outline datepicker w-100">
-                    <input type="date" class="form-control form-control-lg" id="birthdayDate" />
+                    <input type="date" formControlName="dateOfBirth" class="form-control form-control-lg" id="birthdayDate" />
                     <label for="birthdayDate" class="form-label">Birthday</label>
                   </div>
 
@@ -38,7 +38,7 @@
                 <div class="col-md-6 mb-4">
 
                   <div class="form-outline">
-                    <input type="text" id="email" class="form-control form-control-lg" />
+                    <input type="text" id="email" formControlName="email" class="form-control form-control-lg" />
                     <label class="form-label" for="email">Email</label>
                   </div>
 
@@ -49,7 +49,7 @@
                 <div class="col-md-6 mb-4 pb-2">
 
                   <div class="form-outline">
-                    <input type="password" id="password" class="form-control form-control-lg" />
+                    <input type="password" id="password" formControlName="password" class="form-control form-control-lg" />
                     <label class="form-label" for="password">Password</label>
                   </div>
 
@@ -57,7 +57,7 @@
                 <div class="col-md-6 mb-4 pb-2">
 
                   <div class="form-outline">
-                    <input type="tel" id="phoneNumber" class="form-control form-control-lg" />
+                    <input type="tel" id="phoneNumber" formControlName="telephoneNumber" class="form-control form-control-lg" />
                     <label class="form-label" for="phoneNumber">Phone Number</label>
                   </div>
 
@@ -68,14 +68,14 @@
                 <div class="col-md-6 mb-4 pb-2">
 
                   <div class="form-outline">
-                    <input type="password" id="confirmPassword" class="form-control form-control-lg" />
+                    <input type="password" id="confirmPassword" formControlName="confirmPassword" class="form-control form-control-lg" />
                     <label class="form-label" for="confirmPassword">Confirm password</label>
                   </div>
                 </div>
                 <div class="col-md-6 mb-4 pb-2">
 
                   <div class="form-outline">
-                    <input type="file" id="profileImg" class="form-control form-control-lg" />
+                    <input type="file" id="profileImg" formControlName="profilePicture" class="form-control form-control-lg" />
                     <label class="form-label" for="profileImg">Upload a profile picture</label>
                   </div>
                 </div>

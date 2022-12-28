@@ -13,4 +13,10 @@ export class AuthService {
       'http://localhost:8085/api/user/login', auth
     );
   }
+
+  registration(auth: any): Observable<any> {
+    return this.http.post(
+      'http://localhost:8085/api/passenger', auth
+    );
+  }
 }
