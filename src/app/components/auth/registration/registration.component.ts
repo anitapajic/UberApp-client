@@ -21,7 +21,7 @@ export class RegistrationComponent implements OnInit{
     password: new FormControl('', [Validators.required]),
     telephoneNumber: new FormControl('', [Validators.required]),
     confirmPassword: new FormControl('', [Validators.required]),
-    profilePicture: new FormControl(''),
+    address: new FormControl('', [Validators.required]),
   });
 
   onSubmit() {
@@ -34,7 +34,7 @@ export class RegistrationComponent implements OnInit{
       password: this.registrationForm.value.password,
       telephoneNumber: this.registrationForm.value.telephoneNumber,
       confirmPassword: this.registrationForm.value.confirmPassword,
-      profilePicture: this.registrationForm.value.profilePicture,
+      address: this.registrationForm.value.address,
     };
 
     if(registrationVal.password===registrationVal.confirmPassword) {
