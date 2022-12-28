@@ -1,4 +1,3 @@
-import { MatDialog } from '@angular/material/dialog';
 import { Component } from '@angular/core';
 
 
@@ -9,9 +8,4 @@ import { Component } from '@angular/core';
 })
 export class LoginComponent {
  
-  constructor(private dialogRef : MatDialog){}
-
-  openDialog(){
-    this.dialogRef.open(LoginComponent);
-  }
 }
