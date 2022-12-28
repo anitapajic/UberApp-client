@@ -18,12 +18,7 @@ export class LoginComponent implements OnInit{
     password: new FormControl('', [Validators.required]),
   });
 
-  //constructor( private formBuilder: FormBuilder){}
-
   onSubmit() {
-
-    const mail = document.getElementById('emailAddress') as HTMLInputElement;
-    const password = document.getElementById('password') as HTMLInputElement;
 
     var loginVal = {
       email: this.loginForm.value.email,
