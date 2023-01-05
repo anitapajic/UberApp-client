@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { VehicleCardsComponent } from '../vehicle-cards/vehicle-cards.component';
-import { MapComponent } from '../map/map/map.component';
+import { VehicleCardsComponent } from '../../components/vehicle-cards/vehicle-cards.component';
+import { MapComponent } from '../../components/map/map/map.component';
 import { Router } from '@angular/router';
 @Component({
   selector: 'app-navbar',
