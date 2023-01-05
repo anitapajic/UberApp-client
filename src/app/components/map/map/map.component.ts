@@ -10,6 +10,7 @@ import { MapService } from '../map.service';
   styleUrls: ['./map.component.css'],
 })
 export class MapComponent implements AfterViewInit {
+
   private map: any;
   result!: any;
   dep!: LatLng;
@@ -40,7 +41,10 @@ export class MapComponent implements AfterViewInit {
     //this.route();
   }
 
+  static scrollInto() {
+    document.getElementById('map')?.scrollIntoView();
 
+  }
 
   async search(input: string): Promise<any> {
     return new Promise((resolve, reject) => {

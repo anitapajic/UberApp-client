@@ -6,5 +6,10 @@ import { Component } from '@angular/core';
   styleUrls: ['./vehicle-cards.component.css']
 })
 export class VehicleCardsComponent {
+  static scrollInto() {
+
+    document.getElementById('vehicles')?.scrollIntoView();
+
+  }
 
 }
