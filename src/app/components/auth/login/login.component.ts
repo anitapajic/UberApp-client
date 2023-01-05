@@ -1,18 +1,23 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import {Component, OnInit, AfterViewInit} from '@angular/core';
-import { FormControl,FormGroup,Validators,FormBuilder } from '@angular/forms';
+import { Component } from '@angular/core';
+import { FormControl,
+        FormGroup,
+        Validators,
+        FormBuilder 
+      } from '@angular/forms';
 import { AuthService } from '../auth.service';
-import {Router} from "@angular/router";
+import { Router } from "@angular/router";
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent implements OnInit{
+export class LoginComponent{
 
   constructor(private authService: AuthService, private router: Router) {}
   hasError: boolean = false;
+ 
   loginForm = new FormGroup({
     email: new FormControl('', [Validators.required]),
     password: new FormControl('', [Validators.required]),
@@ -21,7 +26,7 @@ export class LoginComponent implements OnInit{
   onSubmit() {
 
     var loginVal = {
-      email: this.loginForm.value.email,
+      username: this.loginForm.value.email,
       password: this.loginForm.value.password,
     };
 
@@ -29,17 +34,16 @@ export class LoginComponent implements OnInit{
     if (this.loginForm.valid) {
       this.authService.login(loginVal).subscribe({
         next: (result) => {
-          const res : Map<string, any>= new Map(Object.entries(result));
-          var user : Map<string, any> = new Map(Object.entries(res.get("user")));
-          localStorage.setItem('user', JSON.stringify(user));
+          localStorage.setItem('user', JSON.stringify(result));
+          this.authService.setUser();
           this.router.navigate(['/home']);
-          alert("Welcome, " + user.get("name") + " " + user.get("surname"))
+         // alert("Welcome, " + user.get("name") + " " + user.get("surname"))
 
         },
         error: (error) => {
           if (error instanceof HttpErrorResponse) {
             this.hasError = true;
-            alert("Activate your account")
+            alert("User is not active")
           }
         },
       });
