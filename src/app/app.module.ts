@@ -11,7 +11,7 @@ import { ReactiveFormsModule} from "@angular/forms";
 import { FooterComponent } from './components/footer/footer.component';
 import {  HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { Interceptor } from './components/auth/interceptor/interceptor.interceptor';
-
+import { AboutComponent } from './components/about/about.component';
 
 @NgModule({
   declarations: [
@@ -20,6 +20,8 @@ import { Interceptor } from './components/auth/interceptor/interceptor.intercept
     LoginComponent,
     RegistrationComponent,
     FooterComponent,
+
+
   ],
   imports: [
     BrowserModule,
