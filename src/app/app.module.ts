@@ -11,6 +11,9 @@ import { ReactiveFormsModule} from "@angular/forms";
 import { FooterComponent } from './components/footer/footer.component';
 import {  HttpClientModule } from '@angular/common/http';
 import { AboutComponent } from './components/about/about.component';
+import { compileDirectiveFromMetadata } from '@angular/compiler';
+import { VehicleCardsComponent } from './components/vehicle-cards/vehicle-cards.component';
+compileDirectiveFromMetadata
 
 @NgModule({
   declarations: [
