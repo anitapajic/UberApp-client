@@ -2,6 +2,7 @@ import { Component, AfterViewInit } from '@angular/core';
 import * as L from 'leaflet';
 import { LatLng } from 'leaflet';
 import 'leaflet-routing-machine';
+import { AuthService } from '../../auth/auth.service';
 import { MapService } from '../map.service';
 
 @Component({
@@ -10,14 +11,32 @@ import { MapService } from '../map.service';
   styleUrls: ['./map.component.css'],
 })
 export class MapComponent implements AfterViewInit {
+
+  role: any;
   private map: any;
   result!: any;
   dep!: LatLng;
-  dest!: LatLng;
+  des!: LatLng;
 
-  constructor(private mapService: MapService) {}
+  des_marker : any = new L.Marker(new LatLng(0,0));
+  dep_marker : any = new L.Marker(new LatLng(0,0));
+
+  dep_input! : HTMLInputElement;
+  des_input! : HTMLInputElement;
+  next : Boolean = false;
+  routingControl = L.Routing.control({ waypoints: [    ]});
+  constructor(private mapService: MapService, private authService : AuthService) {}
+
+  ngOnInit(): void {
+    this.authService.userState$.subscribe((result) => {
+      this.role = result;
+    });
+  }
 
   private initMap(): void {
+    this.dep_input =  document.getElementById('fromLocation') as HTMLInputElement;
+    this.des_input =  document.getElementById('toLocation') as HTMLInputElement;
+
     this.map = L.map('map', {
       center: [45.2396, 19.8227],
       zoom: 13,
@@ -35,18 +54,18 @@ export class MapComponent implements AfterViewInit {
     tiles.addTo(this.map);
 
     this.registerOnInput();
-    //this.addMarker();
     this.registerOnClick();
-    //this.route();
   }
 
+  static scrollInto() {
+    document.getElementById('map')?.scrollIntoView();
 
+  }
 
   async search(input: string): Promise<any> {
     return new Promise((resolve, reject) => {
       this.mapService.search(input).subscribe({
         next: (result) => {
-          console.log(result);
           L.marker([result[0].lat, result[0].lon])
             .addTo(this.map)
             .bindPopup(result[0].display_name)
@@ -64,18 +83,15 @@ export class MapComponent implements AfterViewInit {
   registerOnInput() : void{
     var findBtn = document.getElementById('findBtn');
     findBtn?.addEventListener('click', async (e : any) => {
-      var input =  document.getElementById('fromLocation') as HTMLInputElement;
-      var street = input.value;
-      const dep = await this.search(street);
+
+      const dep = await this.search(this.dep_input.value);
       this.dep = new LatLng(Number(dep[0].lat), Number(dep[0].lon));
 
-      var input =  document.getElementById('toLocation') as HTMLInputElement;
-      var street = input.value;
-      const des = await this.search(street);
-      this.dest = new LatLng(Number(des[0].lat), Number(des[0].lon));
-      this.route(this.dep, this.dest);
+      const des = await this.search(this.des_input.value);
+      this.des = new LatLng(Number(des[0].lat), Number(des[0].lon));
 
-      
+
+      this.route(this.dep, this.des);
     })
   }
 
@@ -86,25 +102,53 @@ export class MapComponent implements AfterViewInit {
       const coord = e.latlng;
       const lat = coord.lat;
       const lng = coord.lng;
+     
+
       this.mapService.reverseSearch(lat, lng).subscribe((res) => {
-        console.log(res.display_name);
+        if(!this.next) {
+          this.des_marker.removeFrom(this.map);
+          this.des_marker = new L.Marker([lat, lng]).addTo(this.map);
+
+          this.dep = new LatLng(Number(lat), Number(lng));
+          this.dep_input.value = res.display_name;
+        }
+        else{
+          this.dep_marker.removeFrom(this.map);
+          this.dep_marker = new L.Marker([lat, lng]).addTo(this.map);
+
+          this.des = new LatLng(Number(lat), Number(lng));
+          this.des_input.value = res.display_name;
+
+        }
+        this.next = !this.next;
       });
+
       console.log(
         'You clicked the map at latitude: ' + lat + ' and longitude: ' + lng
       );
-      const mp = new L.Marker([lat, lng]).addTo(this.map);
-      alert(mp.getLatLng());
+
+      //alert(mp.getLatLng());
     });
   }
 
 
 
   route(r1: any, r2: any): void {
-    L.Routing.control({
+      if (this.routingControl != null)
+            this.removeRoutingControl();
+
+      this.routingControl = L.Routing.control({
       waypoints: [
         r1, r2
       ]
+
     }).addTo(this.map);
+  }
+
+  removeRoutingControl(){
+    this.dep_marker.removeFrom(this.map);
+    this.des_marker.removeFrom(this.map);
+    this.routingControl.remove();   
   }
 
   private addMarker(): void {

@@ -26,14 +26,18 @@ export class AuthService {
         headers: this.headers,
     });
   }
-
+  logout(): Observable<string> {
+    return this.http.get('http://localhost:8085/api/user/logout', {
+      responseType: 'text',
+    });
+  }
 
   getRole(): any {
     if (this.isLoggedIn()) {
       var accessToken: any = localStorage.getItem('user');
       const helper = new JwtHelperService();
       const role = helper.decodeToken(accessToken).role[0].authority;
-      alert(helper.decodeToken(accessToken).sub);
+      //alert(helper.decodeToken(accessToken).sub);
       return role;
     }
     return null;
@@ -55,4 +59,6 @@ export class AuthService {
       'http://localhost:8085/api/passenger', auth
     );
   }
+
+
 }

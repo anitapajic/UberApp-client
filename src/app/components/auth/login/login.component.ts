@@ -37,7 +37,6 @@ export class LoginComponent{
           localStorage.setItem('user', JSON.stringify(result));
           this.authService.setUser();
           this.router.navigate(['/home']);
-         // alert("Welcome, " + user.get("name") + " " + user.get("surname"))
 
         },
         error: (error) => {

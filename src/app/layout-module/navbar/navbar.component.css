@@ -30,7 +30,7 @@ nav ul{
 
 
 }
-.login-btn{
+.login-btn, .logout-btn{
     width: 10%;
     background-color: #EBEAE5;
     border-color: #EBEAE5;
@@ -40,7 +40,7 @@ nav ul{
     cursor: pointer;
 
 }
-.login-btn:hover{
+.login-btn:hover, .logout-btn:hover{
     width: 10%;
     background-color:transparent;
     border-color: #EBEAE5;
@@ -48,7 +48,7 @@ nav ul{
     margin: 0.5rem;
 
 }
-.register-btn{
+.register-btn, .account-btn{
     width: 10%;
     background-color: transparent;
     border-color: #EBEAE5;
@@ -57,7 +57,7 @@ nav ul{
     cursor: pointer;
 
 }
-.register-btn:hover{
+.register-btn:hover, .account-btn:hover{
     width: 10%;
     background-color: #EBEAE5;
     border-color: #EBEAE5;
