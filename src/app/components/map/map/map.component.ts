@@ -2,6 +2,7 @@ import { Component, AfterViewInit } from '@angular/core';
 import * as L from 'leaflet';
 import { LatLng } from 'leaflet';
 import 'leaflet-routing-machine';
+import { AuthService } from '../../auth/auth.service';
 import { MapService } from '../map.service';
 
 @Component({
@@ -11,6 +12,7 @@ import { MapService } from '../map.service';
 })
 export class MapComponent implements AfterViewInit {
 
+  role: any;
   private map: any;
   result!: any;
   dep!: LatLng;
@@ -23,7 +25,13 @@ export class MapComponent implements AfterViewInit {
   des_input! : HTMLInputElement;
   next : Boolean = false;
   routingControl = L.Routing.control({ waypoints: [    ]});
-  constructor(private mapService: MapService) {}
+  constructor(private mapService: MapService, private authService : AuthService) {}
+
+  ngOnInit(): void {
+    this.authService.userState$.subscribe((result) => {
+      this.role = result;
+    });
+  }
 
   private initMap(): void {
     this.dep_input =  document.getElementById('fromLocation') as HTMLInputElement;

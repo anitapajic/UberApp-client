@@ -4,9 +4,15 @@
     <div id="map"></div>
   </div>
 </div>
-<div class="app-coordinates"></div>
-<app-coordinates></app-coordinates> 
-<div class="app-about"></div>
-<app-about></app-about> 
-<div class="app-vehicle-cards"></div>
-<app-vehicle-cards></app-vehicle-cards> 
+<div *ngIf="role === null">
+  <div class="app-coordinates"></div>
+  <app-coordinates></app-coordinates> 
+  
+  <div class="app-about"></div>
+  <app-about></app-about> 
+  
+  <div class="app-vehicle-cards"></div>
+  <app-vehicle-cards ></app-vehicle-cards> 
+</div>
+
+
