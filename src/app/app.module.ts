@@ -15,6 +15,7 @@ import { AboutComponent } from './components/about/about.component';
 import { compileDirectiveFromMetadata } from '@angular/compiler';
 import { VehicleCardsComponent } from './components/vehicle-cards/vehicle-cards.component';
 import { LayoutModuleModule } from './layout-module/layout-module.module';
+
 compileDirectiveFromMetadata
 
 @NgModule({
@@ -22,6 +23,8 @@ compileDirectiveFromMetadata
     AppComponent,
     LoginComponent,
     RegistrationComponent,
+
+ 
   ],
   imports: [
     BrowserModule,
