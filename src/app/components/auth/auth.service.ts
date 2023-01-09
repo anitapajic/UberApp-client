@@ -55,10 +55,26 @@ export class AuthService {
   }
 
   registration(auth: any): Observable<any> {
-    return this.http.post(
+    return this.http.put(
       'http://localhost:8085/api/passenger', auth
     );
   }
 
+  sendCode(auth : any): Observable<any> {
+    return this.http.get('http://localhost:8085/api/user/1/resetPassword', {
+      headers: this.headers,
+      params: auth,
+      responseType: 'text',
+    }
+    );
+  }
+
+  resetPassword(auth : any): Observable<any> {
+    return this.http.put('http://localhost:8085/api/user/1/resetPassword', auth, {
+      headers: this.headers,
+      responseType: 'text',
+    }
+    );
+  }
 
 }
