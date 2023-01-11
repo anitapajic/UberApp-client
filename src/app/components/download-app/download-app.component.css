@@ -1,0 +1,65 @@
+.container-fluid{
+    background-color: #25313C;
+}
+
+.downloadColour{
+    padding-top: 30px;
+    font-style: normal;
+    font-weight: 800;
+    font-size: 40px;
+    line-height: 48px;
+    text-align: center;
+
+    color: #D14054;
+}
+.titleColour{
+
+    font-style: normal;
+    font-weight: 600;
+    font-size: 36px;
+    text-align: center;
+
+    color: antiquewhite;
+}
+p{
+    margin-left: 20px;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 24px;
+    color: #FFFFFF;
+}
+
+.col-7{
+    margin-left: 35px;
+    margin-top: 45px;
+    padding-top: 45px;
+}
+.titleP{
+
+    font-style: normal;
+    font-weight: 600;
+    font-size: 32px;
+    line-height: 39px;
+
+    color: #FFFFFF;
+}
+.col-2{
+    padding: 0;
+    padding-right: 45px;
+    margin-top: 20px;
+    margin-left: 35px;
+    margin-bottom: 40px;    
+}
+.col-4{
+    z-index: 100;
+}
+.as{
+    margin-left:0;
+}
+.img{
+    width: 100%;
+}
+.img-hand{
+    width: 100%;
+}
+

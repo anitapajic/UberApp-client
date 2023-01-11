@@ -1,13 +1,13 @@
 #p40{
   display: block;
-  height: 38rem;  
+  height: 39rem;  
   z-index:1; 
   position:relative;
 }
 
 .map-container {
   position: absolute;
-  height: 36rem;
+  height: 38rem;
   top: 40px;
   left: 0;
   right: 0;
