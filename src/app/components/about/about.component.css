@@ -1,5 +1,5 @@
 .container-fluid{
-    height: 320px;
+    
     background-color: #25313C;
 }
 
@@ -27,15 +27,26 @@ h2{
     color: #EBEAE5;
 }
 .col-6{
-    margin-left: 35px;
-    margin-top: 20px;
+    margin-left: 50px;
+    margin-top: 40px;
 }
 p{
     color: #EBEAE5;
 }
 .img-logo{
-   width: 550px;
-   height: 500px;
+   margin-top: 40px;
    margin-bottom: 20px;
-   margin-right: 20px;
+   margin-right: 10px;
 }
+  .btn {
+      border-radius: 0%;
+      width: 180px;
+      margin-top: 40px;
+      margin-bottom: 25px;
+      font-weight: 700;
+      font-size: 20px;
+    }
+  .btn-dark{
+    background-color: #D14054;
+    border: #D14054;
+  }
