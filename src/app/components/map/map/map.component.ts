@@ -41,6 +41,7 @@ export class MapComponent implements AfterViewInit {
       center: [45.2396, 19.8227],
       zoom: 13,
     });
+    
 
     const tiles = L.tileLayer(
       'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
@@ -57,9 +58,13 @@ export class MapComponent implements AfterViewInit {
     this.registerOnClick();
   }
 
+  private refreshMap(): void{
+    this.map.remove();
+    this.initMap();
+  }
+
   static scrollInto() {
     document.getElementById('map')?.scrollIntoView();
-
   }
 
   async search(input: string): Promise<any> {
@@ -134,6 +139,7 @@ export class MapComponent implements AfterViewInit {
 
 
   route(r1: any, r2: any): void {
+    this.refreshMap();
       if (this.routingControl != null)
             this.removeRoutingControl();
 
