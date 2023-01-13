@@ -30,7 +30,7 @@ export class RegistrationComponent implements OnInit{
       name: this.registrationForm.value.firstname,
       surname: this.registrationForm.value.lastname,
       dateOfBirth: this.registrationForm.value.dateOfBirth,
-      email: this.registrationForm.value.email,
+      username: this.registrationForm.value.email,
       password: this.registrationForm.value.password,
       telephoneNumber: this.registrationForm.value.telephoneNumber,
       confirmPassword: this.registrationForm.value.confirmPassword,

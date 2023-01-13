@@ -1,0 +1,11 @@
+.nav-item{
+    transition-duration: 0.4s;
+    cursor: pointer;
+}
+a {
+    cursor: pointer;
+  }
+
+.active a:hover{
+    color: #25313C;
+}

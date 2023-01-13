@@ -7,7 +7,31 @@
 .gradient-custom {
     background-color: #25313C;
 }
+.title{
+    font-style: normal;
+    font-weight: 700;
+    text-align: center;
+    text-align: center;
+    color: #25313C;
+  }
+  .titleForm{
+    color: #D14054;
+  }
+  
+.passLink{
+    margin-top: 5%;
+    text-align: center;
+    color :#25313C;
+}
+.passLink a{
+    color :#25313C;
+}
 
+.passLink a:hover{
+    cursor: pointer;
+    color: #D14054;
+
+}
 .card-registration .select-input.form-control[readonly]:not([disabled]) {
     font-size: 1rem;
     line-height: 2.15;
@@ -50,4 +74,9 @@
 
 h3 {
     color: #D14054;
+}
+.form-control{
+    border-radius: 0;
+    background-color: #D9D9D9;
+    height: 55px;
 }
