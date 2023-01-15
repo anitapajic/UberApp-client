@@ -11,9 +11,7 @@ import { ReactiveFormsModule} from "@angular/forms";
 import { FooterComponent } from './layout-module/footer/footer.component';
 import {  HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { Interceptor } from './components/auth/interceptor/interceptor.interceptor';
-import { AboutComponent } from './components/about/about.component';
 import { compileDirectiveFromMetadata } from '@angular/compiler';
-import { VehicleCardsComponent } from './components/vehicle-cards/vehicle-cards.component';
 import { LayoutModuleModule } from './layout-module/layout-module.module';
 import { ResetPasswordComponent } from './components/auth/reset-password/reset-password.component';
 compileDirectiveFromMetadata
