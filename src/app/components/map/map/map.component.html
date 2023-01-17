@@ -7,6 +7,16 @@
 <div class="app-coordinates"></div>
 <app-coordinates></app-coordinates> 
 
+
+<div *ngIf="role != null">
+
+  <div class="app-nav-icons"></div>
+  <app-nav-icons></app-nav-icons> 
+
+  <div class="app-ride-history"></div>
+  <app-ride-history></app-ride-history> 
+
+</div>
 <div *ngIf="role === null">
 
   

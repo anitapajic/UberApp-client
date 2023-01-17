@@ -6,5 +6,9 @@ import { Component } from '@angular/core';
   styleUrls: ['./about.component.css']
 })
 export class AboutComponent {
+  isReadMore = true
 
+  showText() {
+     this.isReadMore = !this.isReadMore
+  }
 }
