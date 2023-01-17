@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
-import { VehicleCardsComponent } from '../../components/vehicle-cards/vehicle-cards.component';
 import { MapComponent } from '../../components/map/map/map.component';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/components/auth/auth.service';
+import { VehicleCardsComponent } from 'src/app/components/unregistered-user/vehicle-cards/vehicle-cards.component';
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
@@ -49,5 +49,6 @@ export class NavbarComponent {
 
     //app.scrollInto();
   }
+
 
 }
