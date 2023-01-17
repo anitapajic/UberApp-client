@@ -74,3 +74,21 @@
   margin: 0 14%;
 }
 
+.estimated{
+  margin-top: 8%;
+  display: none;
+}
+
+.estimated div{
+  width: 100%;
+}
+
+.estimated div label{
+  width: 48%;
+} 
+
+.right{
+  text-align: right;
+  padding-right: 10%;
+  font-weight: bold;
+}
