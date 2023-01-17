@@ -10,7 +10,7 @@
     <div  *ngIf="role != null" class=" form-group form-outline datepicker w-100">
       <input type="date" formControlName="dateOfBirth" class="form-control form-control-lg" id="birthdayDate" />
     </div>
-    <div class="radioButtons">
+    <div>
       <div class="form-check form-check-inline">
         <input class="form-check-input" type="checkbox" id="babyTransport" value="option1">
         <label class="form-check-label" for="babyTransport">Baby transport</label>
@@ -23,13 +23,13 @@
     </div>
     <div class="selectCar">
     <h4 class="titleSelect">Select a car</h4>
-    <div class="radio-div">
-      <input type="radio" id="standard" name="car-type" value="STANDARD">
-      <label for="standard">    </label>
-      <input type="radio" id="lux" name="car-type" value="LUX">
-      <label for="lux">    </label>
-      <input type="radio" id="cab" name="car-type" value="CAB">
+    <div class="radio-div" id="selectedCar">
+      <input type="radio" id="cab" name="car-type" value="KOMBI">
       <label for="cab">    </label>
+      <input type="radio" id="standard" name="car-type" value="STANDARDNO">
+      <label for="standard">    </label>
+      <input type="radio" id="lux" name="car-type" value="LUKSUZNO">
+      <label for="lux">    </label>
     </div>
 
     <!-- <img class = "img" src="./assets/images/dots.png">  -->
@@ -47,7 +47,19 @@
     </div>
     </div>
     <div class="btn-container">
-      <button id="findBtn" class="btn btn-dark">BOOK</button>
+      <!-- <button id="calculateBtn" class="btn btn-dark" *ngIf="role == null">CALCULATE</button> -->
+      <button id="bookBtn" class="btn btn-dark">BOOK</button>
     </div>
+    <div class="estimated" id="estimated">
+      <div class="form-check form-check-inline">
+        <label class="form-check-label right" id="price" ></label>
+        <label class="form-check-label" for="price"> : estimated price</label>
+      </div>
+      <div class="form-check form-check-inline">
+        <label class="form-check-label right" id="time" ></label>
+        <label class="form-check-label" for="time"> : estimated time</label>
+      </div>
+    </div>
+
 </div>  
 </div>
