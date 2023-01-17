@@ -4,10 +4,11 @@
     <div id="map"></div>
   </div>
 </div>
+<div class="app-coordinates"></div>
+<app-coordinates></app-coordinates> 
+
 
 <div *ngIf="role != null">
-  <div class="app-coordinates"></div>
-  <app-coordinates></app-coordinates> 
 
   <div class="app-nav-icons"></div>
   <app-nav-icons></app-nav-icons> 
@@ -17,8 +18,7 @@
 
 </div>
 <div *ngIf="role === null">
-  <div class="app-coordinates"></div>
-  <app-coordinates></app-coordinates> 
+
   
   <div class="app-about"></div>
   <app-about></app-about> 

@@ -95,7 +95,7 @@ export class MapComponent implements AfterViewInit {
       const des = await this.search(this.des_input.value);
       this.des = new LatLng(Number(des[0].lat), Number(des[0].lon));
 
-
+      //this.refreshMap();
       this.route(this.dep, this.des);
     })
   }
@@ -139,7 +139,6 @@ export class MapComponent implements AfterViewInit {
 
 
   route(r1: any, r2: any): void {
-    this.refreshMap();
       if (this.routingControl != null)
             this.removeRoutingControl();
 
