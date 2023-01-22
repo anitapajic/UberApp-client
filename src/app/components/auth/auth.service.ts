@@ -58,7 +58,7 @@ export class AuthService {
   }
 
   registration(auth: any): Observable<any> {
-    return this.http.put(
+    return this.http.post(
       'http://localhost:8085/api/passenger', auth
     );
   }

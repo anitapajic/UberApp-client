@@ -1,11 +1,19 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { RideInfo } from './model/rideInfo';
 
 @Injectable({
   providedIn: 'root',
 })
 export class MapService {
+  
+  private headers = new HttpHeaders({
+    'Accept': 'application/json',
+    'Content-Type': 'application/json',
+    skip: 'true',
+  });
+
   constructor(private http: HttpClient) {}
 
   search(street: string): Observable<any> {
@@ -18,5 +26,13 @@ export class MapService {
     return this.http.get(
       `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}&<params>`
     );
+  }
+
+
+  calculateEstimatedPrice(auth: any): Observable<any> {
+    return this.http.post(
+      'http://localhost:8085/api/unregisteredUser', auth, {
+        headers: this.headers,
+    });
   }
 }
