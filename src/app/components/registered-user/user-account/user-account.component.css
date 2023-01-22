@@ -1,0 +1,86 @@
+
+.container-fluid{
+    background-color:#EBEAE5;
+}
+.form-padding{
+    padding-top: 140px;
+    padding-bottom: 60px;
+    padding-left: 10%;
+    padding-right: 10%;
+}
+.card-body{
+    padding: 3rem;
+}
+.card {
+    border-radius: 0;
+   
+}
+.row{
+    justify-content: end;
+}
+.col-3{
+    max-width: 120px;
+}
+.btn{
+    color: #fff;
+    background-color: #D14054;
+    border-color: #D14054;
+    border-radius: 0;
+    width: 90px;
+}
+.discard-btn{
+    background-color: #fff;
+    color: #D14054 ;
+}
+.mb-0, .my-0 {
+    color: #25313C;
+}
+hr {
+    margin-top: 0px;
+    margin-bottom: 0px;
+    border: 0;
+    border-top: 0.1px solid rgba(0,0,0,.1);
+    height: 0px;
+}
+h3{
+    padding-bottom: 15px;
+}
+h4{
+    color: #25313C;
+}
+.white{
+    color: #fff;
+}
+.input-padding{
+    padding-left: 0;
+}
+label{
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+.input{
+    display: none;
+}
+.overlay{
+    position: absolute;
+    opacity: 0;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    transition: opacity 0.4s ease-in-out;
+    background: #25313C;
+    cursor: pointer;
+}
+.content{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    color: #fff;
+}
+.profile-pic:hover .overlay{
+    opacity: 0.8;
+}
+
+    
