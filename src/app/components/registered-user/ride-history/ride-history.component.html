@@ -25,9 +25,8 @@
                   <div class="form-group">
                     <select class="custom-select form-control">
                         <option selected>Driver</option>
-                        <option value="4">Anja Petkovic</option>
-                        <option value="1">Tamara Dzambic</option>
-                        <option value="5">Branislav Stojkovic</option>
+                        <option *ngFor="let driver of drivers" [value]="driver.id">{{ driver.name + " " + driver.surname }}</option>
+
                     </select>
                   </div>
                   <div class=" form-group form-outline" >

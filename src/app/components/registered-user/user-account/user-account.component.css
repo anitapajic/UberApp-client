@@ -26,7 +26,8 @@
     background-color: #D14054;
     border-color: #D14054;
     border-radius: 0;
-    width: 90px;
+    width: 100px;
+    margin: 2px;
 }
 .discard-btn{
     background-color: #fff;
