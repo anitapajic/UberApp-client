@@ -15,6 +15,7 @@ export class AuthService {
   });
 
 
+  userId = 0;
   user$ = new BehaviorSubject(null);
   userState$ = this.user$.asObservable();
 
@@ -36,6 +37,8 @@ export class AuthService {
     if (this.isLoggedIn()) {
       var accessToken: any = localStorage.getItem('user');
       const helper = new JwtHelperService();
+      this.userId = JSON.parse(accessToken)['id'];
+
       const role = helper.decodeToken(accessToken).role[0].authority;
       //alert(helper.decodeToken(accessToken).sub);
       return role;
@@ -61,7 +64,7 @@ export class AuthService {
   }
 
   sendCode(auth : any): Observable<any> {
-    return this.http.get('http://localhost:8085/api/user/1/resetPassword', {
+    return this.http.get('http://localhost:8085/api/user/' + this.userId + '/resetPassword', {
       headers: this.headers,
       params: auth,
       responseType: 'text',
@@ -70,11 +73,16 @@ export class AuthService {
   }
 
   resetPassword(auth : any): Observable<any> {
-    return this.http.put('http://localhost:8085/api/user/1/resetPassword', auth, {
+    return this.http.put('http://localhost:8085/api/user/' + this.userId + '/resetPassword', auth, {
       headers: this.headers,
       responseType: 'text',
     }
     );
+  }
+
+  getUser(){
+    return this.http.get('http://localhost:8085/api/user/' + this.userId)
+
   }
 
 }
