@@ -5,12 +5,14 @@ import { LoginComponent } from './components/auth/login/login.component';
 import { MapComponent } from './components/map/map/map.component';
 import { RegistrationComponent } from './components/auth/registration/registration.component';
 import { ResetPasswordComponent } from './components/auth/reset-password/reset-password.component';
+import { UserAccountComponent } from './components/registered-user/user-account/user-account.component';
 
 const routes: Routes = [
   {path : 'login', component: LoginComponent},
   {path : 'reset-code', component: ResetPasswordComponent},
   {path : 'register', component: RegistrationComponent},
   {path : 'home', component: MapComponent},
+  {path : 'account', component: UserAccountComponent},
   {path : '**', component: MapComponent}
 
 ];

@@ -23,7 +23,7 @@
         </ul>
         <button class="register-btn" [routerLink]="['/register']" *ngIf="role === null">Register</button>
         <button class="login-btn" [routerLink]="['/login']" *ngIf="role === null">Log In</button>
-        <button class="account-btn"  *ngIf="role != null">Account</button>
+        <button class="account-btn" [routerLink]="['/account']" *ngIf="role != null">Account</button>
         <button class="logout-btn" (click)="logout()" *ngIf="role != null">Log Out</button>
 
      </div>
