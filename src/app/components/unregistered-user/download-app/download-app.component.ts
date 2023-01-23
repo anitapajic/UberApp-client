@@ -6,5 +6,10 @@ import { Component } from '@angular/core';
   styleUrls: ['./download-app.component.css']
 })
 export class DownloadAppComponent {
+  
+  static scrollInto() {
 
+    document.getElementById('download-app')?.scrollIntoView();
+
+  }
 }

@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { MapComponent } from '../../components/map/map/map.component';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/components/auth/auth.service';
+import { DownloadAppComponent } from 'src/app/components/unregistered-user/download-app/download-app.component';
 import { VehicleCardsComponent } from 'src/app/components/unregistered-user/vehicle-cards/vehicle-cards.component';
 @Component({
   selector: 'app-navbar',
@@ -30,24 +31,21 @@ export class NavbarComponent {
     });
   }
 
-  scrollMap(){
-    this.router.navigate(['/home']);
-
+  async scrollMap(){
+    await this.router.navigate(['/home']);
     MapComponent.scrollInto();
   }
 
   
   async scrollVehicles() {
     await this.router.navigate(['/home']);
-
     VehicleCardsComponent.scrollInto();
   }
 
   
   async scrollApp() {
     await this.router.navigate(['/home']);
-
-    //app.scrollInto();
+    DownloadAppComponent.scrollInto();
   }
 
 

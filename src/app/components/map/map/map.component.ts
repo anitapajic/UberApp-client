@@ -1,9 +1,11 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, AfterViewInit } from '@angular/core';
 import * as L from 'leaflet';
 import { LatLng } from 'leaflet';
 import 'leaflet-routing-machine';
 import { AuthService } from '../../auth/auth.service';
 import { MapService } from '../map.service';
+import { RideInfo } from '../model/rideInfo';
 
 @Component({
   selector: 'app-map',
@@ -41,6 +43,7 @@ export class MapComponent implements AfterViewInit {
       center: [45.2396, 19.8227],
       zoom: 13,
     });
+    
 
     const tiles = L.tileLayer(
       'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
@@ -57,9 +60,13 @@ export class MapComponent implements AfterViewInit {
     this.registerOnClick();
   }
 
+  private refreshMap(): void{
+    this.map.remove();
+    this.initMap();
+  }
+
   static scrollInto() {
     document.getElementById('map')?.scrollIntoView();
-
   }
 
   async search(input: string): Promise<any> {
@@ -81,21 +88,74 @@ export class MapComponent implements AfterViewInit {
 
 
   registerOnInput() : void{
-    var findBtn = document.getElementById('findBtn');
-    findBtn?.addEventListener('click', async (e : any) => {
-
+    var bookBtn = document.getElementById('bookBtn');
+    bookBtn?.addEventListener('click', async (e : any) => {
       const dep = await this.search(this.dep_input.value);
       this.dep = new LatLng(Number(dep[0].lat), Number(dep[0].lon));
 
       const des = await this.search(this.des_input.value);
       this.des = new LatLng(Number(des[0].lat), Number(des[0].lon));
 
-
+      //this.refreshMap();
       this.route(this.dep, this.des);
+
+      if(this.role == null){
+        var babyTransport = document.getElementById('babyTransport') as HTMLInputElement;
+        var petTransport = document.getElementById('petTransport') as HTMLInputElement;
+        var vehicleType = document.querySelector('input[name="car-type"]:checked') as HTMLInputElement;
+
+        var rideInfo = {
+          locations : [{
+            departure:{
+              address : dep[0].display_name,
+              latitude : dep[0].lat,
+              longitude : dep[0].lon,
+            },
+            destination:{
+              address : des[0].display_name,
+              latitude : des[0].lat,
+              longitude : des[0].lon,
+            }
+          }],
+          vehicleType : vehicleType.value,
+          babyTrasnport : babyTransport.checked,
+          petTransport : petTransport.checked,
+        }
+
+        console.log(rideInfo);
+        this.calculatePrice(rideInfo);
+      }
     })
+
+
+
   }
 
+  calculatePrice(rideInfo : any): void{
+    var estimated = document.getElementById('estimated') as HTMLInputElement;
 
+    var price = document.getElementById('price') as HTMLInputElement;
+    var time = document.getElementById('time') as HTMLInputElement;
+
+    console.log("Ride Info: ", JSON.stringify(rideInfo));
+
+    this.mapService.calculateEstimatedPrice(JSON.stringify(rideInfo)).subscribe({
+      next: (result) => {
+        console.log(JSON.stringify(result))
+        estimated.style.display = "block";
+        price.innerText = result['estimatedCost'];
+        time.innerText = result['estimatedTimeInMinutes'];
+
+      },
+      error: (error) => {
+        if (error instanceof HttpErrorResponse) {
+          alert("Invalid input")
+        }
+      },
+    })
+
+
+  }
 
   registerOnClick(): void {
     this.map.on('click', (e: any) => {
