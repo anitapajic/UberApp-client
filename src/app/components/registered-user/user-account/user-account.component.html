@@ -1,7 +1,8 @@
 
 <div class="container-fluid">
     <div class="main-body">
-          <div class="row gutters-sm form-padding">
+        <div class="row gutters-sm form-padding">
+            
             <div class="col-md-4 mb-3">
               <div class="card">
                 <div class="card-body">
@@ -21,21 +22,82 @@
                     <div class="mt-3">
                       <h4 [innerHTML]="user.name + ' ' + user.surname"></h4>
                       <p class="text-muted font-size-sm" [innerHTML]="user.address"></p>
-                      <button class="btn btn-primary">Edit pas</button>
-                      <button class="btn btn-outline-primary">Edit pic</button>
+                      <button class="btn btn-primary" (click)="editPassword()">Edit pas</button>
+                      <button class="btn btn-outline-primary" (click)="editPicture()">Edit pic</button>
                     </div>
                   </div>
                 </div>
               </div>
-            <div class="card mt-3">
+            <!-- <div class="card mt-3">
                 <ul class="list-group list-group-flush">
                   <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
                     <h6>Payment methodes</h6>
                   </li>
                 </ul>
+              </div> -->
+              <div class="card mt-3" id="changePassword" style="display: none;">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                        <h6>Edit passwor</h6>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                        <div class="col-sm-3">
+                            <h6 class="mt-2">Old pass</h6>
+                        </div>
+                        <div class="col-sm-9 text-secondary">
+                            <input type="text" id="oldPass" class="form-control">
+                        </div>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                        <div class="col-sm-3">
+                            <h6 class="mt-2">New pass</h6>
+                        </div>
+                        <div class="col-sm-9 text-secondary">
+                            <input type="text" id="newPass" class="form-control">
+                        </div>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                        <div class="col-sm-3">
+                        </div>
+                        <div class="col-sm-9 text-secondary">
+                            <button class="btn" id="changePass" (click)="changePassword()" style="width:100% ;">Save</button>
+                        </div>
+                    </li>
+                </ul>
+       
               </div>
+
+
+
+              <div class="card mt-3" id="changePicture" style="display: none;">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                        <h6>Edit picture</h6>
+                    </li>
+
+                    <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                        <div class="col-sm-3">
+                            <h6 class="mt-2">New pic</h6>
+                        </div>
+                        <div class="col-sm-9 text-secondary">
+                            <input type="text" id="newPass" class="form-control">
+                        </div>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                        <div class="col-sm-3">
+                        </div>
+                        <div class="col-sm-9 text-secondary">
+                            <button class="btn" id="changePass" (click)="changePicture()" style="width:100% ;">Save</button>
+                        </div>
+                    </li>
+                </ul>
+       
+              </div>
+
+
             </div>
 
+            
             <div [hidden]="isHidden" class="col-md-8">
               <div class="card mb-3">
                 <div class="card-body">
@@ -113,7 +175,7 @@
                                 <h6 class="mt-2">Name</h6>
                             </div>
                             <div class="col-sm-9 text-secondary input-padding">
-                                <input type="text" class="form-control" [value]="user.name + ' ' + user.surname">
+                                <input type="text" id="nameSurname" class="form-control" [value]="user.name + ' ' + user.surname">
                             </div>
                         </div>
                         <hr class="white">
@@ -124,7 +186,7 @@
                                 <h6 class="mt-2">Email</h6>
                             </div>
                             <div class="col-sm-9 text-secondary input-padding">
-                                <input type="text" class="form-control" [value]="user.username">
+                                <input type="text" id="username" class="form-control" [value]="user.username">
                             </div>
                         </div>
                         <hr class="white">
@@ -142,7 +204,7 @@
                                 <h6 class="mt-2">Address</h6>
                             </div>
                             <div class="col-sm-9 text-secondary input-padding">
-                                <input type="text" class="form-control" [value]="user.address">
+                                <input type="text" id="address" class="form-control" [value]="user.address">
                             </div>
                         </div>
                         <hr class="white">
@@ -151,7 +213,7 @@
                                 <h6 class="mt-2">Phone</h6>
                             </div>
                             <div class="col-sm-9 text-secondary input-padding">
-                                <input type="text" class="form-control" [value]="user.telphoneNumber">
+                                <input type="text" id="telephoneNumber" class="form-control" [value]="user.telephoneNumber">
                             </div>
                         </div>
                         <hr class="white">
@@ -166,7 +228,7 @@
                         <hr class="white">
                         <div class="row mb-2 mt-3">
                                 <div class="col-3">
-                                    <button class="btn" (click)="formVisible()">Save</button>
+                                    <button class="btn" id="saveBtn" (click)="formVisible()">Save</button>
                                 </div>
                                 <div class="col-3">
                                     <button class="btn discard-btn" (click)="formVisible()">Discard</button>
@@ -174,6 +236,7 @@
                         </div>
                     </div>
                 </div>
-          </div>
+            </div>
         </div>
     </div>
+</div> 
