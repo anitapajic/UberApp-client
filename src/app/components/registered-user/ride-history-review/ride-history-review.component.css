@@ -83,3 +83,7 @@ h1{
 .pin-img{
     width: 20px;
 }
+
+.col{
+    flex: 0 0 30%;
+}
