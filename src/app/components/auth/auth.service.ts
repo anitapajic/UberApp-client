@@ -81,6 +81,11 @@ export class AuthService {
     );
   }
 
+  changePassword(auth : any): Observable<any> {
+    return this.http.put('http://localhost:8085/api/user/' + this.userId + '/changePassword', auth
+    );
+  }
+
   getUser(){
     return this.http.get('http://localhost:8085/api/user/' + this.userId)
 

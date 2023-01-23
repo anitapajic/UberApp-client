@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { UrlSegment } from '@angular/router';
 import { AuthService } from '../../auth/auth.service';
@@ -25,22 +26,67 @@ export class UserAccountComponent {
       URL.createObjectURL(event.target.files[0]);
   };
 
+  editPassword(){
+    var changeDiv = document.getElementById("changePassword") as HTMLElement;
+    changeDiv.style.display="block"
+
+  }
+
+  changePassword(){
+    var oldPassword = document.getElementById("oldPass") as HTMLInputElement;    
+    var newPassword = document.getElementById("newPass") as HTMLInputElement;
+
+    var auth = {
+      oldPassword: oldPassword.value,
+      newPassword: newPassword.value
+    }
+
+    this.authService.changePassword(auth).subscribe({
+      next: (result) => {
+        alert("Password successfully changed")
+      },
+      error: (error) => {
+
+        alert(error.error.message);
+      },
+    });
+
+
+
+
+    var changeDiv = document.getElementById("changePassword") as HTMLElement;
+    changeDiv.style.display="none"
+
+
+  }
+  
+  
+  editPicture(){
+    var changeDiv = document.getElementById("changePicture") as HTMLElement;
+    changeDiv.style.display="block"
+  }
+
+  
+  changePicture(){
+    var changeDiv = document.getElementById("changePicture") as HTMLElement;
+    changeDiv.style.display="none"
+  }
+
   ngOnInit() {
 
     this.authService.getUser().subscribe({
       next: (result) => {
         this.user = result;
-        console.log(this.user);
 
       },
       error: (error) => {
+ 
         console.log(error);
       },
     });
 
    this.saveBtn = document.getElementById("saveBtn") as HTMLButtonElement;
    this.saveBtn.addEventListener("click", () =>{
-   console.log("clicked")
     var nameSurname = document.getElementById("nameSurname") as HTMLInputElement;
     var username = document.getElementById("username") as HTMLInputElement;    
     var telephoneNumber = document.getElementById("telephoneNumber") as HTMLInputElement;
