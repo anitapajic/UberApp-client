@@ -8,6 +8,7 @@ import { JwtHelperService } from '@auth0/angular-jwt';
   providedIn: 'root'
 })
 export class AuthService {
+
   private headers = new HttpHeaders({
     'Accept': 'application/json',
     'Content-Type': 'application/json',
@@ -84,5 +85,16 @@ export class AuthService {
     return this.http.get('http://localhost:8085/api/user/' + this.userId)
 
   }
+
+  changeProfileInfo(auth: any): Observable<any>{
+    if(this.getRole() == "PASSENGER"){
+      return this.http.put('http://localhost:8085/api/passenger/' + this.userId, auth);
+
+    }
+    alert("Changes sent to admin");
+    return this.http.post('http://localhost:8085/api/driver/update/' + this.userId, auth);
+  }
+
+
 
 }
