@@ -1,0 +1,85 @@
+.container-fluid{
+    background-color:#EBEAE5;
+    padding: 100px;
+}
+.btn {
+    border-radius: 0%;
+    width: 220px;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 21px;
+   
+    color: #FFFFFF;
+    background-color: #25313C;
+    border: #25313C;
+
+}
+
+.card-title{
+    margin-top: 10px;
+}
+
+h1{
+    padding-bottom: 15px;
+    color: #25313C;
+}
+.card-body{
+    padding-top: 0.5rem;
+}
+.hr-dotted{
+    border: 4px dotted #25313C;
+    border-style: none none dotted; 
+    color: #fff; 
+    background-color: #fff;
+}
+.p-padding{
+    padding-left: 35px;
+    padding-right: 30px;
+}
+.center-end{
+    padding-right: 10px ;
+    text-align: end;
+}
+.price{
+    color: #D14054;
+}
+.total{
+    font-style: normal;
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 24px;
+
+    color: #25313C;
+
+}
+.address{
+    padding-left: 25px;
+    font-style: italic;
+    font-weight: 450;
+    font-size: 20px;
+    line-height: 24px;
+
+    color: #25313C;
+}
+.time{
+    font-style: normal;
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 24px;
+
+    color: #D14054;
+}
+.driver{
+    font-style: normal;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 24px;
+
+    color: rgba(37, 49, 60, 0.7);
+}
+.dot-img{
+    width: 15px;
+}
+.pin-img{
+    width: 20px;
+}

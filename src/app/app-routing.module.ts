@@ -6,6 +6,7 @@ import { MapComponent } from './components/map/map/map.component';
 import { RegistrationComponent } from './components/auth/registration/registration.component';
 import { ResetPasswordComponent } from './components/auth/reset-password/reset-password.component';
 import { UserAccountComponent } from './components/registered-user/user-account/user-account.component';
+import { RideHistoryReviewComponent } from './components/registered-user/ride-history-review/ride-history-review.component';
 
 const routes: Routes = [
   {path : 'login', component: LoginComponent},
@@ -13,6 +14,7 @@ const routes: Routes = [
   {path : 'register', component: RegistrationComponent},
   {path : 'home', component: MapComponent},
   {path : 'account', component: UserAccountComponent},
+  {path : 'ride-history-review', component: RideHistoryReviewComponent},
   {path : '**', component: MapComponent}
 
 ];

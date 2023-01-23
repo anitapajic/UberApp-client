@@ -17,6 +17,7 @@ import { ResetPasswordComponent } from './components/auth/reset-password/reset-p
 import { NavIconsComponent } from './components/registered-user/nav-icons/nav-icons.component';
 import { RideHistoryComponent } from './components/registered-user/ride-history/ride-history.component';
 import { UserAccountComponent } from './components/registered-user/user-account/user-account.component';
+import { RideHistoryReviewComponent } from './components/registered-user/ride-history-review/ride-history-review.component';
 
 compileDirectiveFromMetadata
 
@@ -27,6 +28,7 @@ compileDirectiveFromMetadata
     RegistrationComponent,
     ResetPasswordComponent,
     UserAccountComponent,
+    RideHistoryReviewComponent,
   ],
   imports: [
     BrowserModule,
