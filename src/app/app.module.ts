@@ -20,6 +20,7 @@ import { UserAccountComponent } from './components/registered-user/user-account/
 import { RideHistoryReviewComponent } from './components/registered-user/ride-history-review/ride-history-review.component';
 import { ChangeRequestsComponent } from './components/registered-user/change-requests/change-requests.component';
 import { RegisterDriverComponent } from './components/auth/register-driver/register-driver.component';
+import { BlockUserComponent } from './components/auth/block-user/block-user.component';
 
 compileDirectiveFromMetadata
 
@@ -33,6 +34,7 @@ compileDirectiveFromMetadata
     RideHistoryReviewComponent,
     ChangeRequestsComponent,
     RegisterDriverComponent,
+    BlockUserComponent,
   ],
   imports: [
     BrowserModule,

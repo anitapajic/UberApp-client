@@ -1,0 +1,35 @@
+<div class="container-fluid">
+    <div class="row justify-content-between">
+        <div class="col-3">
+            <h1>USERS</h1>
+        </div>
+    </div>
+
+    <div class="row row-cols-1 row-cols-md-2 g-4" >
+        <div class="col" *ngFor="let user of users">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">{{user.name + " " + user.surname}}</h5>
+              <hr>
+              <div class="p-padding" >
+                <p class="card-text time"><img class = "img-logo dot-img" src="./assets/images/dot.png">Username: <span class="address">{{user.username}}</span> </p>
+                <p class="card-text time"><img class = "img-logo dot-img" src="./assets/images/dot.png">Telephone number: <span class="address">{{user.telephoneNumber}}</span></p>
+            </div>
+
+            <hr class="hr-dotted">
+                <div class="no-margin" >
+                    <hr>
+                    <input #note placeholder="Leave a note" type="text" name="note" class="form-control" [disabled]="user.blocked"/>
+                    <hr>
+               </div>
+
+              <hr class="hr-dotted">
+              <div class="center-end">
+                <button class="btn generete-btn red" *ngIf="!user.blocked" (click)="block(user.id, note.value)">BLOCK</button>
+                <button class="btn generete-btn blue" *ngIf="user.blocked" (click)="unblock(user.id)">UNBLOCK</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+</div>
