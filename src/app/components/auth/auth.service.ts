@@ -64,6 +64,13 @@ export class AuthService {
     );
   }
 
+  
+  driverRegistration(auth: any): Observable<any> {
+    return this.http.post(
+      'http://localhost:8085/api/driver', auth
+    );
+  }
+
   sendCode(auth : any): Observable<any> {
     return this.http.get('http://localhost:8085/api/user/' + this.userId + '/resetPassword', {
       headers: this.headers,
@@ -109,6 +116,10 @@ export class AuthService {
       return this.http.get('http://localhost:8085/api/driver/' + this.userId + "/ride");
     }
     return this.http.get('http://localhost:8085/api/ride');
+  }
+
+  getVehicles() : Observable<any>{
+    return this.http.get('http://localhost:8085/api/driver/vehicles');
   }
 
   getChangeRequests() : Observable<any>{
