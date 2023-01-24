@@ -100,6 +100,27 @@ export class AuthService {
     return this.http.post('http://localhost:8085/api/driver/update/' + this.userId, auth);
   }
 
+  getRideHistory():Observable<any>{
+    if(this.getRole() == "PASSENGER"){
+      return this.http.get('http://localhost:8085/api/passenger/' + this.userId + "/ride");
 
+    }
+    if(this.getRole()== "DRIVER"){
+      return this.http.get('http://localhost:8085/api/driver/' + this.userId + "/ride");
+    }
+    return this.http.get('http://localhost:8085/api/ride');
+  }
+
+  getChangeRequests() : Observable<any>{
+    return this.http.get('http://localhost:8085/api/driver/update');
+  }
+
+  approveRequest(id : Int16Array): Observable<any>{
+    return this.http.put('http://localhost:8085/api/driver/update/' + id + "/approve", null);
+  }
+
+  deleteRequest(id : Int16Array): Observable<any>{
+    return this.http.delete('http://localhost:8085/api/driver/update/' + id + "/delete");
+  }
 
 }

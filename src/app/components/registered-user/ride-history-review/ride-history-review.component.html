@@ -7,24 +7,33 @@
             <button class="btn generete-btn">Generete report</button>
         </div>
     </div>
-    <div class="row row-cols-1 row-cols-md-2 g-4">
-        <div class="col">
+    <div class="row row-cols-1 row-cols-md-2 g-4" *ngIf="noRides">
+      <div style="height: 600px;">
+          <h5>There are no rides.</h5>
+      </div>
+    </div>
+    <div class="row row-cols-1 row-cols-md-2 g-4" *ngIf="!noRides">
+        <div class="col" *ngFor="let ride of rideHistory">
           <div class="card">
             <div class="card-body">
-              <h5 class="card-title">Tuesday, Novemer 21, 2022</h5>
+              <h5 class="card-title">{{ride.startTime | date:'fullDate'}}</h5>
               <hr>
-              <div class="p-padding">
-                <p class="card-text time"><img class = "img-logo dot-img" src="./assets/images/dot.png">&nbsp;&nbsp;7:30pm <span class="address">Puskinova 3</span></p>
-                <p class="card-text time"><img class = "img-logo pin-img" src="./assets/images/pin.png">&nbsp;&nbsp;8:00pm <span class="address">Mise Dimitrijevica 3</span></p>
-                <p class="card-text driver">Driver: <span>Tamara Dzambic</span></p>
+              <div class="p-padding" >
+                <p class="card-text time"><img class = "img-logo dot-img" src="./assets/images/dot.png">&nbsp;&nbsp;{{ride.startTime | date:'shortTime'| lowercase}} <span class="address">{{ride.locations[0].departure.address}}</span></p>
+                <p class="card-text time"  *ngIf="ride.endTime"><img class = "img-logo pin-img" src="./assets/images/pin.png">&nbsp;&nbsp;{{ride.endTime | date:'shortTime'| lowercase}} <span class="address">{{ride.locations[0].destination.address}}</span></p>
+                <p class="card-text time"  *ngIf="!ride.endTime"><img class = "img-logo pin-img" src="./assets/images/pin.png">&nbsp;&nbsp;<span style="margin-right: 70px;"></span><span class="address">{{ride.locations[0].destination.address}}</span></p>
+                <p class="card-text driver">Driver: <span>{{ride.driver.name + " " + ride.driver.surname}}</span></p>
+                <p class="card-text driver">Passengers: <span *ngFor="let passenger of ride.passengers">{{"\n" +passenger.name + " " + passenger.surname}}</span></p>
+
               </div>
               <hr class="hr-dotted">
               <div class="center-end">
-                <p class="card-text total">Total: <span class="price">RSD 2430,00</span></p>
+                <p class="card-text total">Total: <span class="price">{{ride.totalCost | number:'1.2-2'}} RSD</span></p>
               </div>
             </div>
           </div>
         </div>
+<!--        
         <div class="col">
           <div class="card">
               <div class="card-body">
@@ -42,6 +51,7 @@
               </div>
           </div>
         </div>
+        
         <div class="col">
           <div class="card">
               <div class="card-body">
@@ -58,6 +68,6 @@
                 </div>
               </div>
           </div>
-        </div>
+        </div> -->
       </div>
 </div>
