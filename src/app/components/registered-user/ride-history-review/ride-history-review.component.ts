@@ -4,6 +4,7 @@ import { AuthService } from '../../auth/auth.service';
 import localeFr from '@angular/common/locales/fr';
 
 import { MapService } from '../../map/map.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-ride-history-review',
@@ -12,19 +13,20 @@ import { MapService } from '../../map/map.service';
 })
 export class RideHistoryReviewComponent {
   
-  constructor(private authService : AuthService){};
+  constructor(private authService : AuthService, private route : ActivatedRoute){};
   rideHistory: Array<any> = [];
-  
+  filter : any;
   noRides: boolean = false;
 
 
   ngOnInit() {
-   
+    this.route.queryParams.subscribe(params => {
+      this.filter = params;
+    });
 
-    this.authService.getRideHistory().subscribe({
+    this.authService.getRideHistory(this.filter).subscribe({
       next: (result) => {
         this.rideHistory = result['results'];
-        console.log(this.rideHistory);
         if(this.rideHistory.length === 0){
           this.noRides = true;
         }

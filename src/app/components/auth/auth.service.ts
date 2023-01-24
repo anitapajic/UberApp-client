@@ -107,15 +107,20 @@ export class AuthService {
     return this.http.post('http://localhost:8085/api/driver/update/' + this.userId, auth);
   }
 
-  getRideHistory():Observable<any>{
+  getRideHistory(filter : any):Observable<any>{
     if(this.getRole() == "PASSENGER"){
-      return this.http.get('http://localhost:8085/api/passenger/' + this.userId + "/ride");
+      return this.http.get('http://localhost:8085/api/passenger/' + this.userId + "/ride", {
+        params : filter
+      });
 
     }
     if(this.getRole()== "DRIVER"){
-      return this.http.get('http://localhost:8085/api/driver/' + this.userId + "/ride");
+      return this.http.get('http://localhost:8085/api/driver/' + this.userId + "/ride", {
+        params : filter
+      });
     }
-    return this.http.get('http://localhost:8085/api/ride');
+
+    return this.http.post('http://localhost:8085/api/ride/all', filter);
   }
 
   getVehicles() : Observable<any>{
