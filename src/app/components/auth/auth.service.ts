@@ -126,6 +126,10 @@ export class AuthService {
   getVehicles() : Observable<any>{
     return this.http.get('http://localhost:8085/api/driver/vehicles');
   }
+  
+  getUsersWithNotes() : Observable<any>{
+    return this.http.get('http://localhost:8085/api/user?size=1000');
+  }
 
   getChangeRequests() : Observable<any>{
     return this.http.get('http://localhost:8085/api/driver/update');
@@ -139,4 +143,15 @@ export class AuthService {
     return this.http.delete('http://localhost:8085/api/driver/update/' + id + "/delete");
   }
 
+  blockUser(id : Int16Array): Observable<any>{
+    return this.http.put('http://localhost:8085/api/user/' + id + "/block", null);
+  }
+
+  unblockUser(id : Int16Array): Observable<any>{
+    return this.http.put('http://localhost:8085/api/user/' + id + "/unblock", null);
+  }
+
+  sendNote(note : any): Observable<any>{
+    return this.http.post('http://localhost:8085/api/user/note', note);
+  }
 }

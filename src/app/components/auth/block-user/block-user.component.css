@@ -1,0 +1,104 @@
+.container-fluid{
+    background-color:#EBEAE5;
+    padding: 100px;
+}
+.btn {
+    border-radius: 0%;
+    width: 100%;
+    margin: 5px;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 21px;
+    color: #FFFFFF;
+
+}
+.blue{
+    background-color: #25313C;
+    border: #25313C;
+}
+
+.red{
+    background-color: #D14054;
+    border: #D14054;
+}
+
+.col-3{
+    max-width: 50%;
+    flex:content;
+}
+
+.card-title{
+    margin-top: 10px;
+    color: #D14054;
+
+}
+
+h1{
+    padding-bottom: 15px;
+    color: #25313C;
+}
+.card-body{
+    padding-top: 0.5rem;
+}
+.hr-dotted{
+    border: 4px dotted #25313C;
+    border-style: none none dotted; 
+    color: #fff; 
+    background-color: #fff;
+}
+.p-padding{
+    padding-left: 35px;
+    padding-right: 30px;
+}
+.center-end{
+    padding-right: 10px ;
+    text-align: end;
+}
+.price{
+    color: #D14054;
+}
+
+.address{
+    font-style: normal;
+    display: flex;
+    margin-left: 15px;
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 24px;
+    color: #D14054;
+
+}
+.time{
+    font-style: italic;
+    font-weight: 450;
+    font-size: 20px;
+    line-height: 24px;
+    color: #25313C;
+
+}
+
+.date{
+    font-style: italic;
+    font-weight: 350;
+    font-size: 18px;
+    line-height: 20px;
+    color: #25313C;
+}
+
+.margin20{
+    margin-left: 18px;
+}
+
+.no-margin p{
+    margin-bottom: 15px;
+}
+
+.dot-img{
+    width: 8px;
+    margin-bottom: 8px;
+}
+
+
+.col{
+    flex: 0 0 30%;
+}
