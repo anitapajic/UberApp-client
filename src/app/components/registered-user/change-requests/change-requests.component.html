@@ -1,0 +1,32 @@
+<div class="container-fluid">
+    <div class="row justify-content-between">
+        <div class="col-3">
+            <h1>Driver request changes</h1>
+        </div>
+    </div>
+    <div class="row row-cols-1 row-cols-md-2 g-4" *ngIf="noRequests">
+      <div style="height: 600px;">
+          <h5>There are no requests.</h5>
+      </div>
+    </div>
+    <div class="row row-cols-1 row-cols-md-2 g-4" *ngIf="!noRequests">
+        <div class="col" *ngFor="let request of requests">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">{{request.name + " " + request.surname}}</h5>
+              <hr>
+              <div class="p-padding" >
+                <p class="card-text time"><img class = "img-logo dot-img" src="./assets/images/dot.png">Username: <span class="address">{{request.username}}</span> </p>
+                <p class="card-text time"><img class = "img-logo dot-img" src="./assets/images/dot.png">Address: <span class="address">{{request.address}}</span></p>
+                <p class="card-text time"><img class = "img-logo dot-img" src="./assets/images/dot.png">Telephone number: <span class="address">{{request.telephoneNumber}}</span></p>
+              </div>
+              <hr class="hr-dotted">
+              <div class="center-end">
+                <button class="btn generete-btn red" (click)="decline(request.id)">DECLINE</button>
+                <button class="btn generete-btn blue" (click)="approve(request.id)">APPROVE</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+</div>

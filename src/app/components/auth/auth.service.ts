@@ -109,9 +109,18 @@ export class AuthService {
       return this.http.get('http://localhost:8085/api/driver/' + this.userId + "/ride");
     }
     return this.http.get('http://localhost:8085/api/ride');
-
-
   }
 
+  getChangeRequests() : Observable<any>{
+    return this.http.get('http://localhost:8085/api/driver/update');
+  }
+
+  approveRequest(id : Int16Array): Observable<any>{
+    return this.http.put('http://localhost:8085/api/driver/update/' + id + "/approve", null);
+  }
+
+  deleteRequest(id : Int16Array): Observable<any>{
+    return this.http.delete('http://localhost:8085/api/driver/update/' + id + "/delete");
+  }
 
 }

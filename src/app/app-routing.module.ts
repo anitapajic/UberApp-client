@@ -7,6 +7,7 @@ import { RegistrationComponent } from './components/auth/registration/registrati
 import { ResetPasswordComponent } from './components/auth/reset-password/reset-password.component';
 import { UserAccountComponent } from './components/registered-user/user-account/user-account.component';
 import { RideHistoryReviewComponent } from './components/registered-user/ride-history-review/ride-history-review.component';
+import { ChangeRequestsComponent } from './components/registered-user/change-requests/change-requests.component';
 
 const routes: Routes = [
   {path : 'login', component: LoginComponent},
@@ -15,6 +16,7 @@ const routes: Routes = [
   {path : 'home', component: MapComponent},
   {path : 'account', component: UserAccountComponent},
   {path : 'ride-history-review', component: RideHistoryReviewComponent},
+  {path : 'change-requests', component: ChangeRequestsComponent },
   {path : '**', component: MapComponent}
 
 ];
