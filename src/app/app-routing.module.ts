@@ -8,6 +8,7 @@ import { ResetPasswordComponent } from './components/auth/reset-password/reset-p
 import { UserAccountComponent } from './components/registered-user/user-account/user-account.component';
 import { RideHistoryReviewComponent } from './components/registered-user/ride-history-review/ride-history-review.component';
 import { ChangeRequestsComponent } from './components/registered-user/change-requests/change-requests.component';
+import { RegisterDriverComponent } from './components/auth/register-driver/register-driver.component';
 
 const routes: Routes = [
   {path : 'login', component: LoginComponent},
@@ -17,6 +18,7 @@ const routes: Routes = [
   {path : 'account', component: UserAccountComponent},
   {path : 'ride-history-review', component: RideHistoryReviewComponent},
   {path : 'change-requests', component: ChangeRequestsComponent },
+  {path : 'register-driver', component: RegisterDriverComponent },
   {path : '**', component: MapComponent}
 
 ];
