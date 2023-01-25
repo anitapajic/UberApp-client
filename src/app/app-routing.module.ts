@@ -9,11 +9,9 @@ import { UserAccountComponent } from './components/registered-user/user-account/
 import { RideHistoryReviewComponent } from './components/registered-user/ride-history-review/ride-history-review.component';
 import { ChangeRequestsComponent } from './components/registered-user/change-requests/change-requests.component';
 import { RegisterDriverComponent } from './components/auth/register-driver/register-driver.component';
-<<<<<<< Updated upstream
-=======
 import { BlockUserComponent } from './components/auth/block-user/block-user.component';
 import { CreateVehicleComponent } from './components/auth/create-vehicle/create-vehicle.component';
->>>>>>> Stashed changes
+
 
 const routes: Routes = [
   {path : 'login', component: LoginComponent},
@@ -24,11 +22,8 @@ const routes: Routes = [
   {path : 'ride-history-review', component: RideHistoryReviewComponent},
   {path : 'change-requests', component: ChangeRequestsComponent },
   {path : 'register-driver', component: RegisterDriverComponent },
-<<<<<<< Updated upstream
-=======
   {path : 'create-vehicle', component: CreateVehicleComponent },
   {path : 'block-user', component: BlockUserComponent },
->>>>>>> Stashed changes
   {path : '**', component: MapComponent}
 
 ];

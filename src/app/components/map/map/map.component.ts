@@ -14,6 +14,8 @@ import { RideInfo } from '../model/rideInfo';
 })
 export class MapComponent implements AfterViewInit {
 
+  vehicles : Array<any> = [];
+
   role: any;
   private map: any;
   result!: any;
@@ -33,8 +35,7 @@ export class MapComponent implements AfterViewInit {
     this.authService.userState$.subscribe((result) => {
       this.role = result;
     });
-<<<<<<< Updated upstream
-=======
+
 
     this.authService.getVehicles().subscribe({
       next: (result) => {
@@ -63,7 +64,6 @@ export class MapComponent implements AfterViewInit {
         console.log(error);
       },
     });
->>>>>>> Stashed changes
   }
 
   private initMap(): void {
