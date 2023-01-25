@@ -15,8 +15,8 @@ export class CreateVehicleComponent {
     vehicleType: new FormControl('', [Validators.required]),
     licenseNumber: new FormControl('', [Validators.required]),
     passengerSeats: new FormControl('', [Validators.required]),
-    petTransport: new FormControl('', [Validators.required]),
-    babyTransport: new FormControl('', [Validators.required]),
+    petTransport: new FormControl(false, [Validators.required]),
+    babyTransport: new FormControl(false, [Validators.required]),
   });
 
   back(){
@@ -30,8 +30,8 @@ export class CreateVehicleComponent {
       vehicleType: this.registrationForm.value.vehicleType,
       licenseNumber: this.registrationForm.value.licenseNumber,
       passengerSeats: this.registrationForm.value.passengerSeats,
-      petTransport: this.registrationForm.value.petTransport ? this.registrationForm.value.petTransport : false,
-      babyTransport: this.registrationForm.value.babyTransport ? this.registrationForm.value.babyTransport : false,
+      petTransport: this.registrationForm.value.petTransport,
+      babyTransport: this.registrationForm.value.babyTransport,
     }
 
     console.log(registrationVal)
