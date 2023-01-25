@@ -19,6 +19,7 @@ import { RideHistoryComponent } from './components/registered-user/ride-history/
 import { UserAccountComponent } from './components/registered-user/user-account/user-account.component';
 import { RideHistoryReviewComponent } from './components/registered-user/ride-history-review/ride-history-review.component';
 
+
 compileDirectiveFromMetadata
 
 @NgModule({

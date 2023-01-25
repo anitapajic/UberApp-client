@@ -1,0 +1,68 @@
+.rectangle{
+    display:block;
+    min-width: 300px;
+    background:#25313C;
+    position:absolute;
+    margin-top:10px;
+    z-index: 100;
+    top: 175px;
+    left: 685px;
+    padding: 30px;
+    padding-left: 45px;
+
+  }
+  
+.circle{
+    position:absolute;
+    height:100px;
+    width:100px;
+    border-radius:60px;
+    left:48%;
+    margin-left:-45px;
+    top: -25px;
+    background:#25313C;
+      z-index: 100;
+}
+.img-logo{
+    height:80px;
+    width:80px;
+    margin-left:10px;
+    margin-top: 9px;
+}
+label{
+    margin-top: 28px;
+    margin-bottom: 0;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 24px;
+    line-height: 29px;
+    color: #D14054;
+
+}
+.price{
+    margin-top: -11px;
+    margin-left: 20px;
+    color: aliceblue;
+}
+.rate{
+    font-style: normal;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 24px;
+
+    color: #FFFFFF;
+}
+hr{
+    color: #FFFFFF;
+}
+.dot-img{
+    width: 15px;
+    height: 15px;
+}
+.pin-img{
+    width: 20px;
+    height: 30px;
+}
+.card-text{
+    color: #FFFFFF;
+}
