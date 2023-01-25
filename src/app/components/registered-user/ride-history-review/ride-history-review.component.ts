@@ -1,9 +1,7 @@
 import { Component } from '@angular/core';
 import * as L from 'leaflet';
 import { AuthService } from '../../auth/auth.service';
-import localeFr from '@angular/common/locales/fr';
 
-import { MapService } from '../../map/map.service';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -23,7 +21,6 @@ export class RideHistoryReviewComponent {
     this.route.queryParams.subscribe(params => {
       this.filter = params;
     });
-
     this.authService.getRideHistory(this.filter).subscribe({
       next: (result) => {
         this.rideHistory = result['results'];

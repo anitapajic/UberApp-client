@@ -25,6 +25,7 @@ export class RideHistoryComponent {
 
 
     if(this.role == "ADMIN"){
+      console.log(keyword.value, "aaaaaaaaa")
       this.router.navigate(['/ride-history-review'], { queryParams: {
         startDate :this.startDate?.nativeElement.value,
         endDate : this.endDate?.nativeElement.value,
@@ -39,6 +40,7 @@ export class RideHistoryComponent {
         } });
 
     }
+
   }
 
   ngOnInit() {
@@ -46,11 +48,11 @@ export class RideHistoryComponent {
       this.role = result;
     });
 
+
     this.http.get('http://localhost:8085/api/driver')
       .subscribe(data => {
         this.drivers = data;
         this.drivers = this.drivers['results'];
-        console.log(this.drivers);
       });
   }
 
