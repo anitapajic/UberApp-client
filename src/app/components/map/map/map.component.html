@@ -4,31 +4,35 @@
     <div id="map"></div>
   </div>
 </div>
-<div class="app-coordinates"></div>
-<app-coordinates></app-coordinates> 
-<div class="app-follow-ride"></div>
-<app-follow-ride></app-follow-ride> 
+
+<div class="app-coordinates" *ngIf="role != 'ADMIN'">
+  <app-coordinates></app-coordinates> 
+</div>
 
 <div *ngIf="role != null">
 
-  <div class="app-nav-icons"></div>
-  <app-nav-icons></app-nav-icons> 
+  <div class="app-nav-icons">
+    <app-nav-icons></app-nav-icons> 
+  </div>
 
-  <div class="app-ride-history"></div>
-  <app-ride-history></app-ride-history> 
+  <div class="app-ride-history">
+    <app-ride-history></app-ride-history> 
+  </div>
 
 </div>
 <div *ngIf="role === null">
 
-  
-  <div class="app-about"></div>
-  <app-about></app-about> 
-  
-  <div class="app-vehicle-cards"></div>
-  <app-vehicle-cards ></app-vehicle-cards> 
+  <div class="app-about">
+    <app-about></app-about> 
+  </div>
 
-  <div class="app-download-app"></div>
-  <app-download-app ></app-download-app> 
+  <div class="app-vehicle-cards">
+    <app-vehicle-cards ></app-vehicle-cards> 
+  </div>
+
+  <div class="app-download-app">
+    <app-download-app ></app-download-app> 
+  </div>
 
 </div>
 

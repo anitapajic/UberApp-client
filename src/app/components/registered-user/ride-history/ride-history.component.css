@@ -65,8 +65,12 @@ p{
     border-radius: 0%;
     border: 0;
     height: 45px;
-
 }
+
+.form-control:disabled{
+  opacity: 50%;
+}
+
 ::placeholder{
     color: #EBEAE5;
     opacity: 10;

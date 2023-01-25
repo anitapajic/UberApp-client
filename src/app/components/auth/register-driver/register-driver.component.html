@@ -1,0 +1,106 @@
+<div class="vh-150 gradient-custom">
+    <div class="container py-5 h-100">
+      <div class="row justify-content-center align-items-center h-100">
+        <div class="col-12 col-lg-9 col-xl-7">
+          <div class="card shadow-2-strong card-registration">
+            <div class="card-body p-4 p-md-5">
+              <h3 class="mb-4 pb-2 pb-md-0 mb-md-5 centriraj title">REGISTRATION &nbsp; <span class="titleForm" > FORM</span></h3>
+              <form [formGroup]="driverRegistrationForm" (ngSubmit)="onSubmit()">
+  
+                <div class="row">
+                  <div class="col-md-6 mb-4">
+  
+                    <div class="form-outline">
+                      <input type="text" placeholder= "First Name" id="firstName" formControlName="firstname" class="form-control form-control-lg" />
+                    </div>
+  
+                  </div>
+                  <div class="col-md-6 mb-4">
+  
+                    <div class="form-outline">
+                      <input type="text" placeholder= "Last Name" id="lastName" formControlName="lastname" class="form-control form-control-lg" />
+                    </div>
+  
+                  </div>
+                </div>
+  
+                <div class="row">
+                  <div class="col-md-6 mb-4 d-flex align-items-center">
+  
+                    <div class="form-outline datepicker w-100">
+                      <input type="date" placeholder= "Date of Birth" formControlName="dateOfBirth" class="form-control form-control-lg" id="birthdayDate" />
+                    </div>
+  
+                  </div>
+                  <div class="col-md-6 mb-4">
+  
+                    <div class="form-outline">
+                      <input type="text" placeholder= "Email" id="email" formControlName="email" class="form-control form-control-lg" />
+                    </div>
+  
+                  </div>
+                </div>
+  
+                <div class="row">
+                  <div class="col-md-6 mb-4 pb-2">
+                      
+                    <div class="form-outline">
+                      <input type="password" placeholder= "Password" id="password" formControlName="password" class="form-control form-control-lg" />
+                    </div>
+  
+                  </div>
+                  <div class="col-md-6 mb-4 pb-2">
+  
+                    <div class="form-outline">
+                      <input type="password" placeholder= "Confirm password" id="confirmPassword" formControlName="confirmPassword" class="form-control form-control-lg" />
+                    </div>
+                  </div>
+                  
+                </div>
+  
+                <div class="row">
+                  <div class="col-md-6 mb-4 pb-2">
+  
+                    <div class="form-outline">
+                      <input type="tel" placeholder= "Phone number" id="phoneNumber" formControlName="telephoneNumber" class="form-control form-control-lg" />
+                    </div>
+  
+                  </div>
+                  <div class="col-md-6 mb-4 pb-2">
+  
+                    <div class="form-outline">
+                      <input type="text" placeholder= "Address" id="address" formControlName="address" class="form-control form-control-lg" />
+                    </div>
+  
+                  </div>
+
+                  <div class="col-md-6 mb-4 pb-2">
+  
+                    <div class="form-outline">
+                        <select class="custom-select form-control" formControlName="vehicle">
+                            <option value="" selected disabled>Vehicle</option>
+                            <option *ngFor="let vehicle of vehicles" [disabled]="vehicle.driverId != null" [value]="vehicle.id">{{ vehicle.model + " " + vehicle.vehicleType }}</option>
+                        </select>                    
+                    </div>
+
+                    </div>
+                    <div class="col-md-6 mb-4 pb-2">
+                        <div class="form-outline">
+                            <input class="btn2 btn-primary btn-lg" (click)="createVehicle()"  value="CREATE VEHICLE" />
+                        </div>
+
+                    </div>
+
+                    <div class="mt-4 pt-2 centriraj">
+                      <input class="btn btn-primary btn-lg" type="submit" value="REGISTER" />
+                    </div>
+                
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  

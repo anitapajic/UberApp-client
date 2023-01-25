@@ -23,25 +23,25 @@
                     </div>
                   </div>
                   <div class="form-group">
-                    <select class="custom-select form-control">
-                        <option selected>Driver</option>
+                    <select class="custom-select form-control"  id="driver" [disabled]="role !== 'ADMIN'">
+                        <option selected value="" disabled>Driver</option>
                         <option *ngFor="let driver of drivers" [value]="driver.id">{{ driver.name + " " + driver.surname }}</option>
 
                     </select>
                   </div>
                   <div class=" form-group form-outline" >
-                    <select class="custom-select form-control">
-                        <option selected>Vehicle type</option>
+                    <select class="custom-select form-control"   id="vehicle" >
+                        <option selected disabled>Vehicle type</option>
                         <option value="1">Standard</option>
                         <option value="2">Bussiness</option>
                         <option value="3">Lux</option>
                     </select>
                   </div>
                   <div class=" form-group form-outline" >
-                    <input id = "kayword" placeholder= "Kayword"  type="text" name="kayword" class="form-control"/>
+                    <input id="keyword" placeholder= "Keyword"  type="text" name="keyword" class="form-control"/>
                   </div>
                   <div class="btn-container">
-                    <button id="findBtn" class="btn btn-dark" [routerLink]="['/ride-history-review']">FILTER</button>
+                    <button id="findBtn" class="btn btn-dark" (click)="filter()">FILTER</button>
                   </div>
                 </div>
             </div>

@@ -1,0 +1,77 @@
+
+.gradient-custom {
+    background: #25313C;
+    height: fit-content;
+  }
+  .card{
+    border-radius: 0;
+    background-color: #EBEAE5;
+  }
+  .vh-150{
+    height: 53rem;
+  }
+  .pt-5, .py-5 {
+    padding-top: 5rem!important;
+  }
+  .title{
+    font-style: normal;
+    font-weight: 700;
+    text-align: center;
+    text-align: center;
+    color: #25313C;
+  }
+  .titleForm{
+    color: #D14054;
+  }
+  
+  .card-registration .select-input.form-control[readonly]:not([disabled]) {
+    font-size: 2.0rem;
+    line-height: 2.15;
+    padding-left: .75em;
+    padding-right: .75em;
+  }
+  .card-registration .select-arrow {
+    top: 13px;
+  }
+  .btn2 {
+    border-radius: 0;
+    background-color: #25313C;
+    color: #FFF;
+    border-color: transparent;
+    text-align: center;
+    width: 100%;
+  }
+  .btn2:hover{
+    background-color: #25313cbd;
+
+  }
+
+  .btn {
+    border-radius: 0;
+    background-color: #D14054;
+    color: #FFF;
+    font-weight: bold;
+    border-color: transparent;
+    width: 60%;
+  }
+  
+  .btn:hover{
+    background-color: #d14053c7;
+  }
+  
+  .centriraj{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .form-control{
+    border-radius: 0;
+    background-color: #D9D9D9;
+    height: 55px;
+  }
+
+  option:disabled{
+    font-weight: 100;
+    opacity: 50%;
+    color: #D14054;
+  }

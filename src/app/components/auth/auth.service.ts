@@ -64,6 +64,13 @@ export class AuthService {
     );
   }
 
+  
+  driverRegistration(auth: any): Observable<any> {
+    return this.http.post(
+      'http://localhost:8085/api/driver', auth
+    );
+  }
+
   sendCode(auth : any): Observable<any> {
     return this.http.get('http://localhost:8085/api/user/' + this.userId + '/resetPassword', {
       headers: this.headers,
@@ -100,18 +107,57 @@ export class AuthService {
     return this.http.post('http://localhost:8085/api/driver/update/' + this.userId, auth);
   }
 
-  getRideHistory():Observable<any>{
+  getRideHistory(filter : any):Observable<any>{
     if(this.getRole() == "PASSENGER"){
-      return this.http.get('http://localhost:8085/api/passenger/' + this.userId + "/ride");
+      return this.http.get('http://localhost:8085/api/passenger/' + this.userId + "/ride", {
+        params : filter
+      });
 
     }
     if(this.getRole()== "DRIVER"){
-      return this.http.get('http://localhost:8085/api/driver/' + this.userId + "/ride");
+      return this.http.get('http://localhost:8085/api/driver/' + this.userId + "/ride", {
+        params : filter
+      });
     }
-    return this.http.get('http://localhost:8085/api/ride');
 
+    return this.http.post('http://localhost:8085/api/ride/all', filter);
+  }
 
+  getVehicles() : Observable<any>{
+    return this.http.get('http://localhost:8085/api/driver/vehicles');
   }
 
 
+  createVehicle(vehicle : any) : Observable<any>{
+    return this.http.post('http://localhost:8085/api/vehicle', vehicle);
+  }
+
+  
+  getUsersWithNotes() : Observable<any>{
+    return this.http.get('http://localhost:8085/api/user?size=1000');
+  }
+
+  getChangeRequests() : Observable<any>{
+    return this.http.get('http://localhost:8085/api/driver/update');
+  }
+
+  approveRequest(id : Int16Array): Observable<any>{
+    return this.http.put('http://localhost:8085/api/driver/update/' + id + "/approve", null);
+  }
+
+  deleteRequest(id : Int16Array): Observable<any>{
+    return this.http.delete('http://localhost:8085/api/driver/update/' + id + "/delete");
+  }
+
+  blockUser(id : Int16Array): Observable<any>{
+    return this.http.put('http://localhost:8085/api/user/' + id + "/block", null);
+  }
+
+  unblockUser(id : Int16Array): Observable<any>{
+    return this.http.put('http://localhost:8085/api/user/' + id + "/unblock", null);
+  }
+
+  sendNote(note : any): Observable<any>{
+    return this.http.post('http://localhost:8085/api/user/note', note);
+  }
 }
