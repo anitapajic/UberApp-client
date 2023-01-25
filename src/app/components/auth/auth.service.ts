@@ -121,6 +121,17 @@ export class AuthService {
   getVehicles() : Observable<any>{
     return this.http.get('http://localhost:8085/api/driver/vehicles');
   }
+<<<<<<< Updated upstream
+=======
+
+  createVehicle(vehicle : any) : Observable<any>{
+    return this.http.post('http://localhost:8085/api/vehicle', vehicle);
+  }
+  
+  getUsersWithNotes() : Observable<any>{
+    return this.http.get('http://localhost:8085/api/user?size=1000');
+  }
+>>>>>>> Stashed changes
 
   getChangeRequests() : Observable<any>{
     return this.http.get('http://localhost:8085/api/driver/update');

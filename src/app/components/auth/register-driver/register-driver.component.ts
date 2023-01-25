@@ -86,6 +86,12 @@ export class RegisterDriverComponent {
       alert("Your password is not the same as the confirmed one!")
     }
   }
+
+  createVehicle(){
+    console.log("create vehicle")
+    this.router.navigate(['/create-vehicle']);
+  }
+
   ngOnInit(): void {
     this.authService.getVehicles().subscribe({
       next: (result) => {

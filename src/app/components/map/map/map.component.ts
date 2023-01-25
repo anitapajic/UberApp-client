@@ -33,6 +33,37 @@ export class MapComponent implements AfterViewInit {
     this.authService.userState$.subscribe((result) => {
       this.role = result;
     });
+<<<<<<< Updated upstream
+=======
+
+    this.authService.getVehicles().subscribe({
+      next: (result) => {
+        this.vehicles = result;
+        console.log(this.vehicles);
+        this.vehicles.forEach(vehicle => {
+          if(vehicle.driverActive){
+            var customIcon = L.icon({
+            iconUrl: '.\\assets\\images\\available-car.png',
+            iconSize: [30, 30],
+            })
+          }else{
+            var customIcon = L.icon({
+            iconUrl: '.\\assets\\images\\not-available-car.png',
+            iconSize: [30, 30],
+            })
+          }
+          
+          new L.Marker([vehicle.currentLocation.latitude, vehicle.currentLocation.longitude], 
+            {icon: customIcon}).addTo(this.map);
+          
+        });
+
+      },
+      error: (error) => {
+        console.log(error);
+      },
+    });
+>>>>>>> Stashed changes
   }
 
   private initMap(): void {
