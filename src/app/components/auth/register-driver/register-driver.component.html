@@ -78,20 +78,22 @@
   
                     <div class="form-outline">
                         <select class="custom-select form-control" formControlName="vehicle">
-                            <option value="" selected>Vehicle</option>
-                            <option *ngFor="let vehicle of vehicles" [value]="vehicle.id">{{ vehicle.carModel + " " + vehicle.vehicleType }}</option>
+                            <option value="" selected disabled>Vehicle</option>
+                            <option *ngFor="let vehicle of vehicles" [disabled]="vehicle.driverId != null" [value]="vehicle.id">{{ vehicle.model + " " + vehicle.vehicleType }}</option>
                         </select>                    
                     </div>
 
                     </div>
                     <div class="col-md-6 mb-4 pb-2">
                         <div class="form-outline">
-                            <input class="btn btn-primary btn-lg" type="submit" value="REGISTER" />
+                            <input class="btn2 btn-primary btn-lg" (click)="createVehicle()"  value="CREATE VEHICLE" />
                         </div>
 
                     </div>
 
-
+                    <div class="mt-4 pt-2 centriraj">
+                      <input class="btn btn-primary btn-lg" type="submit" value="REGISTER" />
+                    </div>
                 
                 </div>
               </form>

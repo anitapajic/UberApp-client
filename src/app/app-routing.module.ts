@@ -10,6 +10,8 @@ import { RideHistoryReviewComponent } from './components/registered-user/ride-hi
 import { ChangeRequestsComponent } from './components/registered-user/change-requests/change-requests.component';
 import { RegisterDriverComponent } from './components/auth/register-driver/register-driver.component';
 import { BlockUserComponent } from './components/auth/block-user/block-user.component';
+import { CreateVehicleComponent } from './components/auth/create-vehicle/create-vehicle.component';
+
 
 const routes: Routes = [
   {path : 'login', component: LoginComponent},
@@ -20,6 +22,7 @@ const routes: Routes = [
   {path : 'ride-history-review', component: RideHistoryReviewComponent},
   {path : 'change-requests', component: ChangeRequestsComponent },
   {path : 'register-driver', component: RegisterDriverComponent },
+  {path : 'create-vehicle', component: CreateVehicleComponent },
   {path : 'block-user', component: BlockUserComponent },
   {path : '**', component: MapComponent}
 
