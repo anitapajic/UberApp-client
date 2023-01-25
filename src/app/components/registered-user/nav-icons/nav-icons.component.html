@@ -1,4 +1,4 @@
-<div class="app-nav-icons" >
+<div class="app-nav-icons">
     <div class="row justify-content-center">
         <div class="col col-lg-2 text-center">
             <a class="nav-link" (click)="scrollRideHistory()" > <span class="sr-only">(current)</span>
@@ -7,10 +7,46 @@
             
         </div>
         <div class="col col-lg-2 text-center">
-            <img class = "img-logo" [routerLink]="['/home']" src="./assets/images/ratings.png">
+            <a href="#"><img class = "img-logo" data-bs-toggle="modal" data-bs-target=".bd-example-modal-sm" src="./assets/images/ratings.png"></a>
+            <div class="modal fade bd-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-sm">
+                    <div class="modal-content">
+                        <div class="rectangle">
+                            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"> 
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            <div class="circle">
+                                <img class = "img-logo-ratings " src="./assets/images/commentLogo.png">
+                            </div>
+                            <label for="text">Enjoying TAXXI?</label>
+                            <p for="text" class="price">How would you rate our service?</p>
+                            <p for="text" class="underlined" >Maybe, next time!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="col col-lg-2 text-center">
-            <img class = "img-logo" [routerLink]="['/home']" src="./assets/images/favoriteRoute.png">
+            <a href="#"><img class = "img-logo" data-bs-toggle="modal" data-bs-target=".bd-example2-modal-sm" src="./assets/images/ratings.png" src="./assets/images/favoriteRoute.png"></a>
+            <div class="modal fade bd-example2-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-sm">
+                    <div class="modal-content">
+                        <div class="rectangle">
+                            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"> 
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            <div class="circle">
+                                <img class = "img-logo-ratings " src="./assets/images/starLogo.png">
+                            </div>
+                            <label for="text">Favorite routes</label>
+                            <p class="label"><img class = "img-pin" src="./assets/images/pin.png">&nbsp;&nbsp;Home <br>&nbsp;&nbsp;&nbsp;&nbsp;Mise Dimitrijevica</p>
+                            <p class="label"><img class = "img-pin" src="./assets/images/pin.png">&nbsp;&nbsp;Work <br class="location">&nbsp;&nbsp;&nbsp;&nbsp;Strumicka</p>
+                
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
         </div>
         <div class="col col-lg-2 text-center">
             <img class = "img-logo" [routerLink]="['/home']" src="./assets/images/reports.png">
