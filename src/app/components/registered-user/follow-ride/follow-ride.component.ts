@@ -14,21 +14,6 @@ export class FollowRideComponent {
 
 
   ngOnInit() {
-   
-
-    this.authService.getRideHistory().subscribe({
-      next: (result) => {
-        this.rideHistory = result['results'];
-        console.log(this.rideHistory);
-        if(this.rideHistory.length === 0){
-          this.noRides = true;
-        }
-
-      },
-      error: (error) => {
-        console.log(error);
-      },
-    });
-
+  
   }
 }
