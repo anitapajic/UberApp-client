@@ -14,6 +14,8 @@ import { RideInfo } from '../model/rideInfo';
 })
 export class MapComponent implements AfterViewInit {
 
+  vehicles : Array<any> = [];
+
   role: any;
   private map: any;
   result!: any;
@@ -32,6 +34,34 @@ export class MapComponent implements AfterViewInit {
   ngOnInit(): void {
     this.authService.userState$.subscribe((result) => {
       this.role = result;
+    });
+
+    this.authService.getVehicles().subscribe({
+      next: (result) => {
+        this.vehicles = result;
+        console.log(this.vehicles);
+        this.vehicles.forEach(vehicle => {
+          if(vehicle.isDriverActive){
+            var customIcon = L.icon({
+            iconUrl: '.\\assets\\images\\available-car.png',
+            iconSize: [30, 30],
+            })
+          }else{
+            var customIcon = L.icon({
+            iconUrl: '.\\assets\\images\\not-available-car.png',
+            iconSize: [30, 30],
+            })
+          }
+          
+          new L.Marker([vehicle.currentLocation.latitude, vehicle.currentLocation.longitude], 
+            {icon: customIcon}).addTo(this.map);
+          
+        });
+
+      },
+      error: (error) => {
+        console.log(error);
+      },
     });
   }
 
