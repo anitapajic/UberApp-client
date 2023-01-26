@@ -11,7 +11,7 @@ import { VehicleCardsComponent } from 'src/app/components/unregistered-user/vehi
 })
 export class NavbarComponent {
   role: any;
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(private authService: AuthService,private router: Router) {}
 
   ngOnInit(): void {
     this.authService.userState$.subscribe((result) => {

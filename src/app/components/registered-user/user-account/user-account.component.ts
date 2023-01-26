@@ -28,8 +28,8 @@ export class UserAccountComponent {
 
   editPassword(){
     var changeDiv = document.getElementById("changePassword") as HTMLElement;
-    changeDiv.style.display="block"
-
+      changeDiv.style.display="block"
+    
   }
 
   changePassword(){

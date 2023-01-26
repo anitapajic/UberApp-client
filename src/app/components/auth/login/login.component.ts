@@ -6,7 +6,7 @@ import { FormControl,
         FormBuilder 
       } from '@angular/forms';
 import { AuthService } from '../auth.service';
-import { Router } from "@angular/router";
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -15,7 +15,7 @@ import { Router } from "@angular/router";
 })
 export class LoginComponent{
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(private authService: AuthService, private router:Router) {}
   hasError: boolean = false;
  
   loginForm = new FormGroup({

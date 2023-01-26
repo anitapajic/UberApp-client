@@ -9,7 +9,7 @@ import { AuthService } from '../../auth/auth.service';
 })
 export class CoordinatesComponent {
   role: any;
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(private authService: AuthService, private router:Router) {}
 
   ngOnInit(): void {
     this.authService.userState$.subscribe((result) => {

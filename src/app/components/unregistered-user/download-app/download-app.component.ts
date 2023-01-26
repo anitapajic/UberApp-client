@@ -12,4 +12,5 @@ export class DownloadAppComponent {
     document.getElementById('download-app')?.scrollIntoView();
 
   }
+  
 }
