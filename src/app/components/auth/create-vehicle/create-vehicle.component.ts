@@ -25,7 +25,7 @@ export class CreateVehicleComponent {
   }
 
   onSubmit() {
-    var registrationVal = {
+    let registrationVal = {
       model: this.registrationForm.value.model,
       vehicleType: this.registrationForm.value.vehicleType,
       licenseNumber: this.registrationForm.value.licenseNumber,

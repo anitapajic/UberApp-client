@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { User } from 'src/app/model/User';
 import { AuthService } from '../../auth/auth.service';
 
 @Component({
@@ -8,24 +9,7 @@ import { AuthService } from '../../auth/auth.service';
 })
 export class ChangeRequestsComponent {
   constructor(private authService : AuthService){};
-  requests: Array<any> = [
-  //   {
-	// 	"id": 1,
-	// 	"username": "tamaraaa@gmail.com",
-	// 	"name": "Tamaraaa",
-	// 	"surname": "Dzaaaaaaambic",
-	// 	"telephoneNumber": "0645638986",
-	// 	"address": "Brace Ribnikar 17, Novi Sad"
-	// },
-	// {
-	// 	"id": 4,
-	// 	"username": "anja@gmail.com",
-	// 	"name": "Tamaraaa",
-	// 	"surname": "Dzaaaaaaambic",
-	// 	"telephoneNumber": "0645638986",
-	// 	"address": "Brace Ribnikar 17, Novi Sad"
-	// }
-];
+  requests: Array<User> = [];
   
   noRequests: boolean = false;
 

@@ -1,6 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { UrlSegment } from '@angular/router';
+import { User } from 'src/app/model/User';
 import { AuthService } from '../../auth/auth.service';
 
 @Component({
@@ -12,7 +13,7 @@ export class UserAccountComponent {
   saveBtn : HTMLButtonElement | undefined;
   isShow = true;
   isHidden = false;
-  user : any;
+  user : User | undefined;
   constructor(private authService : AuthService){};
 
   async formVisible(){
@@ -20,28 +21,66 @@ export class UserAccountComponent {
     this.isHidden = !this.isHidden;
   }
 
+  saveChanges(){
+
+    //Napravi endpoint za izmene admina
+    if(this.user?.authorities == 'ADMIN'){
+      this.formVisible();
+      return;
+    }
+
+    let nameSurname = document.getElementById("nameSurname") as HTMLInputElement;
+    let username = document.getElementById("username") as HTMLInputElement;    
+    let telephoneNumber = document.getElementById("telephoneNumber") as HTMLInputElement;
+    let address = document.getElementById("address") as HTMLInputElement;
+
+
+    let newInfo = {
+      
+      name : nameSurname.value.split(" ")[0],
+      surname : nameSurname.value.split(" ")[1],
+      username : username.value,
+      telephoneNumber : telephoneNumber.value,
+      address : address.value,
+    }
+    console.log(newInfo);
+
+    this.authService.changeProfileInfo(newInfo).subscribe({
+      next: (result) => {
+        this.user = result;
+        console.log(this.user);
+        
+      },
+      error: (error) => {
+        console.log(error);
+      },
+    });
+
+    this.formVisible();
+  }
+
 
   loadFile = function (event: { target: { files: (Blob | MediaSource)[]; }; }) {
-    var image = document.getElementById("output");
+    let image = document.getElementById("output");
       URL.createObjectURL(event.target.files[0]);
   };
 
   editPassword(){
-    var changeDiv = document.getElementById("changePassword") as HTMLElement;
+    let changeDiv = document.getElementById("changePassword") as HTMLElement;
     changeDiv.style.display="block"
 
   }
 
   changePassword(){
-    var oldPassword = document.getElementById("oldPass") as HTMLInputElement;    
-    var newPassword = document.getElementById("newPass") as HTMLInputElement;
+    let oldPassword = document.getElementById("oldPass") as HTMLInputElement;    
+    let newPassword = document.getElementById("newPass") as HTMLInputElement;
 
-    var auth = {
+    let change = {
       oldPassword: oldPassword.value,
       newPassword: newPassword.value
     }
 
-    this.authService.changePassword(auth).subscribe({
+    this.authService.changePassword(change).subscribe({
       next: (result) => {
         alert("Password successfully changed")
       },
@@ -54,7 +93,7 @@ export class UserAccountComponent {
 
 
 
-    var changeDiv = document.getElementById("changePassword") as HTMLElement;
+    let changeDiv = document.getElementById("changePassword") as HTMLElement;
     changeDiv.style.display="none"
 
 
@@ -62,13 +101,13 @@ export class UserAccountComponent {
   
   
   editPicture(){
-    var changeDiv = document.getElementById("changePicture") as HTMLElement;
+    let changeDiv = document.getElementById("changePicture") as HTMLElement;
     changeDiv.style.display="block"
   }
 
   
   changePicture(){
-    var changeDiv = document.getElementById("changePicture") as HTMLElement;
+    let changeDiv = document.getElementById("changePicture") as HTMLElement;
     changeDiv.style.display="none"
   }
 
@@ -77,41 +116,12 @@ export class UserAccountComponent {
     this.authService.getUser().subscribe({
       next: (result) => {
         this.user = result;
-
       },
       error: (error) => {
  
         console.log(error);
       },
     });
-
-   this.saveBtn = document.getElementById("saveBtn") as HTMLButtonElement;
-   this.saveBtn.addEventListener("click", () =>{
-    var nameSurname = document.getElementById("nameSurname") as HTMLInputElement;
-    var username = document.getElementById("username") as HTMLInputElement;    
-    var telephoneNumber = document.getElementById("telephoneNumber") as HTMLInputElement;
-    var address = document.getElementById("address") as HTMLInputElement;
-
-    var auth = {
-       
-        name : nameSurname.value.split(" ")[0],
-        surname : nameSurname.value.split(" ")[1],
-        username : username.value,
-        telephoneNumber : telephoneNumber.value,
-        address : address.value,
-      }
-
-      this.authService.changeProfileInfo(auth).subscribe({
-        next: (result) => {
-          this.user = result;
-          console.log(this.user);
-          
-        },
-        error: (error) => {
-          console.log(error);
-        },
-      });
-  })
 
   }
 

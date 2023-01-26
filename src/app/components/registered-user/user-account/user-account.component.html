@@ -1,7 +1,7 @@
 
 <div class="container-fluid">
     <div class="main-body">
-        <div class="row gutters-sm form-padding">
+        <div class="row gutters-sm form-padding" *ngIf="user">
             
             <div class="col-md-4 mb-3">
               <div class="card">
@@ -228,7 +228,7 @@
                         <hr class="white">
                         <div class="row mb-2 mt-3">
                                 <div class="col-3">
-                                    <button class="btn" id="saveBtn" (click)="formVisible()">Save</button>
+                                    <button class="btn" id="saveBtn" (click)="saveChanges()">Save</button>
                                 </div>
                                 <div class="col-3">
                                     <button class="btn discard-btn" (click)="formVisible()">Discard</button>
