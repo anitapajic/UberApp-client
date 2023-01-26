@@ -1,8 +1,17 @@
 import { Injectable } from '@angular/core';
-import {BehaviorSubject, Observable} from "rxjs";
-import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {BehaviorSubject, Observable} from 'rxjs';
+import {HttpClient, HttpErrorResponse, HttpHeaders, HttpParams} from '@angular/common/http';
 import { Token } from '@angular/compiler';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { Note } from 'src/app/model/Note';
+import { CreateVehicle, Vehicle } from 'src/app/model/Vehicle';
+import { User } from 'src/app/model/User';
+import { Filter } from 'src/app/model/Filter';
+
+import { ChangeUserInfo } from 'src/app/model/ChangeUserInfo';
+import { ChangePassword, ResetPassword } from 'src/app/model/ChangePasswordDTO';
+import { Login } from 'src/app/model/Login';
+import { DriverRegistration, Registration } from 'src/app/model/Registration';
 
 @Injectable({
   providedIn: 'root'
@@ -21,18 +30,6 @@ export class AuthService {
   userState$ = this.user$.asObservable();
 
   constructor(private http: HttpClient) { }
-
-  login(auth: any): Observable<Token> {
-    return this.http.post<Token>(
-      'http://localhost:8085/api/user/login', auth, {
-        headers: this.headers,
-    });
-  }
-  logout(): Observable<string> {
-    return this.http.get('http://localhost:8085/api/user/logout', {
-      responseType: 'text',
-    });
-  }
 
   getRole(): any {
     if (this.isLoggedIn()) {
@@ -58,88 +55,51 @@ export class AuthService {
     this.user$.next(this.getRole());
   }
 
-  registration(auth: any): Observable<any> {
-    return this.http.post(
-      'http://localhost:8085/api/passenger', auth
-    );
-  }
-
+// Login and Registration
   
-  driverRegistration(auth: any): Observable<any> {
+  login(login: Login): Observable<Token> {
+    return this.http.post<Token>(
+      'http://localhost:8085/api/user/login', login, {
+        headers: this.headers,
+    });
+  }
+
+  logout(): Observable<string> {
+    return this.http.get('http://localhost:8085/api/user/logout', {
+      responseType: 'text',
+    });
+  }
+
+  registration(newPassenger: Registration): Observable<any> {
     return this.http.post(
-      'http://localhost:8085/api/driver', auth
+      'http://localhost:8085/api/passenger', newPassenger
     );
   }
 
-  sendCode(auth : any): Observable<any> {
-    return this.http.get('http://localhost:8085/api/user/' + this.userId + '/resetPassword', {
-      headers: this.headers,
-      params: auth,
-      responseType: 'text',
-    }
+  driverRegistration(newDriver: DriverRegistration): Observable<any> {
+    return this.http.post(
+      'http://localhost:8085/api/driver', newDriver
     );
   }
 
-  resetPassword(auth : any): Observable<any> {
-    return this.http.put('http://localhost:8085/api/user/' + this.userId + '/resetPassword', auth, {
-      headers: this.headers,
-      responseType: 'text',
-    }
-    );
+  createVehicle(newVehicle : CreateVehicle) : Observable<any>{
+    return this.http.post('http://localhost:8085/api/vehicle', newVehicle);
   }
 
-  changePassword(auth : any): Observable<any> {
-    return this.http.put('http://localhost:8085/api/user/' + this.userId + '/changePassword', auth
-    );
-  }
+
+// Profil info and changes
 
   getUser(): Observable<any>{
     return this.http.get('http://localhost:8085/api/user/' + this.userId)
   }
 
-  changeProfileInfo(auth: any): Observable<any>{
-    if(this.getRole() == "PASSENGER"){
-      return this.http.put('http://localhost:8085/api/passenger/' + this.userId, auth);
+  changeProfileInfo(userInfo: ChangeUserInfo): Observable<any>{
+    if(this.getRole() == 'PASSENGER'){
+      return this.http.put('http://localhost:8085/api/passenger/' + this.userId, userInfo);
 
     }
-    alert("Changes sent to admin");
-    return this.http.post('http://localhost:8085/api/driver/update/' + this.userId, auth);
-  }
-
-  getRideHistory(filter : any):Observable<any>{
-    if(this.getRole() == "PASSENGER"){
-      return this.http.get('http://localhost:8085/api/passenger/' + this.userId + "/ride", {
-        params : filter
-      });
-
-    }
-    if(this.getRole()== "DRIVER"){
-      return this.http.get('http://localhost:8085/api/driver/' + this.userId + "/ride", {
-        params : filter
-      });
-    }
-
-    return this.http.post('http://localhost:8085/api/ride/all', filter);
-  }
-
-  getVehicles() : Observable<any>{
-    return this.http.get('http://localhost:8085/api/driver/vehicles');
-  }
-
-
-  createVehicle(vehicle : any) : Observable<any>{
-    return this.http.post('http://localhost:8085/api/vehicle', vehicle);
-  }
-
-  getDrivers() : Observable<any>{
-    return this.http.get('http://localhost:8085/api/driver', {
-      headers: this.headers
-    })
-  }
-
-  
-  getUsersWithNotes() : Observable<any>{
-    return this.http.get('http://localhost:8085/api/user?size=1000');
+    alert('Changes sent to admin');
+    return this.http.post('http://localhost:8085/api/driver/update/' + this.userId, userInfo);
   }
 
   getChangeRequests() : Observable<any>{
@@ -147,22 +107,89 @@ export class AuthService {
   }
 
   approveRequest(id : Int16Array): Observable<any>{
-    return this.http.put('http://localhost:8085/api/driver/update/' + id + "/approve", null);
+    return this.http.put('http://localhost:8085/api/driver/update/' + id + '/approve', null);
   }
 
   deleteRequest(id : Int16Array): Observable<any>{
-    return this.http.delete('http://localhost:8085/api/driver/update/' + id + "/delete");
+    return this.http.delete('http://localhost:8085/api/driver/update/' + id + '/delete');
+  }
+
+ //Password changes
+
+  sendCode(username : any): Observable<any> {
+    return this.http.get('http://localhost:8085/api/user/' + this.userId + '/resetPassword', {
+      headers: this.headers,
+      params: username,
+      responseType: 'text',
+    }
+    );
+  }
+
+  resetPassword(reset : ResetPassword): Observable<any> {
+    return this.http.put('http://localhost:8085/api/user/' + this.userId + '/resetPassword', reset, {
+      headers: this.headers,
+      responseType: 'text',
+    }
+    );
+  }
+
+  changePassword(change : ChangePassword): Observable<any> {
+    return this.http.put('http://localhost:8085/api/user/' + this.userId + '/changePassword', change
+    );
+  }
+
+//Blocking users and leaving notes   
+
+  getUsersWithNotes() : Observable<any>{
+    return this.http.get('http://localhost:8085/api/user?size=1000');
   }
 
   blockUser(id : Int16Array): Observable<any>{
-    return this.http.put('http://localhost:8085/api/user/' + id + "/block", null);
+    return this.http.put('http://localhost:8085/api/user/' + id + '/block', null);
   }
 
   unblockUser(id : Int16Array): Observable<any>{
-    return this.http.put('http://localhost:8085/api/user/' + id + "/unblock", null);
+    return this.http.put('http://localhost:8085/api/user/' + id + '/unblock', null);
   }
 
-  sendNote(note : any): Observable<any>{
+  sendNote(note : Note): Observable<any>{
     return this.http.post('http://localhost:8085/api/user/note', note);
   }
+
+//Ride History and Reports
+  getRideHistory(filter : Filter):Observable<any>{
+    let params = new HttpParams();
+    if (filter.startDate) {
+      params = params.append('startDate', filter.startDate);
+    }
+    if (filter.endDate) {
+      params = params.append('endDate', filter.endDate);
+    }    
+    
+    if(this.getRole() == 'PASSENGER'){
+      return this.http.get('http://localhost:8085/api/passenger/' + this.userId + '/ride', {
+        params : params
+      });
+
+    }
+    if(this.getRole()== 'DRIVER'){
+      return this.http.get('http://localhost:8085/api/driver/' + this.userId + '/ride', {
+        params : params
+      });
+    }
+
+    return this.http.post('http://localhost:8085/api/ride/all', filter);
+  }
+
+//Drivers and Vehicles
+  getDrivers() : Observable<any>{
+    return this.http.get('http://localhost:8085/api/driver', {
+      headers: this.headers
+    })
+  }
+
+  getVehicles() : Observable<any>{
+    return this.http.get('http://localhost:8085/api/driver/vehicles');
+  }
+
 }

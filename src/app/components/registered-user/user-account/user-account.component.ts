@@ -21,6 +21,44 @@ export class UserAccountComponent {
     this.isHidden = !this.isHidden;
   }
 
+  saveChanges(){
+
+    //Napravi endpoint za izmene admina
+    if(this.user?.authorities == 'ADMIN'){
+      this.formVisible();
+      return;
+    }
+
+    let nameSurname = document.getElementById("nameSurname") as HTMLInputElement;
+    let username = document.getElementById("username") as HTMLInputElement;    
+    let telephoneNumber = document.getElementById("telephoneNumber") as HTMLInputElement;
+    let address = document.getElementById("address") as HTMLInputElement;
+
+
+    let newInfo = {
+      
+      name : nameSurname.value.split(" ")[0],
+      surname : nameSurname.value.split(" ")[1],
+      username : username.value,
+      telephoneNumber : telephoneNumber.value,
+      address : address.value,
+    }
+    console.log(newInfo);
+
+    this.authService.changeProfileInfo(newInfo).subscribe({
+      next: (result) => {
+        this.user = result;
+        console.log(this.user);
+        
+      },
+      error: (error) => {
+        console.log(error);
+      },
+    });
+
+    this.formVisible();
+  }
+
 
   loadFile = function (event: { target: { files: (Blob | MediaSource)[]; }; }) {
     let image = document.getElementById("output");
@@ -37,12 +75,12 @@ export class UserAccountComponent {
     let oldPassword = document.getElementById("oldPass") as HTMLInputElement;    
     let newPassword = document.getElementById("newPass") as HTMLInputElement;
 
-    let auth = {
+    let change = {
       oldPassword: oldPassword.value,
       newPassword: newPassword.value
     }
 
-    this.authService.changePassword(auth).subscribe({
+    this.authService.changePassword(change).subscribe({
       next: (result) => {
         alert("Password successfully changed")
       },
@@ -84,34 +122,6 @@ export class UserAccountComponent {
         console.log(error);
       },
     });
-
-   this.saveBtn = document.getElementById("saveBtn") as HTMLButtonElement;
-   this.saveBtn.addEventListener("click", () =>{
-    let nameSurname = document.getElementById("nameSurname") as HTMLInputElement;
-    let username = document.getElementById("username") as HTMLInputElement;    
-    let telephoneNumber = document.getElementById("telephoneNumber") as HTMLInputElement;
-    let address = document.getElementById("address") as HTMLInputElement;
-
-    let auth = {
-       
-        name : nameSurname.value.split(" ")[0],
-        surname : nameSurname.value.split(" ")[1],
-        username : username.value,
-        telephoneNumber : telephoneNumber.value,
-        address : address.value,
-      }
-
-      this.authService.changeProfileInfo(auth).subscribe({
-        next: (result) => {
-          this.user = result;
-          console.log(this.user);
-          
-        },
-        error: (error) => {
-          console.log(error);
-        },
-      });
-  })
 
   }
 

@@ -19,5 +19,12 @@ export interface Ride {
   panic : boolean;
   babyTrasnport : boolean;
   petTransport : boolean;
-  vahicleType : string;
+  vehicleType : string;
+}
+
+export interface RideInfo {
+  locations : Array<Path>;
+  babyTrasnport : boolean;
+  petTransport : boolean;
+  vehicleType : string;
 }

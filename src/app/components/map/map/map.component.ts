@@ -7,8 +7,9 @@ import { AuthService } from '../../auth/auth.service';
 import { MapService } from '../map.service';
 import * as Stomp from 'stompjs';
 import * as SockJS from 'sockjs-client';
-import { Ride } from 'src/app/model/Ride';
+import { Ride, RideInfo } from 'src/app/model/Ride';
 import { Vehicle } from 'src/app/model/Vehicle';
+import { CurrentLocation } from 'src/app/model/CurrentLocation';
 
 @Component({
   selector: 'app-map',
@@ -17,28 +18,31 @@ import { Vehicle } from 'src/app/model/Vehicle';
 })
 export class MapComponent implements AfterViewInit {
 
-  vehicles : Array<Vehicle> = [];
-  vehicless: any = {};
-  rides: any = {};
-  mainGroup: LayerGroup[] = [];
+  // vehicles: any = {};
+  // rides: any = {};
+  // mainGroup: LayerGroup[] = [];
+  // private stompClient: any;
 
-  role: string | null | undefined;
+
+  vehicles : Array<Vehicle> = [];
+
   private map: any;
+  
+  role: string | null | undefined;
   result!: any;
+  next : Boolean = false;
+
   dep!: LatLng;
   des!: LatLng;
-
   des_marker : L.Marker = new L.Marker(new LatLng(0,0));
   dep_marker : L.Marker = new L.Marker(new LatLng(0,0));
-
   dep_input! : HTMLInputElement;
   des_input! : HTMLInputElement;
-  next : Boolean = false;
   routingControl = L.Routing.control({ waypoints: [    ]});
+
+  
   constructor(private mapService: MapService, private authService : AuthService) {}
 
-
-  private stompClient: any;
 
   ngOnInit(): void {
     this.authService.userState$.subscribe((result) => {
@@ -145,8 +149,9 @@ export class MapComponent implements AfterViewInit {
         let petTransport = document.getElementById('petTransport') as HTMLInputElement;
         let vehicleType = document.querySelector('input[name="car-type"]:checked') as HTMLInputElement;
 
-        let rideInfo = {
-          locations : [{
+
+        let rideInfo : RideInfo = {
+          locations :  [{
             departure:{
               address : dep[0].display_name,
               latitude : dep[0].lat,
@@ -172,7 +177,7 @@ export class MapComponent implements AfterViewInit {
 
   }
 
-  calculatePrice(rideInfo : any): void{
+  calculatePrice(rideInfo : RideInfo): void{
     let estimated = document.getElementById('estimated') as HTMLInputElement;
 
     let price = document.getElementById('price') as HTMLInputElement;

@@ -11,7 +11,7 @@ export class BlockUserComponent {
   constructor(private authService : AuthService){};
   users: Array<User> = [];
   
-  block(id: Int16Array, note:String){
+  block(id: Int16Array, note:string){
     console.log(note)
     if(note.length != 0){
       this.authService.sendNote({message : note, userId : id}).subscribe({

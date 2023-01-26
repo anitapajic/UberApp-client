@@ -27,11 +27,14 @@ export class ResetPasswordComponent {
       username: this.resetForm.value.email,
     };
 
+
     let resetVal = {
       username: this.resetForm.value.email,
       newPassword: this.resetForm.value.password,
       code: this.resetForm.value.code
     }
+
+
     console.log(this.isSent);
 
     if(!this.isSent){
@@ -53,7 +56,9 @@ export class ResetPasswordComponent {
       }
     }
     else{   
-
+      if(this.resetForm.valid){
+        
+      }
       this.authService.resetPassword(resetVal).subscribe({
         next: (result) => {
             this.isSent = false;
