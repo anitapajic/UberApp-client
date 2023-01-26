@@ -5,11 +5,12 @@ import { LatLng,  marker, geoJSON, LayerGroup, icon } from 'leaflet';
 import 'leaflet-routing-machine';
 import { AuthService } from '../../auth/auth.service';
 import { MapService } from '../map.service';
-//import * as Stomp from 'stompjs';
-//import * as SockJS from 'sockjs-client';
+import * as Stomp from 'stompjs';
+import * as SockJS from 'sockjs-client';
 import { Ride, RideInfo } from 'src/app/model/Ride';
 import { Vehicle } from 'src/app/model/Vehicle';
 import { CurrentLocation } from 'src/app/model/CurrentLocation';
+import { Driver, User } from 'src/app/model/User';
 
 @Component({
   selector: 'app-map',
@@ -18,18 +19,19 @@ import { CurrentLocation } from 'src/app/model/CurrentLocation';
 })
 export class MapComponent implements AfterViewInit {
 
-  // vehicles: any = {};
-  // rides: any = {};
+  vehicles: any = {};
+  rides: any = {};
   // mainGroup: LayerGroup[] = [];
-  // private stompClient: any;
+  private stompClient: any;
 
-
-  vehicles : Array<Vehicle> = [];
+  drivers : Array<Driver> = [];
 
   private map: any;
   
   role: string | null | undefined;
   result!: any;
+  
+  //First click is dep, second is des, and so on
   next : Boolean = false;
 
   dep!: LatLng;
@@ -38,42 +40,76 @@ export class MapComponent implements AfterViewInit {
   dep_marker : L.Marker = new L.Marker(new LatLng(0,0));
   dep_input! : HTMLInputElement;
   des_input! : HTMLInputElement;
+
   routingControl = L.Routing.control({ waypoints: [    ]});
 
   
   constructor(private mapService: MapService, private authService : AuthService) {}
 
 
+  ngAfterViewInit(): void {
+    let DefaultIcon = L.icon({
+      iconUrl: 'https://unpkg.com/leaflet@1.6.0/dist/images/marker-icon.png',
+    });
+
+    L.Marker.prototype.options.icon = DefaultIcon;
+    this.initMap();
+  }
+
   ngOnInit(): void {
+    this.initializeWebSocketConnection();
     this.authService.userState$.subscribe((result) => {
       this.role = result;
     });
 
 
-    this.authService.getVehicles().subscribe({
+    this.mapService.getAllActiveRides().subscribe((ret) => {
+      for (let ride of ret) {
+        // let color = Math.floor(Math.random() * 16777215).toString(16);
+        let geoLayerRouteGroup: LayerGroup = new LayerGroup();
+        for (let step of (JSON.parse(JSON.parse(ride.routeJSON)))['routes'][0]['legs'][0]['steps']) {
+          let routeLayer = geoJSON(step.geometry);
+          routeLayer.setStyle({ color: `#D14054` });
+          routeLayer.addTo(geoLayerRouteGroup);
+          this.rides[ride.id] = geoLayerRouteGroup;
+        }
+        let markerLayer = marker([ride.vehicle.location.latitude, ride.vehicle.location.longitude], {
+          icon: icon({
+            iconUrl: '.\\assets\\images\\not-available-car.png',
+            iconSize: [30, 30],
+            iconAnchor: [18, 30],
+          }),
+        });
+        markerLayer.addTo(geoLayerRouteGroup);
+        this.vehicles[ride.vehicle.id] = markerLayer;
+        // this.mainGroup = [...this.mainGroup, geoLayerRouteGroup];
+        geoLayerRouteGroup.addTo(this.map);
+      }
+    });
+
+
+    this.authService.getDrivers().subscribe({
       next: (result) => {
-        this.vehicles = result;
-        console.log(this.vehicles)
-        this.vehicles.forEach(vehicle => {
+        this.drivers = result['results'];
+        this.drivers.forEach(driver => {
           let costumIcom : L.Icon;
-          if(vehicle.driverActive){
+          if(driver.active){
             costumIcom = L.icon({
             iconUrl: '.\\assets\\images\\available-car.png',
             iconSize: [30, 30],
+            iconAnchor: [18, 30],
             })
           }else{
             costumIcom = L.icon({
             iconUrl: '.\\assets\\images\\not-available-car.png',
             iconSize: [30, 30],
-            })
-          }
+            iconAnchor: [18, 30],
+            })}
           
-          new L.Marker([vehicle.currentLocation.latitude, vehicle.currentLocation.longitude], 
+          new L.Marker([driver.vehicle.location.latitude, driver.vehicle.location.longitude], 
             {icon: costumIcom}).addTo(this.map);
           
-        });
-
-      },
+      });},
       error: (error) => {
         console.log(error);
       },
@@ -105,14 +141,6 @@ export class MapComponent implements AfterViewInit {
     this.registerOnClick();
   }
 
-  private refreshMap(): void{
-    this.map.remove();
-    this.initMap();
-  }
-
-  static scrollInto() {
-    document.getElementById('map')?.scrollIntoView();
-  }
 
   async search(input: string): Promise<any> {
     return new Promise((resolve, reject) => {
@@ -177,32 +205,6 @@ export class MapComponent implements AfterViewInit {
 
   }
 
-  calculatePrice(rideInfo : RideInfo): void{
-    let estimated = document.getElementById('estimated') as HTMLInputElement;
-
-    let price = document.getElementById('price') as HTMLInputElement;
-    let time = document.getElementById('time') as HTMLInputElement;
-
-    console.log("Ride Info: ", JSON.stringify(rideInfo));
-
-    this.mapService.calculateEstimatedPrice(JSON.stringify(rideInfo)).subscribe({
-      next: (result) => {
-        console.log(JSON.stringify(result))
-        estimated.style.display = "block";
-        price.innerText = result['estimatedCost'];
-        time.innerText = result['estimatedTimeInMinutes'];
-
-      },
-      error: (error) => {
-        if (error instanceof HttpErrorResponse) {
-          alert("Invalid input")
-        }
-      },
-    })
-
-
-  }
-
   registerOnClick(): void {
     this.map.on('click', (e: any) => {
       const coord = e.latlng;
@@ -237,8 +239,6 @@ export class MapComponent implements AfterViewInit {
     });
   }
 
-
-
   route(r1: any, r2: any): void {
       if (this.routingControl != null)
             this.removeRoutingControl();
@@ -267,39 +267,61 @@ export class MapComponent implements AfterViewInit {
       .openPopup();
   }
 
-  ngAfterViewInit(): void {
-    let DefaultIcon = L.icon({
-      iconUrl: 'https://unpkg.com/leaflet@1.6.0/dist/images/marker-icon.png',
-    });
-
-    L.Marker.prototype.options.icon = DefaultIcon;
+  private refreshMap(): void{
+    this.map.remove();
     this.initMap();
+  }
+
+  calculatePrice(rideInfo : RideInfo): void{
+    let estimated = document.getElementById('estimated') as HTMLInputElement;
+
+    let price = document.getElementById('price') as HTMLInputElement;
+    let time = document.getElementById('time') as HTMLInputElement;
+
+    console.log("Ride Info: ", JSON.stringify(rideInfo));
+
+    this.mapService.calculateEstimatedPrice(JSON.stringify(rideInfo)).subscribe({
+      next: (result) => {
+        console.log(JSON.stringify(result))
+        estimated.style.display = "block";
+        price.innerText = result['estimatedCost'];
+        time.innerText = result['estimatedTimeInMinutes'];
+
+      },
+      error: (error) => {
+        if (error instanceof HttpErrorResponse) {
+          alert("Invalid input")
+        }
+      },
+    })
+
+
+  }
+
+  static scrollInto() {
+    document.getElementById('map')?.scrollIntoView();
   }
 
 
 
 
+  initializeWebSocketConnection() {
+     let ws = new SockJS('http://localhost:8085/socket');
+    // this.stompClient = Stomp.over(ws);
+    // this.stompClient.debug = null;
+    // let that = this;
+    // this.stompClient.connect({}, function () {
+    //   that.openGlobalSocket();
+    // });
+  }
 
-
-
-
-  // initializeWebSocketConnection() {
-  //   let ws = new SockJS('http://localhost:8085/socket');
-  //   this.stompClient = Stomp.over(ws);
-  //   this.stompClient.debug = null;
-  //   let that = this;
-  //   this.stompClient.connect({}, function () {
-  //     that.openGlobalSocket();
-  //   });
-  // }
-
-  // openGlobalSocket() {
-  //   this.stompClient.subscribe('/map-updates/update-vehicle-position', (message: { body: string }) => {
-  //     let vehicle: Vehicle = JSON.parse(message.body);
-  //     let existingVehicle = this.vehicles[vehicle.id];
-  //     existingVehicle.setLatLng([vehicle.longitude, vehicle.latitude]);
-  //     existingVehicle.update();
-  //   });
+  openGlobalSocket() {
+    // this.stompClient.subscribe('/map-updates/update-vehicle-position', (message: { body: string }) => {
+    //   let vehicle: Vehicle = JSON.parse(message.body);
+    //   let existingVehicle = this.vehicles[vehicle.id];
+    //   existingVehicle.setLatLng([vehicle.location.longitude, vehicle.location.latitude]);
+    //   existingVehicle.update();
+    // });
   //   this.stompClient.subscribe('/map-updates/new-ride', (message: { body: string }) => {
   //     let ride: Ride = JSON.parse(message.body);
   //     let geoLayerRouteGroup: LayerGroup = new LayerGroup();
@@ -332,6 +354,6 @@ export class MapComponent implements AfterViewInit {
   //     this.rides = {};
   //     this.mainGroup = [];
   //   });
-  // }
+  }
 
 }

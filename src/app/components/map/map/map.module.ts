@@ -9,12 +9,13 @@ import { DownloadAppComponent } from '../../unregistered-user/download-app/downl
 import { NavIconsComponent } from '../../registered-user/nav-icons/nav-icons.component';
 import { RideHistoryComponent } from '../../registered-user/ride-history/ride-history.component';
 import { FollowRideComponent } from '../../registered-user/follow-ride/follow-ride.component'; 
+import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 
 
 @NgModule({
   declarations: [MapComponent, CoordinatesComponent,VehicleCardsComponent, AboutComponent,DownloadAppComponent, NavIconsComponent,RideHistoryComponent,FollowRideComponent],
   imports: [CommonModule, RouterModule],
-  exports: [MapComponent],
+  exports: [MapComponent, LeafletModule],
 
 })
 export class MapModule implements OnInit {

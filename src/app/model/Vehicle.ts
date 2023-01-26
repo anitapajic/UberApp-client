@@ -1,12 +1,12 @@
 import { CurrentLocation } from "./CurrentLocation";
 
 export interface Vehicle {
-  id: Int16Array;
+  id: number;
   model : string;
   vehicleType : string;
   licenseNumber: string;
   passengerSeats : number;
-  currentLocation : CurrentLocation;
+  location : CurrentLocation;
   babyTransport : boolean;
   petTransport : boolean;
   driverActive: boolean;
