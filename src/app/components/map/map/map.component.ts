@@ -5,7 +5,6 @@ import { LatLng,  marker, geoJSON, LayerGroup, icon } from 'leaflet';
 import 'leaflet-routing-machine';
 import { AuthService } from '../../auth/auth.service';
 import { MapService } from '../map.service';
-import { RideInfo } from '../../../model/rideInfo';
 import * as Stomp from 'stompjs';
 import * as SockJS from 'sockjs-client';
 import { Ride } from 'src/app/model/Ride';
@@ -18,19 +17,19 @@ import { Vehicle } from 'src/app/model/Vehicle';
 })
 export class MapComponent implements AfterViewInit {
 
-  vehicless : Array<any> = [];
-  vehicles: any = {};
+  vehicles : Array<Vehicle> = [];
+  vehicless: any = {};
   rides: any = {};
   mainGroup: LayerGroup[] = [];
 
-  role: any;
+  role: string | null | undefined;
   private map: any;
   result!: any;
   dep!: LatLng;
   des!: LatLng;
 
-  des_marker : any = new L.Marker(new LatLng(0,0));
-  dep_marker : any = new L.Marker(new LatLng(0,0));
+  des_marker : L.Marker = new L.Marker(new LatLng(0,0));
+  dep_marker : L.Marker = new L.Marker(new LatLng(0,0));
 
   dep_input! : HTMLInputElement;
   des_input! : HTMLInputElement;
@@ -49,8 +48,9 @@ export class MapComponent implements AfterViewInit {
 
     this.authService.getVehicles().subscribe({
       next: (result) => {
-        this.vehicless = result;
-        this.vehicless.forEach(vehicle => {
+        this.vehicles = result;
+        console.log(this.vehicles)
+        this.vehicles.forEach(vehicle => {
           let costumIcom : L.Icon;
           if(vehicle.driverActive){
             costumIcom = L.icon({

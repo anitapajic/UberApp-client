@@ -1,8 +1,23 @@
+import { Path } from './Path';
+import { Rejection } from './Rejection';
+import { Review } from './Review';
+import { User } from './User';
 import { Vehicle } from './Vehicle';
 
 export interface Ride {
   id: number;
-  routeJSON: string;
-  rideStatus: number;
-  vehicle: Vehicle;
+  startTime: string | null;
+  endTime: string | null;
+  totalCost: number;
+  driver : User;
+  passengers : Array<User>;
+  locations : Array<Path>;
+  estimatedTimeInMinutes: number;
+  reviews : Array<Review>;
+  rejections : Array<Rejection>;
+  status : string;
+  panic : boolean;
+  babyTrasnport : boolean;
+  petTransport : boolean;
+  vahicleType : string;
 }

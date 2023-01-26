@@ -1,4 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
+import { User } from 'src/app/model/User';
 import { AuthService } from '../auth.service';
 
 @Component({
@@ -8,7 +9,7 @@ import { AuthService } from '../auth.service';
 })
 export class BlockUserComponent {
   constructor(private authService : AuthService){};
-  users: Array<any> = [];
+  users: Array<User> = [];
   
   block(id: Int16Array, note:String){
     console.log(note)

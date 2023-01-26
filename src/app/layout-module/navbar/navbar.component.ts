@@ -10,7 +10,7 @@ import { VehicleCardsComponent } from 'src/app/components/unregistered-user/vehi
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent {
-  role: any;
+  role: string |null | undefined;
   constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit(): void {

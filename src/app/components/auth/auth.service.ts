@@ -93,9 +93,8 @@ export class AuthService {
     );
   }
 
-  getUser(){
+  getUser(): Observable<any>{
     return this.http.get('http://localhost:8085/api/user/' + this.userId)
-
   }
 
   changeProfileInfo(auth: any): Observable<any>{
@@ -130,6 +129,12 @@ export class AuthService {
 
   createVehicle(vehicle : any) : Observable<any>{
     return this.http.post('http://localhost:8085/api/vehicle', vehicle);
+  }
+
+  getDrivers() : Observable<any>{
+    return this.http.get('http://localhost:8085/api/driver', {
+      headers: this.headers
+    })
   }
 
   

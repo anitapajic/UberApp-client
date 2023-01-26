@@ -23,11 +23,11 @@ export class ResetPasswordComponent {
 
 
   onSubmit(){
-    var mailVal = {
+    let mailVal = {
       username: this.resetForm.value.email,
     };
 
-    var resetVal = {
+    let resetVal = {
       username: this.resetForm.value.email,
       newPassword: this.resetForm.value.password,
       code: this.resetForm.value.code

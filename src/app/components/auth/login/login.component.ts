@@ -25,7 +25,7 @@ export class LoginComponent{
 
   onSubmit() {
 
-    var loginVal = {
+    let loginVal = {
       username: this.loginForm.value.email,
       password: this.loginForm.value.password,
     };
