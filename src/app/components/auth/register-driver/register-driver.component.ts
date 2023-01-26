@@ -2,6 +2,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Vehicle } from 'src/app/model/Vehicle';
 import { AuthService } from '../auth.service';
 
 @Component({
@@ -14,28 +15,7 @@ export class RegisterDriverComponent {
   constructor(private authService: AuthService, private router: Router) {}
   
   
-  vehicles : Array<any> = [
-    // {
-    //   "id": 1,
-    //   "carModel": "audi",
-    //   "vehicleType": "STANDARDNO",
-    //   "licenseNumber": "NS 010 WQ",
-    //   "passengerSeats": 4,
-    //   "location": null,
-    //   "babyTransport": true,
-    //   "petTransport": false
-    // },
-    // {
-    //   "id": 2,
-    //   "carModel": "audi",
-    //   "vehicleType": "LUKSUZNO",
-    //   "licenseNumber": "NS 011 WA",
-    //   "passengerSeats": 4,
-    //   "location": null,
-    //   "babyTransport": true,
-    //   "petTransport": true
-    // }
-  ];
+  vehicles : Array<Vehicle> = [ ];
   hasError: boolean = false;
   
   driverRegistrationForm = new FormGroup({
@@ -52,7 +32,7 @@ export class RegisterDriverComponent {
 
   onSubmit() {
 
-    var registrationVal = {
+    let registrationVal = {
       name: this.driverRegistrationForm.value.firstname,
       surname: this.driverRegistrationForm.value.lastname,
       dateOfBirth: this.driverRegistrationForm.value.dateOfBirth,

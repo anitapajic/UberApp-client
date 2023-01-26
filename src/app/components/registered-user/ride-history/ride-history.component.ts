@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { Route, Router } from '@angular/router';
+import { User } from 'src/app/model/User';
 import { AuthService } from '../../auth/auth.service';
 
 @Component({
@@ -9,8 +10,9 @@ import { AuthService } from '../../auth/auth.service';
   styleUrls: ['./ride-history.component.css']
 })
 export class RideHistoryComponent {
-  drivers : any;
-  role : any;
+  drivers : Array<User> = [];
+
+  role : string | null | undefined;
   constructor(private http: HttpClient, private authService : AuthService, private router : Router) { }
   static scrollInto() {
     document.getElementById('rideHistory')?.scrollIntoView();
@@ -20,12 +22,11 @@ export class RideHistoryComponent {
 
 
   filter(){
-    var driver = document.getElementById("driver") as HTMLSelectElement;
-    var keyword = document.getElementById("keyword") as HTMLInputElement;
+    let driver = document.getElementById("driver") as HTMLSelectElement;
+    let keyword = document.getElementById("keyword") as HTMLInputElement;
 
 
     if(this.role == "ADMIN"){
-      console.log(keyword.value, "aaaaaaaaa")
       this.router.navigate(['/ride-history-review'], { queryParams: {
         startDate :this.startDate?.nativeElement.value,
         endDate : this.endDate?.nativeElement.value,
@@ -49,11 +50,14 @@ export class RideHistoryComponent {
     });
 
 
-    this.http.get('http://localhost:8085/api/driver')
-      .subscribe(data => {
-        this.drivers = data;
-        this.drivers = this.drivers['results'];
-      });
+    this.authService.getDrivers().subscribe({
+      next : (result) => {
+        this.drivers = result['results'];
+      },
+      error: (error) => {
+        console.log(error);
+      },
+    })
   }
 
 }

@@ -2,7 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { FormControl,FormGroup,Validators,FormBuilder } from '@angular/forms';
 import { AuthService } from '../auth.service';
-import { Router } from '@angular/router';
+import {Router} from "@angular/router";
+import { User } from 'src/app/model/User';
 
 @Component({
   selector: 'app-registration',
@@ -26,7 +27,7 @@ export class RegistrationComponent implements OnInit{
 
   onSubmit() {
 
-    var registrationVal = {
+    let registrationVal = {
       name: this.registrationForm.value.firstname,
       surname: this.registrationForm.value.lastname,
       dateOfBirth: this.registrationForm.value.dateOfBirth,
@@ -41,10 +42,9 @@ export class RegistrationComponent implements OnInit{
       if (this.registrationForm.valid) {
         this.authService.registration(registrationVal).subscribe({
           next: (result) => {
-            const user: Map<string, any> = new Map(Object.entries(result));
-            localStorage.setItem('user', JSON.stringify(user));
+            const user: User =result;
             this.router.navigate(['/home']);
-            alert("Activate your account! " + user.get("name") + " " + user.get("surname"))
+            alert("Activate your account! " + user.name + " " + user.surname)
 
           },
           error: (error) => {

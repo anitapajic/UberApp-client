@@ -3,6 +3,7 @@ import * as L from 'leaflet';
 import { AuthService } from '../../auth/auth.service';
 
 import { ActivatedRoute } from '@angular/router';
+import { Ride } from 'src/app/model/Ride';
 
 @Component({
   selector: 'app-ride-history-review',
@@ -12,7 +13,7 @@ import { ActivatedRoute } from '@angular/router';
 export class RideHistoryReviewComponent {
   
   constructor(private authService : AuthService, private route : ActivatedRoute){};
-  rideHistory: Array<any> = [];
+  rideHistory: Array<Ride> = [];
   filter : any;
   noRides: boolean = false;
 
@@ -24,6 +25,7 @@ export class RideHistoryReviewComponent {
     this.authService.getRideHistory(this.filter).subscribe({
       next: (result) => {
         this.rideHistory = result['results'];
+        console.log(this.rideHistory);
         if(this.rideHistory.length === 0){
           this.noRides = true;
         }

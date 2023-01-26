@@ -14,7 +14,6 @@ import { Interceptor } from './components/auth/interceptor/interceptor.intercept
 import { compileDirectiveFromMetadata } from '@angular/compiler';
 import { LayoutModuleModule } from './layout-module/layout-module.module';
 import { ResetPasswordComponent } from './components/auth/reset-password/reset-password.component';
-import { NavIconsComponent } from './components/registered-user/nav-icons/nav-icons.component';
 import { RideHistoryComponent } from './components/registered-user/ride-history/ride-history.component';
 import { UserAccountComponent } from './components/registered-user/user-account/user-account.component';
 import { RideHistoryReviewComponent } from './components/registered-user/ride-history-review/ride-history-review.component';
