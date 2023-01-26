@@ -19,7 +19,8 @@ export interface Ride {
   panic : boolean;
   babyTrasnport : boolean;
   petTransport : boolean;
-  vehicleType : string;
+  routeJSON : string;
+  vehicle : Vehicle;
 }
 
 export interface RideInfo {
