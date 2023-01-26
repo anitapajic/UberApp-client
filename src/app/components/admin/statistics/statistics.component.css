@@ -1,0 +1,18 @@
+.container-fluid{
+  background-color: #EBEAE5;
+}
+.row1{
+  margin-top: 5rem;
+}
+.titleDash{
+  margin-top: 2rem;
+  position: center;
+  margin-bottom: 3rem;
+  display:grid;
+  place-items: center;
+}
+.dashboard{
+  color: #25313C;
+  font-size:150%;
+
+}
