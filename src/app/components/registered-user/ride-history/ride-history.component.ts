@@ -22,10 +22,10 @@ export class RideHistoryComponent {
   filter(){
     var driver = document.getElementById("driver") as HTMLSelectElement;
     var keyword = document.getElementById("keyword") as HTMLInputElement;
-
+    console.log(this.startDate)
+    console.log(this.endDate)
 
     if(this.role == "ADMIN"){
-      console.log(keyword.value, "aaaaaaaaa")
       this.router.navigate(['/ride-history-review'], { queryParams: {
         startDate :this.startDate?.nativeElement.value,
         endDate : this.endDate?.nativeElement.value,
@@ -34,6 +34,8 @@ export class RideHistoryComponent {
       }});
     }
     else{
+      console.log(keyword.value, "aaaaaaaaa")
+      console.log(this.startDate?.nativeElement.value, "start date")
       this.router.navigate(['/ride-history-review'], { queryParams: {
         startDate :this.startDate?.nativeElement.value,
         endDate : this.endDate?.nativeElement.value,
