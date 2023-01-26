@@ -63,3 +63,6 @@ p{
     width: 100%;
 }
 
+.modal-content{
+    top: 200px;
+}

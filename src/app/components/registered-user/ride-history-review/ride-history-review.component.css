@@ -87,3 +87,11 @@ h1{
 .col{
     flex: 0 0 30%;
 }
+.modal-content{
+    padding: 30px;
+    margin-top: 70px;
+}
+.close:not(:disabled):not(.disabled) {
+    cursor: pointer;
+    text-align: end;
+}
