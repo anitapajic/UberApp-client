@@ -8,7 +8,7 @@ import { AuthService } from '../../auth/auth.service';
   styleUrls: ['./coordinates.component.css']
 })
 export class CoordinatesComponent {
-  role: any;
+  role: String | null | undefined;
   constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit(): void {

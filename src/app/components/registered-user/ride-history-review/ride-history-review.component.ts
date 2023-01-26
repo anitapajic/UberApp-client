@@ -20,6 +20,7 @@ export class RideHistoryReviewComponent {
   ngOnInit() {
     this.route.queryParams.subscribe(params => {
       this.filter = params;
+      console.log(params);
     });
     this.authService.getRideHistory(this.filter).subscribe({
       next: (result) => {
