@@ -6,8 +6,11 @@ import { Component } from '@angular/core';
 })
 export class StatisticsComponent {
   data = [
-    { data: [65, 59, 80, 81, 56], label: 'Prihodi' },
-    { data: [28, 48, 40, 19, 86], label: 'Rashodi' }
+    { data: [21560, 45320, 35624, 45200, 55800, 50840, 48700], label: 'Income', backgroundColor:'#D14054' }
   ];
-  labels = ['Jan', 'Feb', 'Mar', 'Apr', 'May'];
+  labels = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+
+  datasets = [
+    {data: [21560, 45320, 35624, 45200, 55800, 50840, 48700], label: 'Number of Rides' , backgroundColor: '#25313C'},
+  ];
 }

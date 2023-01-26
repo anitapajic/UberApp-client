@@ -5,7 +5,6 @@
   margin-top: 5rem;
 }
 .titleDash{
-  margin-top: 2rem;
   position: center;
   margin-bottom: 3rem;
   display:grid;
@@ -14,5 +13,19 @@
 .dashboard{
   color: #25313C;
   font-size:150%;
-
+}
+.card-container{
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+}
+.chart{
+  margin-right: 5%;
+  margin-left: 5%;
+  background:whitesmoke;
+}
+.card{
+  border-radius: 0.5rem;
+}
+.smallOnes{
+  background:whitesmoke;
 }
