@@ -24,13 +24,12 @@ export interface Ride {
 }
 
 
-export interface RideCheck {
+export interface CreateRide {
 
   locations : Array<Path>;
-  status : string;
-  panic : boolean;
   babyTrasnport : boolean;
   petTransport : boolean;
+  vehicleType : string;
   routeJSON : string;
 }
 

@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { CurrentLocation } from 'src/app/model/CurrentLocation';
 import { Path } from 'src/app/model/Path';
-import { Ride, RideCheck } from 'src/app/model/Ride';
+import { CreateRide, Ride, RideInfo } from 'src/app/model/Ride';
 
 @Injectable({
   providedIn: 'root',
@@ -31,9 +31,9 @@ export class MapService {
   }
 
 
-  calculateEstimatedPrice(auth: any): Observable<any> {
+  calculateEstimatedPrice(rideInfo: RideInfo): Observable<any> {
     return this.http.post(
-      'http://localhost:8085/api/unregisteredUser', auth, {
+      'http://localhost:8085/api/unregisteredUser', rideInfo, {
         headers: this.headers,
     });
   }
@@ -51,7 +51,7 @@ export class MapService {
 
 
 
-  async createRide(ride : RideCheck) : Promise<Observable<any>> {
+  async createRide(ride : CreateRide) : Promise<Observable<any>> {
     let routeJson : Promise<any> = this.getRouteJSON(ride.locations[0]);
     await routeJson.then(json => {
       ride.routeJSON = JSON.stringify(json);

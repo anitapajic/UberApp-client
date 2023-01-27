@@ -1,7 +1,7 @@
 import { Vehicle } from "./Vehicle";
 
 export interface User {
-    id: Int16Array;
+    id: number;
     username: string;
     name: string;
     surname: string;
@@ -13,7 +13,7 @@ export interface User {
   }
   
   export interface Driver {
-    id: Int16Array;
+    id: number;
     username: string;
     name: string;
     surname: string;

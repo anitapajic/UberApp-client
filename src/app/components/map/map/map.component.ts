@@ -7,7 +7,7 @@ import { AuthService } from '../../auth/auth.service';
 import { MapService } from '../map.service';
 import * as Stomp from 'stompjs';
 import * as SockJS from 'sockjs-client';
-import { Ride, RideCheck, RideInfo } from 'src/app/model/Ride';
+import { CreateRide, Ride, RideInfo } from 'src/app/model/Ride';
 import { Vehicle } from 'src/app/model/Vehicle';
 import { CurrentLocation } from 'src/app/model/CurrentLocation';
 import { Driver, User } from 'src/app/model/User';
@@ -182,7 +182,6 @@ export class MapComponent implements AfterViewInit {
       const des = await this.search(this.des_input.value);
       this.des = new LatLng(Number(des[0].lat), Number(des[0].lon));
 
-      //this.refreshMap();
 
       if(this.role == null){
         this.route(this.dep, this.des);
@@ -214,19 +213,42 @@ export class MapComponent implements AfterViewInit {
 
 
 
-      else{
-        // (await this.mapService.createRide(rideInfo))
-        // .subscribe({
-        //   next: (result) => {
-        //   },
-        //   error: (error) => {
-        //     console.log(error);
-        //   },
-        // });
+      if(this.role == 'PASSENGER'){
+        let babyTransport = document.getElementById('babyTransport') as HTMLInputElement;
+        let petTransport = document.getElementById('petTransport') as HTMLInputElement;
+        let vehicleType = document.querySelector('input[name="car-type"]:checked') as HTMLInputElement;
+
+        let rideInfo : CreateRide = {
+          locations :  [{
+            departure:{
+              address : dep[0].display_name,
+              latitude : dep[0].lat,
+              longitude : dep[0].lon,
+            },
+            destination:{
+              address : des[0].display_name,
+              latitude : des[0].lat,
+              longitude : des[0].lon,
+            }
+          }],
+          babyTrasnport : babyTransport.checked,
+          petTransport : petTransport.checked,
+          vehicleType : vehicleType.value,
+          routeJSON : ""
+        };
+
+        console.log("aaa");
+        (await this.mapService.createRide(rideInfo))
+        .subscribe({
+          next: (result) => {
+            console.log(result);
+          },
+          error: (error) => {
+            console.log(error);
+          },
+        });
       }
     })
-
-
 
   }
 
@@ -235,8 +257,7 @@ export class MapComponent implements AfterViewInit {
       const coord = e.latlng;
       const lat = coord.lat;
       const lng = coord.lng;
-     
-
+    
       this.mapService.reverseSearch(lat, lng).subscribe((res) => {
         if(!this.next) {
           this.des_marker.removeFrom(this.map);
@@ -255,12 +276,6 @@ export class MapComponent implements AfterViewInit {
         }
         this.next = !this.next;
       });
-
-      console.log(
-        'You clicked the map at latitude: ' + lat + ' and longitude: ' + lng
-      );
-
-      //alert(mp.getLatLng());
     });
   }
 
@@ -291,7 +306,7 @@ export class MapComponent implements AfterViewInit {
 
     console.log("Ride Info: ", JSON.stringify(rideInfo));
 
-    this.mapService.calculateEstimatedPrice(JSON.stringify(rideInfo)).subscribe({
+    this.mapService.calculateEstimatedPrice(rideInfo).subscribe({
       next: (result) => {
         console.log(JSON.stringify(result))
         estimated.style.display = "block";
@@ -336,24 +351,30 @@ export class MapComponent implements AfterViewInit {
 
 
     this.stompClient.subscribe('/map-updates/new-ride', (message: { body: string }) => {
+      console.log('new ride');
       let ride: Ride = JSON.parse(message.body);
-      let geoLayerRouteGroup: LayerGroup = new LayerGroup();
-      for (let step of JSON.parse(ride.routeJSON)['routes'][0]['legs'][0]['steps']) {
-        let routeLayer = geoJSON(step.geometry);
-        routeLayer.setStyle({ color:  `#D14054`});
-        routeLayer.addTo(geoLayerRouteGroup);
-        this.rides[ride.id] = geoLayerRouteGroup;
+      let id = this.authService.getId();
+      if(this.role == 'ADMIN' || id == ride.driver.id || id == ride.passengers[0].id){
+        console.log("ride", ride);
+        let geoLayerRouteGroup: LayerGroup = new LayerGroup();
+        for (let step of JSON.parse(ride.routeJSON)['routes'][0]['legs'][0]['steps']) {
+          let routeLayer = geoJSON(step.geometry);
+          routeLayer.setStyle({ color:  `#D14054`});
+          routeLayer.addTo(geoLayerRouteGroup);
+          this.rides[ride.id] = geoLayerRouteGroup;
+        }
+        let markerLayer = marker([ride.vehicle.location.latitude, ride.vehicle.location.longitude], {
+          icon: icon({
+            iconUrl: '.\\assets\\images\\not-available-car.png',
+            iconSize: [35, 45],
+            iconAnchor: [18, 45],
+          }),
+        });
+        markerLayer.addTo(geoLayerRouteGroup);
+        this.vehicles[ride.vehicle.id] = markerLayer;
+        this.mainGroup = [...this.mainGroup, geoLayerRouteGroup];
       }
-      let markerLayer = marker([ride.vehicle.location.latitude, ride.vehicle.location.longitude], {
-        icon: icon({
-          iconUrl: '.\\assets\\images\\not-available-car.png',
-          iconSize: [35, 45],
-          iconAnchor: [18, 45],
-        }),
-      });
-      markerLayer.addTo(geoLayerRouteGroup);
-      this.vehicles[ride.vehicle.id] = markerLayer;
-      this.mainGroup = [...this.mainGroup, geoLayerRouteGroup];
+
     });
 
 
