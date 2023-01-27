@@ -71,7 +71,7 @@
                       </div>
                     </div>
                     <div class="col-md-3">
-                      <div class="row report-row">
+                      <div class="row report-row" >
                         <div class="card">
                           <div class="card-body report-card-body">
                             <div class="row">
@@ -83,7 +83,7 @@
                               </div>
                               <div class="col-8 r-col-8">
                                 <p class="r-rightTitles">Total driving time</p>
-                                <p class="r-rightValues">23:12:12h</p>
+                                <p class="r-rightValues">12:32:00h</p>
                               </div>
 
                             </div>
@@ -102,7 +102,7 @@
                               </div>
                               <div class="col-8 r-col-8">
                                 <p class="r-rightTitles">Total money spe</p>
-                                <p class="r-rightValues">12,342.08 RSD</p>
+                                <p class="r-rightValues">{{getTotal()}}</p>
                               </div>
 
                             </div>
@@ -130,7 +130,10 @@
                               <div class="card">
                                 <div class="card-body report-card-body">
                                   <div class="row" id="divChart">
-                                    <canvas id="horizontalBar"></canvas>
+                                    <div class="chart">
+                                      <canvas baseChart [type]="'bar'" [datasets]="datasets" [labels]="labels" ></canvas>
+                                    </div>
+                          
                                   </div>
                                 </div>
                               </div>
