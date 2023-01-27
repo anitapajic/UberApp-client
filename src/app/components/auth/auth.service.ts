@@ -30,6 +30,9 @@ export class AuthService {
   userState$ = this.user$.asObservable();
 
   constructor(private http: HttpClient) { }
+  getId(){
+    return this.userId;
+  }
 
   getRole(): any {
     if (this.isLoggedIn()) {
@@ -65,6 +68,7 @@ export class AuthService {
   }
 
   logout(): Observable<string> {
+    this.userId = 0;
     return this.http.get('http://localhost:8085/api/user/logout', {
       responseType: 'text',
     });
@@ -186,6 +190,11 @@ export class AuthService {
     return this.http.get('http://localhost:8085/api/driver', {
       headers: this.headers
     })
+  }
+
+  changeDriverActivity() : Observable<any>{
+    return this.http.get('http://localhost:8085/api/driver/'+ this.userId + '/activity');
+
   }
 
   getVehicles() : Observable<any>{

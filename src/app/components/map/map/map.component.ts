@@ -7,7 +7,7 @@ import { AuthService } from '../../auth/auth.service';
 import { MapService } from '../map.service';
 import * as Stomp from 'stompjs';
 import * as SockJS from 'sockjs-client';
-import { Ride, RideInfo } from 'src/app/model/Ride';
+import { Ride, RideCheck, RideInfo } from 'src/app/model/Ride';
 import { Vehicle } from 'src/app/model/Vehicle';
 import { CurrentLocation } from 'src/app/model/CurrentLocation';
 import { Driver, User } from 'src/app/model/User';
@@ -36,7 +36,7 @@ export class MapComponent implements AfterViewInit {
   mainGroup: LayerGroup[] = [];
   private stompClient: any;
 
-  drivers : Array<Driver> = [];
+  // drivers : Array<Driver> = [];
 
   private map: any;
   
@@ -67,9 +67,16 @@ export class MapComponent implements AfterViewInit {
     });
 
     L.Marker.prototype.options.icon = DefaultIcon;
-    
 
-    this.initMap();
+    this.map = this.leafletDirective?.getMap();
+
+    if(this.role == "PASSENGER" || this.role == null){
+      this.dep_input =  document.getElementById('fromLocation') as HTMLInputElement;
+      this.des_input =  document.getElementById('toLocation') as HTMLInputElement;
+  
+      this.registerOnInput();
+      this.registerOnClick();
+    }
   }
 
   ngOnInit(): void {
@@ -77,7 +84,55 @@ export class MapComponent implements AfterViewInit {
       this.role = result;
     });
 
+    
+      
 
+    this.getAllDrivers();
+
+    if(this.role == 'ADMIN'){
+      this.adminMapView();
+    }
+
+  }
+
+  refreshMap(){
+      this.vehicles = {};
+      this.rides = {};
+      this.mainGroup = [];
+  }
+
+
+
+  getAllDrivers(){
+    this.authService.getDrivers().subscribe((ret) => {
+      for (let driver of ret['results']) {
+        let geoLayerRouteGroup: LayerGroup = new LayerGroup();
+        let markerLayer;
+        let iconSize : L.PointExpression = [30,30];
+        let iconUrl = '.\\assets\\images\\available-car.png'
+        if(!driver.active){
+          iconUrl = '.\\assets\\images\\not-available-car.png'
+        }
+        if(this.role == 'DRIVER' && driver.id == this.authService.getId()){
+          iconSize = [40,40];
+        }
+
+        markerLayer = marker([driver.vehicle.location.latitude, driver.vehicle.location.longitude], {
+          icon: icon({
+            iconUrl: iconUrl,
+            iconSize: iconSize,
+            iconAnchor: [18, 30],
+          }),
+      });
+
+        markerLayer.addTo(geoLayerRouteGroup);
+        this.vehicles[driver.vehicle.id] = markerLayer;
+        this.mainGroup = [...this.mainGroup, geoLayerRouteGroup];
+      }
+    });
+  }
+
+  adminMapView(){
     this.mapService.getAllActiveRides().subscribe((ret) => {
       for (let ride of ret) {
         // let color = Math.floor(Math.random() * 16777215).toString(16);
@@ -100,55 +155,14 @@ export class MapComponent implements AfterViewInit {
         this.mainGroup = [...this.mainGroup, geoLayerRouteGroup];
       }
     });
-
-
-    // this.authService.getDrivers().subscribe({
-    //   next: (result) => {
-    //     this.drivers = result['results'];
-    //     this.drivers.forEach(driver => {
-    //       let costumIcom : L.Icon;
-    //       if(driver.active){
-    //         costumIcom = L.icon({
-    //         iconUrl: '.\\assets\\images\\available-car.png',
-    //         iconSize: [30, 30],
-    //         iconAnchor: [18, 30],
-    //         })
-    //       }else{
-    //         costumIcom = L.icon({
-    //         iconUrl: '.\\assets\\images\\not-available-car.png',
-    //         iconSize: [30, 30],
-    //         iconAnchor: [18, 30],
-    //         })}
-          
-    //       new L.Marker([driver.vehicle.location.latitude, driver.vehicle.location.longitude], 
-    //         {icon: costumIcom}).addTo(this.map);
-          
-    //   });},
-    //   error: (error) => {
-    //     console.log(error);
-    //   },
-    // });
   }
 
-  private initMap(): void {
-
-    this.map = this.leafletDirective?.getMap();
-    this.dep_input =  document.getElementById('fromLocation') as HTMLInputElement;
-    this.des_input =  document.getElementById('toLocation') as HTMLInputElement;
-
-    this.registerOnInput();
-    this.registerOnClick();
-  }
 
 
   async search(input: string): Promise<any> {
     return new Promise((resolve, reject) => {
       this.mapService.search(input).subscribe({
         next: (result) => {
-          L.marker([result[0].lat, result[0].lon])
-            .addTo(this.map)
-            .bindPopup(result[0].display_name)
-            .openPopup();
           resolve(result);
         },
         error: (error) => {
@@ -169,9 +183,9 @@ export class MapComponent implements AfterViewInit {
       this.des = new LatLng(Number(des[0].lat), Number(des[0].lon));
 
       //this.refreshMap();
-      this.route(this.dep, this.des);
 
       if(this.role == null){
+        this.route(this.dep, this.des);
         let babyTransport = document.getElementById('babyTransport') as HTMLInputElement;
         let petTransport = document.getElementById('petTransport') as HTMLInputElement;
         let vehicleType = document.querySelector('input[name="car-type"]:checked') as HTMLInputElement;
@@ -190,13 +204,25 @@ export class MapComponent implements AfterViewInit {
               longitude : des[0].lon,
             }
           }],
-          vehicleType : vehicleType.value,
           babyTrasnport : babyTransport.checked,
           petTransport : petTransport.checked,
-        }
+          vehicleType : vehicleType.value,
+        };
 
-        console.log(rideInfo);
         this.calculatePrice(rideInfo);
+      }
+
+
+
+      else{
+        // (await this.mapService.createRide(rideInfo))
+        // .subscribe({
+        //   next: (result) => {
+        //   },
+        //   error: (error) => {
+        //     console.log(error);
+        //   },
+        // });
       }
     })
 
@@ -256,20 +282,6 @@ export class MapComponent implements AfterViewInit {
     this.routingControl.remove();   
   }
 
-  private addMarker(): void {
-    const lat: number = 45.25;
-    const lon: number = 19.8228;
-
-    L.marker([lat, lon])
-      .addTo(this.map)
-      .bindPopup('Trenutno se nalazite ovde.')
-      .openPopup();
-  }
-
-  private refreshMap(): void{
-    this.map.remove();
-    this.initMap();
-  }
 
   calculatePrice(rideInfo : RideInfo): void{
     let estimated = document.getElementById('estimated') as HTMLInputElement;
@@ -316,57 +328,66 @@ export class MapComponent implements AfterViewInit {
 
   openGlobalSocket() {
     this.stompClient.subscribe('/map-updates/update-vehicle-position', (message: { body: string }) => {
-      console.log("new location")
       let vehicle: Vehicle = JSON.parse(message.body);
       let existingVehicle = this.vehicles[vehicle.id];
-      console.log(existingVehicle);
       existingVehicle.setLatLng([vehicle.location.latitude, vehicle.location.longitude]);
-      console.log(existingVehicle);
-
-      // existingVehicle= marker([vehicle.location.latitude, vehicle.location.longitude], {
-      //   icon: icon({
-      //     iconUrl: '.\\assets\\images\\not-available-car.png',
-      //     iconSize: [30, 30],
-      //     iconAnchor: [18, 30],
-      //   }),
-      // });
-      existingVehicle.update();
-      
-
-      
+      existingVehicle.update();  
     });
-  //   this.stompClient.subscribe('/map-updates/new-ride', (message: { body: string }) => {
-  //     let ride: Ride = JSON.parse(message.body);
-  //     let geoLayerRouteGroup: LayerGroup = new LayerGroup();
-  //     let color = Math.floor(Math.random() * 16777215).toString(16);
-  //     for (let step of JSON.parse(ride.routeJSON)['routes'][0]['legs'][0]['steps']) {
-  //       let routeLayer = geoJSON(step.geometry);
-  //       routeLayer.setStyle({ color: `#${color}` });
-  //       routeLayer.addTo(geoLayerRouteGroup);
-  //       this.rides[ride.id] = geoLayerRouteGroup;
-  //     }
-  //     let markerLayer = marker([ride.vehicle.longitude, ride.vehicle.latitude], {
-  //       icon: icon({
-  //         iconUrl: 'assets/car.png',
-  //         iconSize: [35, 45],
-  //         iconAnchor: [18, 45],
-  //       }),
-  //     });
-  //     markerLayer.addTo(geoLayerRouteGroup);
-  //     this.vehicles[ride.vehicle.id] = markerLayer;
-  //     this.mainGroup = [...this.mainGroup, geoLayerRouteGroup];
-  //   });
+
+
+    this.stompClient.subscribe('/map-updates/new-ride', (message: { body: string }) => {
+      let ride: Ride = JSON.parse(message.body);
+      let geoLayerRouteGroup: LayerGroup = new LayerGroup();
+      for (let step of JSON.parse(ride.routeJSON)['routes'][0]['legs'][0]['steps']) {
+        let routeLayer = geoJSON(step.geometry);
+        routeLayer.setStyle({ color:  `#D14054`});
+        routeLayer.addTo(geoLayerRouteGroup);
+        this.rides[ride.id] = geoLayerRouteGroup;
+      }
+      let markerLayer = marker([ride.vehicle.location.latitude, ride.vehicle.location.longitude], {
+        icon: icon({
+          iconUrl: '.\\assets\\images\\not-available-car.png',
+          iconSize: [35, 45],
+          iconAnchor: [18, 45],
+        }),
+      });
+      markerLayer.addTo(geoLayerRouteGroup);
+      this.vehicles[ride.vehicle.id] = markerLayer;
+      this.mainGroup = [...this.mainGroup, geoLayerRouteGroup];
+    });
+
+
   //   this.stompClient.subscribe('/map-updates/ended-ride', (message: { body: string }) => {
   //     let ride: Ride = JSON.parse(message.body);
   //     this.mainGroup = this.mainGroup.filter((lg: LayerGroup) => lg !== this.rides[ride.id]);
   //     delete this.vehicles[ride.vehicle.id];
   //     delete this.rides[ride.id];
   //   });
-  //   this.stompClient.subscribe('/map-updates/delete-all-rides', (message: { body: string }) => {
-  //     this.vehicles = {};
-  //     this.rides = {};
-  //     this.mainGroup = [];
-  //   });
+    this.stompClient.subscribe('/map-updates/delete-all-rides', (message: { body: string }) => {
+      this.rides = {};
+      this.mainGroup = [];
+      this.getAllDrivers();
+    });
+    this.stompClient.subscribe('/map-updates/update-activity', (message: { body: string }) => {
+      let driver : Driver = JSON.parse(message.body);
+
+      let iconUrl = '.\\assets\\images\\available-car.png'
+      if(!driver.active){
+        iconUrl = '.\\assets\\images\\not-available-car.png'
+      }
+      let geoLayerRouteGroup: LayerGroup = new LayerGroup();
+
+      let markerLayer = marker([driver.vehicle.location.latitude, driver.vehicle.location.longitude], {
+        icon: icon({
+          iconUrl: iconUrl,
+          iconSize: [40, 40],
+          iconAnchor: [18, 30],
+        }),
+      });
+      markerLayer.addTo(geoLayerRouteGroup);
+      this.vehicles[driver.vehicle.id] = markerLayer;
+      this.mainGroup = [...this.mainGroup, geoLayerRouteGroup];
+    });
   }
 
 }

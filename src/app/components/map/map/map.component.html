@@ -10,7 +10,7 @@
   </div>
 </div>
 
-<div class="app-coordinates" *ngIf="role != 'ADMIN'">
+<div class="app-coordinates" *ngIf="role == 'PASSENGER'|| role == null">
   <app-coordinates></app-coordinates> 
 </div>
 

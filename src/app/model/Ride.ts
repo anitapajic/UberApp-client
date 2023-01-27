@@ -23,6 +23,17 @@ export interface Ride {
   vehicle : Vehicle;
 }
 
+
+export interface RideCheck {
+
+  locations : Array<Path>;
+  status : string;
+  panic : boolean;
+  babyTrasnport : boolean;
+  petTransport : boolean;
+  routeJSON : string;
+}
+
 export interface RideInfo {
   locations : Array<Path>;
   babyTrasnport : boolean;
