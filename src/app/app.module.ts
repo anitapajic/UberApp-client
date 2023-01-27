@@ -22,6 +22,7 @@ import { RegisterDriverComponent } from './components/auth/register-driver/regis
 import { BlockUserComponent } from './components/auth/block-user/block-user.component';
 import { CreateVehicleComponent } from './components/auth/create-vehicle/create-vehicle.component';
 import { NgChartsModule } from 'ng2-charts';
+import { ReportComponent } from './components/registered-user/modal-popup/report/report.component';
 
 compileDirectiveFromMetadata
 
@@ -37,6 +38,7 @@ compileDirectiveFromMetadata
     RegisterDriverComponent,
     BlockUserComponent,
     CreateVehicleComponent,
+    ReportComponent,
   ],
   imports: [
     BrowserModule,

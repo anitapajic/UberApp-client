@@ -1,0 +1,114 @@
+.col{
+    flex: 0 0 30%;
+}
+.modal-content{
+    padding: 30px;
+    margin-top: 70px;
+}
+.close:not(:disabled):not(.disabled) {
+    cursor: pointer;
+    text-align: end;
+}
+.report-row{
+    margin-top: 10px;
+}
+.report-title{
+    margin-left: 10px;
+    font-size: 30px;
+    font-weight: 500;
+    color: #25313C;
+    text-decoration: underline;
+}
+.col-md-3{
+    margin-left: 20px;
+}
+.vl {
+    border-left: 1px solid #25313c44;
+    height: 50px;
+  }
+.vl-h {
+    border-left: 1px solid #adb0b372;
+    height: 50px;
+  }
+.report-card-body{
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+}
+.report-card-body-d{
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    margin-top: 10px;
+}
+.r-print-card-body{
+    padding:0rem;
+}
+.r-col-8{
+    padding-top: 4px;
+    max-width: 69.666667%;;
+}
+.col-1{
+    max-width: 2.333333%;
+}
+.col-1-m{
+    max-width: 15.333333%;
+    flex: 0 0 9.733333%;
+}
+.col-2 {
+    
+    flex: 0 0 22.666667%;
+    max-width: 56.666667%;
+}
+.r-col-1{
+    max-width: 19.333333%;
+    padding: 0;
+}
+.r-col-1-vl{
+    max-width: 19.333333%;
+}
+.r-rightTitles{
+    color: #25313c7d;
+    margin-bottom: 0rem;
+}
+.r-rightValues{
+    margin-bottom: 0rem;
+    font-weight: 600;
+}
+.time-img{
+    height: 30px;
+    width: 31px;
+    margin-top: 7px;
+    margin-right: 9px;
+    margin-left: 3px;
+}
+.money-img{
+    height: 28px;
+    width: 43px;
+    margin-top: 9px;
+}
+.printBtn{
+    background-color: #25313c12;
+    color: #25313C;
+    border: 0;
+    height: 69px;
+    width: 269.1px;
+}
+.r-h5{
+    padding-top: 10px;
+    color: #fff;
+}
+.r-h5-d{
+    padding-top: 10px;
+    font-size: 18px;
+    font-weight: 400;
+    
+}
+.header{
+    background-color: #d140539e;
+}
+.header-m{
+    background-color: #25313c;
+}
+#divChart{
+    display: block;
+   
+}

@@ -1,0 +1,138 @@
+
+    <div class="modal-content">
+      <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      <h5 class="modal-title report-title">Report</h5>
+    <div class="modal-body">
+     <div class="row">
+      <div class="col-8">
+        <div class="row report-row">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">22.11.2022 - 22.1.2023</h5>
+              <div class="row report-row" *ngIf="!noRides">
+                <div class="card header">
+                  <div class="card-body report-card-body">
+                    <div class="row">
+                      <div class="col-3">
+                        <h5 class="r-h5">Date</h5>
+                      </div>
+                      <div class="col-1">
+                        <div class="vl"></div>
+                      </div>
+                      <div class="col-3">
+                        <h5 class="r-h5"> From</h5>
+                      </div>
+                      <div class="col-1">
+                        <div class="vl"></div>
+                      </div>
+                      <div class="col-3">
+                        <h5 class="r-h5">To</h5>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row report-row"  *ngFor="let ride of rideHistory">
+                <div class="card">
+                  <div class="card-body report-card-body-d">
+                    <div class="row">
+                      <div class="col-3">
+                        <h5 class="r-h5-d">{{ride.startTime | date:'fullDate'}}</h5>
+                      </div>
+                      <div class="col-1">
+                        <div class="vl"></div>
+                      </div>
+                      <div class="col-3">
+                        <h5 class="r-h5-d">{{ride.locations[0].departure.address}}</h5>
+                      </div>
+                      <div class="col-1">
+                        <div class="vl"></div>
+                      </div>
+                      <div class="col-3">
+                        <h5 class="r-h5-d">{{ride.locations[0].destination.address}}</h5>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="row report-row" >
+          <div class="card">
+            <div class="card-body report-card-body">
+              <div class="row">
+                <div class="col-1 r-col-1">
+                  <img class = "img-logo time-img" src="./assets/images/timeClock.png">
+                </div>
+                <div class="col-1 r-col-1-vl">
+                  <div class="vl"></div>
+                </div>
+                <div class="col-8 r-col-8">
+                  <p class="r-rightTitles">Total driving time</p>
+                  <p class="r-rightValues">{{getTotalTime()}} min</p>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row report-row">
+          <div class="card">
+            <div class="card-body report-card-body">
+              <div class="row">
+                <div class="col-1 r-col-1">
+                  <img class = "img-logo money-img" src="./assets/images/moneyIcon.png">
+                </div>
+                <div class="col-1 r-col-1-vl">
+                  <div class="vl"></div>
+                </div>
+                <div class="col-8 r-col-8">
+                  <p class="r-rightTitles">Total money spe</p>
+                  <p class="r-rightValues">{{getTotal()}} RSD</p>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row report-row">
+          <div class="card">
+            <div class="card-body r-print-card-body">
+              <div class="row">
+                <button class="printBtn">PRINT</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+     </div>
+     <div class="row">
+      <div class="col-8">
+        <div class="row report-row">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Chart</h5>
+              <div class="row report-row" *ngIf="!noRides">
+                <div class="card">
+                  <div class="card-body report-card-body">
+                    <div class="row" id="divChart">
+                      <div class="chart">
+                        <canvas baseChart [type]="'bar'" [datasets]="datasets" [labels]= "getLabels()" ></canvas>
+                      </div>
+            
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+     </div>
+    </div>
+   </div>
