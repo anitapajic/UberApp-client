@@ -13,9 +13,9 @@ import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 
 
 @NgModule({
-  declarations: [MapComponent, CoordinatesComponent,VehicleCardsComponent, AboutComponent,DownloadAppComponent, NavIconsComponent,RideHistoryComponent,FollowRideComponent],
-  imports: [CommonModule, RouterModule],
-  exports: [MapComponent, LeafletModule],
+  declarations: [MapComponent, CoordinatesComponent,VehicleCardsComponent, AboutComponent,DownloadAppComponent, NavIconsComponent,RideHistoryComponent,FollowRideComponent, ],
+  imports: [CommonModule, RouterModule, LeafletModule],
+  exports: [MapComponent],
 
 })
 export class MapModule implements OnInit {

@@ -1,5 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, AfterViewInit } from '@angular/core';
+import { Component, AfterViewInit, ViewChild } from '@angular/core';
 import * as L from 'leaflet';
 import { LatLng,  marker, geoJSON, LayerGroup, icon } from 'leaflet';
 import 'leaflet-routing-machine';
@@ -11,6 +11,7 @@ import { Ride, RideInfo } from 'src/app/model/Ride';
 import { Vehicle } from 'src/app/model/Vehicle';
 import { CurrentLocation } from 'src/app/model/CurrentLocation';
 import { Driver, User } from 'src/app/model/User';
+import { LeafletDirective, LeafletModule } from '@asymmetrik/ngx-leaflet';
 
 @Component({
   selector: 'app-map',
@@ -18,10 +19,21 @@ import { Driver, User } from 'src/app/model/User';
   styleUrls: ['./map.component.css'],
 })
 export class MapComponent implements AfterViewInit {
-
+  
+  @ViewChild(LeafletDirective) leafletDirective: LeafletDirective | undefined;
+  options = {
+    layers: [
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 18,
+        attribution: '...',
+      }),
+    ],
+    zoom: 14,
+    center: L.latLng(45.253434, 19.831323),
+  };
   vehicles: any = {};
   rides: any = {};
-  // mainGroup: LayerGroup[] = [];
+  mainGroup: LayerGroup[] = [];
   private stompClient: any;
 
   drivers : Array<Driver> = [];
@@ -48,16 +60,19 @@ export class MapComponent implements AfterViewInit {
 
 
   ngAfterViewInit(): void {
+    this.initializeWebSocketConnection();
+
     let DefaultIcon = L.icon({
       iconUrl: 'https://unpkg.com/leaflet@1.6.0/dist/images/marker-icon.png',
     });
 
     L.Marker.prototype.options.icon = DefaultIcon;
+    
+
     this.initMap();
   }
 
   ngOnInit(): void {
-    this.initializeWebSocketConnection();
     this.authService.userState$.subscribe((result) => {
       this.role = result;
     });
@@ -82,60 +97,44 @@ export class MapComponent implements AfterViewInit {
         });
         markerLayer.addTo(geoLayerRouteGroup);
         this.vehicles[ride.vehicle.id] = markerLayer;
-        // this.mainGroup = [...this.mainGroup, geoLayerRouteGroup];
-        geoLayerRouteGroup.addTo(this.map);
+        this.mainGroup = [...this.mainGroup, geoLayerRouteGroup];
       }
     });
 
 
-    this.authService.getDrivers().subscribe({
-      next: (result) => {
-        this.drivers = result['results'];
-        this.drivers.forEach(driver => {
-          let costumIcom : L.Icon;
-          if(driver.active){
-            costumIcom = L.icon({
-            iconUrl: '.\\assets\\images\\available-car.png',
-            iconSize: [30, 30],
-            iconAnchor: [18, 30],
-            })
-          }else{
-            costumIcom = L.icon({
-            iconUrl: '.\\assets\\images\\not-available-car.png',
-            iconSize: [30, 30],
-            iconAnchor: [18, 30],
-            })}
+    // this.authService.getDrivers().subscribe({
+    //   next: (result) => {
+    //     this.drivers = result['results'];
+    //     this.drivers.forEach(driver => {
+    //       let costumIcom : L.Icon;
+    //       if(driver.active){
+    //         costumIcom = L.icon({
+    //         iconUrl: '.\\assets\\images\\available-car.png',
+    //         iconSize: [30, 30],
+    //         iconAnchor: [18, 30],
+    //         })
+    //       }else{
+    //         costumIcom = L.icon({
+    //         iconUrl: '.\\assets\\images\\not-available-car.png',
+    //         iconSize: [30, 30],
+    //         iconAnchor: [18, 30],
+    //         })}
           
-          new L.Marker([driver.vehicle.location.latitude, driver.vehicle.location.longitude], 
-            {icon: costumIcom}).addTo(this.map);
+    //       new L.Marker([driver.vehicle.location.latitude, driver.vehicle.location.longitude], 
+    //         {icon: costumIcom}).addTo(this.map);
           
-      });},
-      error: (error) => {
-        console.log(error);
-      },
-    });
+    //   });},
+    //   error: (error) => {
+    //     console.log(error);
+    //   },
+    // });
   }
 
   private initMap(): void {
+
+    this.map = this.leafletDirective?.getMap();
     this.dep_input =  document.getElementById('fromLocation') as HTMLInputElement;
     this.des_input =  document.getElementById('toLocation') as HTMLInputElement;
-
-    this.map = L.map('map', {
-      center: [45.2396, 19.8227],
-      zoom: 13,
-    });
-    
-
-    const tiles = L.tileLayer(
-      'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-      {
-        maxZoom: 18,
-        minZoom: 3,
-        attribution:
-          '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-      }
-    );
-    tiles.addTo(this.map);
 
     this.registerOnInput();
     this.registerOnClick();
@@ -306,22 +305,36 @@ export class MapComponent implements AfterViewInit {
 
 
   initializeWebSocketConnection() {
-     let ws = new SockJS('http://localhost:8085/socket');
-    // this.stompClient = Stomp.over(ws);
-    // this.stompClient.debug = null;
-    // let that = this;
-    // this.stompClient.connect({}, function () {
-    //   that.openGlobalSocket();
-    // });
+    let ws = new SockJS('http://localhost:8085/socket');
+    this.stompClient = Stomp.over(ws);
+    this.stompClient.debug = null;
+    let that = this;
+    this.stompClient.connect({}, function () {
+      that.openGlobalSocket();
+    });
   }
 
   openGlobalSocket() {
-    // this.stompClient.subscribe('/map-updates/update-vehicle-position', (message: { body: string }) => {
-    //   let vehicle: Vehicle = JSON.parse(message.body);
-    //   let existingVehicle = this.vehicles[vehicle.id];
-    //   existingVehicle.setLatLng([vehicle.location.longitude, vehicle.location.latitude]);
-    //   existingVehicle.update();
-    // });
+    this.stompClient.subscribe('/map-updates/update-vehicle-position', (message: { body: string }) => {
+      console.log("new location")
+      let vehicle: Vehicle = JSON.parse(message.body);
+      let existingVehicle = this.vehicles[vehicle.id];
+      console.log(existingVehicle);
+      existingVehicle.setLatLng([vehicle.location.latitude, vehicle.location.longitude]);
+      console.log(existingVehicle);
+
+      // existingVehicle= marker([vehicle.location.latitude, vehicle.location.longitude], {
+      //   icon: icon({
+      //     iconUrl: '.\\assets\\images\\not-available-car.png',
+      //     iconSize: [30, 30],
+      //     iconAnchor: [18, 30],
+      //   }),
+      // });
+      existingVehicle.update();
+      
+
+      
+    });
   //   this.stompClient.subscribe('/map-updates/new-ride', (message: { body: string }) => {
   //     let ride: Ride = JSON.parse(message.body);
   //     let geoLayerRouteGroup: LayerGroup = new LayerGroup();
