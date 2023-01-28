@@ -1,0 +1,182 @@
+.rectangle{
+    display:block;
+    min-width: 320px;
+    background:#25313C;
+    position:absolute;
+    margin-top:10px;
+    z-index: 100;
+    top: 15%;
+    left: 10%;
+    padding: 45px;
+    padding-bottom: 25px;
+  }
+  
+.circle{
+    position:absolute;
+    height:100px;
+    width:100px;
+    border-radius:60px;
+    left:48%;
+    margin-left:-45px;
+    top: -25px;
+    background:#25313C;
+      z-index: 100;
+}
+.img-logo{
+    height:80px;
+    width:80px;
+    margin-left:10px;
+    margin-top: 9px;
+}
+.titleLabel{
+    margin-top: 28px;
+    margin-bottom: 0;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 24px;
+    line-height: 29px;
+    color: #D14054;
+
+}
+.price{
+    margin-top: -11px;
+    margin-left: 20px;
+    color: aliceblue;
+}
+.rate{
+    font-style: normal;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 24px;
+    margin-bottom: 1px;
+
+    color: #FFFFFF;
+}
+hr{
+    color: #FFFFFF;
+}
+.dot-img{
+    width: 15px;
+    height: 15px;
+}
+.pin-img{
+    width: 20px;
+    height: 30px;
+}
+.card-text{
+    color: #FFFFFF;
+}
+.btn {
+    position: absolute;
+    border-radius: 0%;
+    width: 180px;
+    top: 80%;
+    left: 80%;
+    margin-bottom: 25px;
+    font-weight: 700;
+    font-size: 20px;
+    background-color: #D14054;
+    border: #D14054;
+    z-index: 100;
+    color: #FFFFFF;
+}
+
+.btn:hover{
+    background-color: #EBEAE5;
+    color: #D14054;
+}
+
+
+.accept-btn{
+    border-radius: 0%;
+    width: 130px;
+    height: 40px;
+    margin: 20px 5px;
+    font-weight: 700;
+    font-size: 20px;
+    background-color: darkgreen;
+    border: darkgreen;
+    color: #FFFFFF;
+
+}
+.accept-btn:hover{
+    background-color: #EBEAE5;
+    border-color: #EBEAE5;
+    color: darkgreen;
+
+}
+.decline-btn{
+    border-radius: 0%;
+    width: 130px;
+    height: 40px;
+    margin: 20px 5px;
+    font-weight: 700;
+    font-size: 20px;
+    background-color: #D14054;
+    border: #D14054;
+    color: #FFFFFF;
+
+}
+.decline-btn:hover{
+    background-color: #EBEAE5;
+    border-color: #EBEAE5;
+    color: #D14054;
+}
+
+
+.a-close{
+    float: center;
+}
+
+.row-ratings{
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+
+.rating { 
+    border: 2px;
+    border-color: #25313C;
+    margin-right: 0px;
+    font-size: 1.25em;
+    padding-right: 0;
+    
+}
+
+.myratings{
+
+font-size: 35px;
+color: green;
+}
+
+.rating > [id^="star"] { display: none; } 
+.rating > label:before { 
+    padding-top: 0;
+    padding-left: 0;
+    margin: 5px;
+    font-size: 1.25em;
+    font-family: FontAwesome;
+    display: inline-block;
+    content: "\f005";
+}
+
+.rating > .half:before { 
+content: "\f089";
+position: absolute;
+}
+
+.rating > label { 
+    color: #ffed85a9;
+    float: right; 
+}
+
+/***** CSS Magic to Highlight Stars on Hover *****/
+
+.rating > [id^="star"]:checked ~ label, /* show gold star when clicked */
+.rating:not(:checked) > label:hover, /* hover current star */
+.rating:not(:checked) > label:hover ~ label { color: #FFD700;  } /* hover previous stars in list */
+
+.rating > [id^="star"]:checked + label:hover, /* hover current star when changing rating */
+.rating > [id^="star"]:checked ~ label:hover,
+.rating > label:hover ~ [id^="star"]:checked ~ label, /* lighten current selection */
+.rating > [id^="star"]:checked ~ label:hover ~ label { color: #FFED85;  }

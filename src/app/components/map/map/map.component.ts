@@ -324,38 +324,6 @@ export class MapComponent implements AfterViewInit {
     document.getElementById('map')?.scrollIntoView();
   }
 
-  accept(ride : Ride){
-
-    this.mapService.acceptRide(ride.id).subscribe({
-      next: (result) => {
-        let display = document.getElementById('rideOffer') as HTMLElement;
-        display.style.display = 'none';
-        console.log(result);
-      },
-      error: (error) => {
-        console.log(error);
-      },
-    });
-
-  }
-  
-
-  decline(ride : Ride){
-
-    this.mapService.declineRide(ride.id).subscribe({
-      next: (result) => {
-        let display = document.getElementById('rideOffer') as HTMLElement;
-        display.style.display = 'none';
-        console.log(result);
-      },
-      error: (error) => {
-        console.log(error);
-      },
-    });
-
-  }
-
-
 
 
   initializeWebSocketConnection() {
@@ -376,20 +344,20 @@ export class MapComponent implements AfterViewInit {
       existingVehicle.update();  
     });
 
-    this.stompClient.subscribe('/map-updates/ask-driver', (message: { body: string }) => {
-      let ride: Ride = JSON.parse(message.body);
-      if(this.role == 'DRIVER' && this.authService.getId() == ride.driver.id){
-        this.rideOffer = ride;
+    // this.stompClient.subscribe('/map-updates/ask-driver', (message: { body: string }) => {
+    //   let ride: Ride = JSON.parse(message.body);
+    //   if(this.role == 'DRIVER' && this.authService.getId() == ride.driver.id){
+    //     this.rideOffer = ride;
 
-        let display = document.getElementById('rideOffer') as HTMLElement;
-        console.log(display);
-        display.style.display = 'block';
-      }
-      if(this.role == 'PASSENGER' && this.authService.getId() == ride.passengers[0].id){
+    //     let display = document.getElementById('rideOffer') as HTMLElement;
+    //     console.log(display);
+    //     display.style.display = 'block';
+    //   }
+    //   if(this.role == 'PASSENGER' && this.authService.getId() == ride.passengers[0].id){
 
-      }
+    //   }
 
-    });
+    // });
 
 
     this.stompClient.subscribe('/map-updates/new-ride', (message: { body: string }) => {

@@ -10,10 +10,11 @@ import { NavIconsComponent } from '../../registered-user/nav-icons/nav-icons.com
 import { RideHistoryComponent } from '../../registered-user/ride-history/ride-history.component';
 import { FollowRideComponent } from '../../registered-user/follow-ride/follow-ride.component'; 
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
+import { FollowRideDriverComponent } from '../../registered-user/follow-ride-driver/follow-ride-driver.component';
 
 
 @NgModule({
-  declarations: [MapComponent, CoordinatesComponent,VehicleCardsComponent, AboutComponent,DownloadAppComponent, NavIconsComponent,RideHistoryComponent,FollowRideComponent, ],
+  declarations: [MapComponent, CoordinatesComponent,VehicleCardsComponent, AboutComponent,DownloadAppComponent, NavIconsComponent,RideHistoryComponent,FollowRideComponent,FollowRideDriverComponent ],
   imports: [CommonModule, RouterModule, LeafletModule],
   exports: [MapComponent],
 
