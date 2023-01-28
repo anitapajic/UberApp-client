@@ -64,13 +64,47 @@
                           <h5 class="r-h5">Details</h5>
                         </div>
                      </div>
-                   </div>
-                 </div>
-               </div>
-               <div class="row report-row"  *ngFor="let ride of rideHistory">
-                 <div class="card" data-bs-toggle="modal" data-bs-target=".bd-ride-details-modal-sm">
-                        <div class="modal fade bd-ride-details-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
-                          <div class="modal-dialog" role="document">
+                  </div>
+                </div>
+              </div>
+               
+              <div class="row report-row"  *ngFor="let ride of rideHistory">
+                    <div class="card-body report-card-body-d">
+                      <div class="row" >
+                       <div class="col-2 col-2-d">
+                          <h5 class="r-h5-d">{{ride.startTime | date:'shortDate'}}</h5>
+                       </div>
+                       <div class="col-1">
+                          <div class="vl"></div>
+                       </div>
+                       <div class="col-1 col-1-m">
+                          <h5 class="r-h5-d">{{ride.startTime | date:'shortTime'| lowercase}}</h5>
+                        </div>
+                        <div class="col-1">
+                          <div class="vl"></div>
+                        </div>
+                        <div class="col-1 col-1-m">
+                          <h5 class="r-h5-d">{{ride.endTime | date:'shortTime'| lowercase}}</h5>
+                        </div>
+                        <div class="col-1">
+                          <div class="vl"></div>
+                        </div>
+                        <div class="col-2">
+                          <h5 class="r-h5-d">{{ride.locations[0].departure.address}}</h5>
+                        </div>
+                        <div class="col-1">
+                          <div class="vl"></div>
+                        </div>
+                        <div class="col-2 col-2-t">
+                          <h5 class="r-h5-d">{{ride.locations[0].destination.address}}</h5>
+                        </div>
+                        <div class="col-1">
+                          <div class="vl"></div>
+                        </div>
+                        <div class="col-1 col-2-de">
+                          <button class="detailsBtn" data-bs-toggle="modal" data-bs-target=".bd-ride-details-modal-sm" (click)="getRideId(ride.id)">Details</button>
+                          <div class="modal fade bd-ride-details-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
                               <div class="modal-content">
                                 <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                                   <span aria-hidden="true">&times;</span>
@@ -95,7 +129,7 @@
                                       <div id="map"></div>
                                     </div>
                                   </div>
-
+          
                                   <div class="card p-padding">
                                     <div class="card-body">
                                       <div class="row">
@@ -160,70 +194,47 @@
                                                     <button class="greenBtn">/</button>
                                                   </div>
                                                 </div>
-                                                
                                               </div> 
-                                          
                                         </div>
                                       </div>
-
                                   </div>
-                             
-
                                 </div>
                               </div>
-                          </div>
-                        </div>  
-                      
-                    <div class="card-body report-card-body-d">
-                      <div class="row" >
-                       <div class="col-2 col-2-d">
-                          <h5 class="r-h5-d">{{ride.startTime | date:'shortDate'}}</h5>
-                       </div>
-                       <div class="col-1">
-                          <div class="vl"></div>
-                       </div>
-                       <div class="col-1 col-1-m">
-                          <h5 class="r-h5-d">{{ride.startTime | date:'shortTime'| lowercase}}</h5>
+                            </div>
+                          </div>  
                         </div>
-                        <div class="col-1">
-                          <div class="vl"></div>
-                        </div>
-                        <div class="col-1 col-1-m">
-                          <h5 class="r-h5-d">{{ride.endTime | date:'shortTime'| lowercase}}</h5>
-                        </div>
-                        <div class="col-1">
-                          <div class="vl"></div>
-                        </div>
-                        <div class="col-2">
-                          <h5 class="r-h5-d">{{ride.locations[0].departure.address}}</h5>
-                        </div>
-                        <div class="col-1">
-                          <div class="vl"></div>
-                        </div>
-                        <div class="col-2 col-2-t">
-                          <h5 class="r-h5-d">{{ride.locations[0].destination.address}}</h5>
-                        </div>
-                        <div class="col-1">
-                          <div class="vl"></div>
-                        </div>
-                        <div class="col-1 col-2-de">
-                          <button class="detailsBtn" (click)="getRideId(ride.id)">Details</button>
-                        </div>
-                        
                       </div>
-                    </div>
-
-                  
+                    </div> 
                 </div>
               </div>  
+
+
+
+
+
+
+
+
+                       
+
+
+
+
+
+
+
+
+
+
+
+
             </div>
           </div>
         </div>
-
       </div>
     </div>
   </div>
-</div>
+
 
 
 
