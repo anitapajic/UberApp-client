@@ -14,6 +14,14 @@
   <app-coordinates></app-coordinates> 
 </div>
 
+<div id="rideOffer"  *ngIf="rideOffer != undefined">
+  <div>{{rideOffer.id}}</div>
+  <div>
+    <button (click)="accept(rideOffer)">Accept</button>
+    <button (click)="decline(rideOffer)">Decline</button>
+  </div>
+</div>
+
 <div *ngIf="role != null">
 
   <div class="app-nav-icons">

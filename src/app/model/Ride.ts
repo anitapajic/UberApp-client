@@ -25,7 +25,6 @@ export interface Ride {
 
 
 export interface CreateRide {
-
   locations : Array<Path>;
   babyTrasnport : boolean;
   petTransport : boolean;

@@ -35,7 +35,7 @@ export class MapComponent implements AfterViewInit {
   rides: any = {};
   mainGroup: LayerGroup[] = [];
   private stompClient: any;
-
+  rideOffer!: Ride;
   // drivers : Array<Driver> = [];
 
   private map: any;
@@ -84,8 +84,8 @@ export class MapComponent implements AfterViewInit {
       this.role = result;
     });
 
-    
-      
+
+    //getActiveRide for passenger and driver if exist
 
     this.getAllDrivers();
 
@@ -101,8 +101,6 @@ export class MapComponent implements AfterViewInit {
       this.mainGroup = [];
   }
 
-
-
   getAllDrivers(){
     this.authService.getDrivers().subscribe((ret) => {
       for (let driver of ret['results']) {
@@ -113,7 +111,7 @@ export class MapComponent implements AfterViewInit {
         if(!driver.active){
           iconUrl = '.\\assets\\images\\not-available-car.png'
         }
-        if(this.role == 'DRIVER' && driver.id == this.authService.getId()){
+        if(this.role == 'DRIVER' && driver.id == this.authService.getDriverId()){
           iconSize = [40,40];
         }
 
@@ -157,8 +155,6 @@ export class MapComponent implements AfterViewInit {
     });
   }
 
-
-
   async search(input: string): Promise<any> {
     return new Promise((resolve, reject) => {
       this.mapService.search(input).subscribe({
@@ -171,7 +167,6 @@ export class MapComponent implements AfterViewInit {
       });
     });
   }
-
 
   registerOnInput() : void{
     let bookBtn = document.getElementById('bookBtn');
@@ -297,7 +292,6 @@ export class MapComponent implements AfterViewInit {
     this.routingControl.remove();   
   }
 
-
   calculatePrice(rideInfo : RideInfo): void{
     let estimated = document.getElementById('estimated') as HTMLInputElement;
 
@@ -328,6 +322,35 @@ export class MapComponent implements AfterViewInit {
     document.getElementById('map')?.scrollIntoView();
   }
 
+  accept(ride : Ride){
+    // let display = document.getElementById('rideOffer') as HTMLElement;
+    // display.style.display = 'none';
+    this.mapService.acceptRide(ride.id).subscribe({
+      next: (result) => {
+        console.log(result);
+      },
+      error: (error) => {
+        console.log(error);
+      },
+    });
+
+  }
+  
+
+  decline(ride : Ride){
+    // let display = document.getElementById('rideOffer') as HTMLElement;
+    // display.style.display = 'none';
+    this.mapService.declineRide(ride.id).subscribe({
+      next: (result) => {
+        console.log(result);
+      },
+      error: (error) => {
+        console.log(error);
+      },
+    });
+
+  }
+
 
 
 
@@ -349,12 +372,21 @@ export class MapComponent implements AfterViewInit {
       existingVehicle.update();  
     });
 
+    this.stompClient.subscribe('/map-updates/ask-driver', (message: { body: string }) => {
+      let ride: Ride = JSON.parse(message.body);
+      if(this.role == 'DRIVER'){
+        this.rideOffer = ride;
+
+        // let display = document.getElementById('rideOffer') as HTMLElement;
+        // display.style.display = 'block';
+      }
+    });
+
 
     this.stompClient.subscribe('/map-updates/new-ride', (message: { body: string }) => {
       console.log('new ride');
       let ride: Ride = JSON.parse(message.body);
-      let id = this.authService.getId();
-      if(this.role == 'ADMIN' || id == ride.driver.id || id == ride.passengers[0].id){
+      if(this.role == 'ADMIN' || this.authService.getDriverId() == ride.driver.id || this.authService.getId() == ride.passengers[0].id){
         console.log("ride", ride);
         let geoLayerRouteGroup: LayerGroup = new LayerGroup();
         for (let step of JSON.parse(ride.routeJSON)['routes'][0]['legs'][0]['steps']) {

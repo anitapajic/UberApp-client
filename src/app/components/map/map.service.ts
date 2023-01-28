@@ -63,5 +63,24 @@ export class MapService {
     return this.http.get('https://routing.openstreetmap.de/routed-car/route/v1/driving/' + location.departure.longitude + ',' + location.departure.latitude + ';' + location.destination.longitude + ',' + location.destination.latitude + '?geometries=geojson&overview=false&alternatives=true&steps=true', {headers : { 'routeJson' : 'true'}}).toPromise();
   }
   
+  acceptRide(rideId : number): Observable<Ride> {
+    return this.http.put<Ride>('http://localhost:8085/api/ride/' + rideId +'/accept', null);
+  }
+
+  declineRide(rideId : number): Observable<Ride> {
+    return this.http.put<Ride>('http://localhost:8085/api/ride/' + rideId +'/withdraw', null);
+  }
+
+  startRide(rideId : number): Observable<Ride> {
+    return this.http.put<Ride>('http://localhost:8085/api/ride/' + rideId +'/start', null);
+  }
+
+  endRide(rideId : number): Observable<Ride> {
+    return this.http.put<Ride>('http://localhost:8085/api/ride/' + rideId +'/end', null);
+  }
+
+  cancelRide(rideId : number): Observable<Ride> {
+    return this.http.put<Ride>('http://localhost:8085/api/ride/' + rideId +'/cancel', null);
+  }
 
 }
