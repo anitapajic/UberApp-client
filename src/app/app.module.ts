@@ -21,7 +21,7 @@ import { ChangeRequestsComponent } from './components/registered-user/change-req
 import { RegisterDriverComponent } from './components/auth/register-driver/register-driver.component';
 import { BlockUserComponent } from './components/auth/block-user/block-user.component';
 import { CreateVehicleComponent } from './components/auth/create-vehicle/create-vehicle.component';
-
+import { NgChartsModule } from 'ng2-charts';
 
 compileDirectiveFromMetadata
 
@@ -46,6 +46,7 @@ compileDirectiveFromMetadata
     MapModule,
     LayoutModuleModule,
     HttpClientModule,
+    NgChartsModule
   ],
   providers: [  
     {
