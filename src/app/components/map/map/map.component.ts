@@ -36,6 +36,7 @@ export class MapComponent implements AfterViewInit {
   mainGroup: LayerGroup[] = [];
   private stompClient: any;
   rideOffer!: Ride;
+  noRide : boolean = true;
   // drivers : Array<Driver> = [];
 
   private map: any;
@@ -111,7 +112,7 @@ export class MapComponent implements AfterViewInit {
         if(!driver.active){
           iconUrl = '.\\assets\\images\\not-available-car.png'
         }
-        if(this.role == 'DRIVER' && driver.id == this.authService.getDriverId()){
+        if(this.role == 'DRIVER' && driver.id == this.authService.getId()){
           iconSize = [40,40];
         }
 
@@ -237,6 +238,7 @@ export class MapComponent implements AfterViewInit {
         .subscribe({
           next: (result) => {
             console.log(result);
+            alert("Searchin for driver...")
           },
           error: (error) => {
             console.log(error);
@@ -323,10 +325,11 @@ export class MapComponent implements AfterViewInit {
   }
 
   accept(ride : Ride){
-    // let display = document.getElementById('rideOffer') as HTMLElement;
-    // display.style.display = 'none';
+
     this.mapService.acceptRide(ride.id).subscribe({
       next: (result) => {
+        let display = document.getElementById('rideOffer') as HTMLElement;
+        display.style.display = 'none';
         console.log(result);
       },
       error: (error) => {
@@ -338,10 +341,11 @@ export class MapComponent implements AfterViewInit {
   
 
   decline(ride : Ride){
-    // let display = document.getElementById('rideOffer') as HTMLElement;
-    // display.style.display = 'none';
+
     this.mapService.declineRide(ride.id).subscribe({
       next: (result) => {
+        let display = document.getElementById('rideOffer') as HTMLElement;
+        display.style.display = 'none';
         console.log(result);
       },
       error: (error) => {
@@ -374,34 +378,46 @@ export class MapComponent implements AfterViewInit {
 
     this.stompClient.subscribe('/map-updates/ask-driver', (message: { body: string }) => {
       let ride: Ride = JSON.parse(message.body);
-      if(this.role == 'DRIVER'){
+      if(this.role == 'DRIVER' && this.authService.getId() == ride.driver.id){
         this.rideOffer = ride;
 
-        // let display = document.getElementById('rideOffer') as HTMLElement;
-        // display.style.display = 'block';
+        let display = document.getElementById('rideOffer') as HTMLElement;
+        console.log(display);
+        display.style.display = 'block';
       }
+      if(this.role == 'PASSENGER' && this.authService.getId() == ride.passengers[0].id){
+
+      }
+
     });
 
 
     this.stompClient.subscribe('/map-updates/new-ride', (message: { body: string }) => {
       console.log('new ride');
       let ride: Ride = JSON.parse(message.body);
-      if(this.role == 'ADMIN' || this.authService.getDriverId() == ride.driver.id || this.authService.getId() == ride.passengers[0].id){
+      if(this.role == 'ADMIN' || this.authService.getId() == ride.driver.id || this.authService.getId() == ride.passengers[0].id){
         console.log("ride", ride);
+        this.noRide = false;
         let geoLayerRouteGroup: LayerGroup = new LayerGroup();
-        for (let step of JSON.parse(ride.routeJSON)['routes'][0]['legs'][0]['steps']) {
+        for (let step of JSON.parse(JSON.parse(ride.routeJSON))['routes'][0]['legs'][0]['steps']) {
           let routeLayer = geoJSON(step.geometry);
           routeLayer.setStyle({ color:  `#D14054`});
           routeLayer.addTo(geoLayerRouteGroup);
           this.rides[ride.id] = geoLayerRouteGroup;
         }
+
+        let iconSize : L.PointExpression = [30,30];
+        if(this.role == 'DRIVER'){
+          iconSize = [40,40];
+        }
+
         let markerLayer = marker([ride.vehicle.location.latitude, ride.vehicle.location.longitude], {
           icon: icon({
             iconUrl: '.\\assets\\images\\not-available-car.png',
-            iconSize: [35, 45],
-            iconAnchor: [18, 45],
+            iconSize: iconSize,
+            iconAnchor: [18, 30],
           }),
-        });
+       });
         markerLayer.addTo(geoLayerRouteGroup);
         this.vehicles[ride.vehicle.id] = markerLayer;
         this.mainGroup = [...this.mainGroup, geoLayerRouteGroup];

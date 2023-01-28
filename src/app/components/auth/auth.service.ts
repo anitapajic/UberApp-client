@@ -26,7 +26,6 @@ export class AuthService {
 
 
   userId = 0;
-  driverId = 0
   user$ = new BehaviorSubject(null);
   userState$ = this.user$.asObservable();
 
@@ -35,23 +34,21 @@ export class AuthService {
     return this.userId;
   }
 
-  getDriverId(){
-    return this.driverId;
-  }
-
   getRole(): any {
     if (this.isLoggedIn()) {
       var accessToken: any = localStorage.getItem('user');
       const helper = new JwtHelperService();
-     
-
+      
+      this.userId = JSON.parse(accessToken)['id'];
+      console.log('get role ',helper.decodeToken(accessToken).role[0] )
       const role = helper.decodeToken(accessToken).role[0].authority;
-      if(role == 'DRIVER'){
-        this.driverId = JSON.parse(accessToken)['id']
-      }
-      else{
-         this.userId = JSON.parse(accessToken)['id'];
-      }
+      
+      // if(role == 'DRIVER'){
+      //   this.driverId = JSON.parse(accessToken)['id']
+      // }
+      // else{
+      //    this.userId = JSON.parse(accessToken)['id'];
+      // }
       //alert(helper.decodeToken(accessToken).sub);
       return role;
     }
