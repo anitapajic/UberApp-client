@@ -24,6 +24,7 @@ import { CreateVehicleComponent } from './components/auth/create-vehicle/create-
 import { NgChartsModule } from 'ng2-charts';
 import { ReportComponent } from './components/registered-user/modal-popup/report/report.component';
 import { BookRideAgainComponent } from './components/registered-user/modal-popup/book-ride-again/book-ride-again.component';
+import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 
 compileDirectiveFromMetadata
 
@@ -50,7 +51,8 @@ compileDirectiveFromMetadata
     MapModule,
     LayoutModuleModule,
     HttpClientModule,
-    NgChartsModule
+    NgChartsModule,
+    LeafletModule
   ],
   providers: [  
     {

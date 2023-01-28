@@ -1,10 +1,12 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import * as L from 'leaflet';
 import 'leaflet-routing-machine';
 import { AuthService } from '../../auth/auth.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Ride } from 'src/app/model/Ride';
 import { MapService } from '../../map/map.service'; 
+import { LatLng,  marker, geoJSON, LayerGroup, icon } from 'leaflet';
+import { LeafletDirective, LeafletModule } from '@asymmetrik/ngx-leaflet';
 
 
 @Component({
@@ -13,6 +15,20 @@ import { MapService } from '../../map/map.service';
   styleUrls: ['./ride-history-review.component.css']
 })
 export class RideHistoryReviewComponent{
+
+  @ViewChild(LeafletDirective) leafletDirective: LeafletDirective | undefined;
+  options = {
+    layers: [
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 18,
+        attribution: '...',
+      }),
+    ],
+    zoom: 14,
+    center: L.latLng(45.253434, 19.831323),
+  };
+
+
   private map: any;
   role: string | null | undefined;
   result!: any;
