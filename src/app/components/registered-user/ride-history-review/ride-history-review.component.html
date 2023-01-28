@@ -102,7 +102,7 @@
                           <div class="vl"></div>
                         </div>
                         <div class="col-1 col-2-de">
-                          <button class="detailsBtn" data-bs-toggle="modal" data-bs-target=".bd-ride-details-modal-sm" (click)="getRideId(ride.id)">Details</button>
+                          <button class="detailsBtn" data-bs-toggle="modal" data-bs-target=".bd-ride-details-modal-sm" id="detRideId" (click)="getRideId(ride.id)">Details</button>
                           <div class="modal fade bd-ride-details-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
                             <div class="modal-dialog" role="document">
                               <div class="modal-content">
@@ -140,8 +140,8 @@
                                       <div class="row">
                                         <div class="col-7">
                                           <div>
-                                            <p class="card-text time"><img class = "img-logo dot-img" src="./assets/images/dot.png">&nbsp;&nbsp;&nbsp;{{ride.locations[0].departure.address}}</p>
-                                            <p class="card-text time"><img class = "img-logo pin-img" src="./assets/images/pin.png">&nbsp;&nbsp;{{ride.locations[0].destination.address}}</p>
+                                            <p class="card-text time" id="fromLoc"><img class = "img-logo dot-img" src="./assets/images/dot.png">&nbsp;&nbsp;&nbsp;{{ride.locations[0].departure.address}}</p>
+                                            <p class="card-text time" id="toLoc"><img class = "img-logo pin-img" src="./assets/images/pin.png">&nbsp;&nbsp;{{ride.locations[0].destination.address}}</p>
                                           </div>
                                         </div>
                                         <div class="col-1">

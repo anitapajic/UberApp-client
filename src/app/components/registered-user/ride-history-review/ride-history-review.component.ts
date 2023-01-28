@@ -38,8 +38,15 @@ export class RideHistoryReviewComponent{
   filter : any;
   noRides: boolean = false;
 
+  dep!: LatLng;
+  des!: LatLng;
+  des_marker : L.Marker = new L.Marker(new LatLng(0,0));
+  dep_marker : L.Marker = new L.Marker(new LatLng(0,0));
+  dep_input! : HTMLInputElement;
+  des_input! : HTMLInputElement;
+
   
-  constructor(private authService : AuthService, private route : ActivatedRoute, private router: Router){};
+  constructor(private authService : AuthService, private route : ActivatedRoute, private router: Router,private mapService: MapService){};
   
   getRideId(id?:number){
     this.rideId = id;
@@ -52,6 +59,37 @@ export class RideHistoryReviewComponent{
   bookAgain(){
     let changeDiv = document.getElementById("bookAgain") as HTMLElement;
     changeDiv.style.display="block"
+  }
+  ngAfterViewInit(): void {
+
+    this.dep_input =  document.getElementById('fromLoc') as HTMLInputElement;
+    this.des_input =  document.getElementById('toLoc') as HTMLInputElement;
+      
+    this.registerOnInput();
+    
+  }
+  registerOnInput() {
+    let bookBtn = document.getElementById('detRideId');
+    bookBtn?.addEventListener('click', async (e : any) => {
+      const dep = await this.search(this.dep_input.value);
+      this.dep = new LatLng(Number(dep[0].lat), Number(dep[0].lon));
+
+      const des = await this.search(this.des_input.value);
+      this.des = new LatLng(Number(des[0].lat), Number(des[0].lon));
+      
+    });
+}
+  async search(input: string): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.mapService.search(input).subscribe({
+        next: (result) => {
+          resolve(result);
+        },
+        error: (error) => {
+          reject(error);
+        },
+      });
+    });
   }
 
   ngOnInit() {
