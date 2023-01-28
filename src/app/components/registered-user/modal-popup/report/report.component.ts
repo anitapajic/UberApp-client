@@ -14,9 +14,11 @@ export class ReportComponent {
   constructor(private authService : AuthService, private route : ActivatedRoute){};
   rideHistory: Array<Ride> = [];
   labels: Array<string> = [];
+  public datas: Array<number> = [];
   filter : any;
   noRides: boolean = false;
   sum: any;  
+  
   
 
   
@@ -25,7 +27,7 @@ export class ReportComponent {
   ];
     //labels = ["Red", "Orange", "Yellow", "Green", "Blue", "Purple", "Grey"];
     datasets = [
-      {label: "Number of rides",data: [22, 33, 55, 12, 86, 23, 14],
+      {label: "Number of rides",data: [22,33,44,55,11],
       backgroundColor: ["rgba(255, 99, 132, 0.2)", "rgba(255, 159, 64, 0.2)",
         "rgba(255, 205, 86, 0.2)", "rgba(75, 192, 192, 0.2)", "rgba(54, 162, 235, 0.2)",
         "rgba(153, 102, 255, 0.2)", "rgba(201, 203, 207, 0.2)"
@@ -57,10 +59,11 @@ export class ReportComponent {
   getLabels(): Array<string>{
     let labels = new Array();
     for(let ride of this.rideHistory){
-      labels.push("aaa","aaa","aaa");
+      labels.push(ride.startTime);
   }
   return labels;
   }
+
 
 
   ngOnInit() {

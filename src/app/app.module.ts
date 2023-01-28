@@ -23,6 +23,7 @@ import { BlockUserComponent } from './components/auth/block-user/block-user.comp
 import { CreateVehicleComponent } from './components/auth/create-vehicle/create-vehicle.component';
 import { NgChartsModule } from 'ng2-charts';
 import { ReportComponent } from './components/registered-user/modal-popup/report/report.component';
+import { BookRideAgainComponent } from './components/registered-user/modal-popup/book-ride-again/book-ride-again.component';
 
 compileDirectiveFromMetadata
 
@@ -39,6 +40,7 @@ compileDirectiveFromMetadata
     BlockUserComponent,
     CreateVehicleComponent,
     ReportComponent,
+    BookRideAgainComponent,
   ],
   imports: [
     BrowserModule,
