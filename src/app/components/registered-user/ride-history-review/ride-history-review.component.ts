@@ -42,11 +42,13 @@ export class RideHistoryReviewComponent{
   des!: LatLng;
   des_marker : L.Marker = new L.Marker(new LatLng(0,0));
   dep_marker : L.Marker = new L.Marker(new LatLng(0,0));
-  dep_input! : HTMLInputElement;
-  des_input! : HTMLInputElement;
+  dep_input! : HTMLElement;
+  des_input! : HTMLElement;
+
+  routingControl = L.Routing.control({ waypoints: [    ]});
 
   
-  constructor(private authService : AuthService, private route : ActivatedRoute, private router: Router,private mapService: MapService){};
+  constructor(private authService : AuthService, private routee : ActivatedRoute, private router: Router,private mapService: MapService){};
   
   getRideId(id?:number){
     this.rideId = id;
@@ -62,20 +64,20 @@ export class RideHistoryReviewComponent{
   }
   ngAfterViewInit(): void {
 
-    this.dep_input =  document.getElementById('fromLoc') as HTMLInputElement;
-    this.des_input =  document.getElementById('toLoc') as HTMLInputElement;
-      
+   
     this.registerOnInput();
     
   }
   registerOnInput() {
     let bookBtn = document.getElementById('detRideId');
     bookBtn?.addEventListener('click', async (e : any) => {
-      const dep = await this.search(this.dep_input.value);
+      const dep = await this.search("Mise Dimitrijevica 6");
       this.dep = new LatLng(Number(dep[0].lat), Number(dep[0].lon));
 
-      const des = await this.search(this.des_input.value);
+      const des = await this.search("Brace Ribnikar 17");
       this.des = new LatLng(Number(des[0].lat), Number(des[0].lon));
+      this.route(this.dep, this.des);
+      console.log(this.dep,this.des)
       
     });
 }
@@ -92,8 +94,27 @@ export class RideHistoryReviewComponent{
     });
   }
 
+  route(r1: any, r2: any): void {
+    if (this.routingControl != null)
+          this.removeRoutingControl();
+
+    this.routingControl = L.Routing.control({
+    waypoints: [
+      r1, r2
+    ]
+
+  }).addTo(this.map);
+}
+
+
+  removeRoutingControl(){
+    this.dep_marker.removeFrom(this.map);
+    this.des_marker.removeFrom(this.map);
+    this.routingControl.remove();   
+  }
+
   ngOnInit() {
-    this.route.queryParams.subscribe(params => {
+    this.routee.queryParams.subscribe(params => {
       this.filter = params;
     });
     this.authService.getRideHistory(this.filter).subscribe({
