@@ -8,6 +8,9 @@
     padding-top: 50px;
     padding-bottom: 30px;
 }
+.modal-content{
+    margin-bottom: 30px;
+}
 .rectangle{
     display:block;
     min-width: 300px;
@@ -20,6 +23,10 @@
     padding-bottom: 30px;
 
   }
+.r2{
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
   
 .circle{
     position:absolute;
@@ -49,6 +56,9 @@
 
     color: #25313C;
 
+}
+.r-h5-f{
+    padding-bottom: 15px;
 }
 p{
     font-style: normal;
@@ -98,7 +108,22 @@ p{
 .a-close{
     float: center;
 }
-
+.addNewBtn{
+    padding: 15px;
+    margin-top: 20px;
+    margin-bottom: 18px;
+    color:#fff;
+    border: 3px solid #25313C;
+    background-color: #25313C;
+    font-size: 18px;
+    font-weight: 500;
+    width: 75%;
+    height: 65%;
+}
+.row-favorite-route{
+    padding: 0;
+    margin-top: 10px;
+}
 .row-ratings{
     padding-top: 0;
     padding-bottom: 0;

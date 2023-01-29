@@ -84,7 +84,8 @@
                           <div class="vl"></div>
                         </div>
                         <div class="col-1 col-1-m">
-                          <h5 class="r-h5-d">{{ride.endTime | date:'shortTime'| lowercase}}</h5>
+                          <h5 class="r-h5-d" *ngIf="ride.endTime!=null;">{{ride.endTime | date:'shortTime'| lowercase}}</h5>
+                          <h5 class="r-h5-d" *ngIf="ride.endTime==null;">active ride</h5>
                         </div>
                         <div class="col-1">
                           <div class="vl"></div>
@@ -104,13 +105,13 @@
                         <div class="col-1 col-2-de">
                           <button class="detailsBtn" data-bs-toggle="modal" data-bs-target=".bd-ride-details-modal-sm" id="detRideId" (click)="getRideId(ride.id)">Details</button>
                           <div class="modal fade bd-ride-details-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
-                            <div class="modal-dialog" role="document">
-                              <div class="modal-content">
+                            <div class="modal-dialog" role="document" *ngFor="let ride of rideHistory">
+                              <div class="modal-content" *ngIf="ride.id == setRideId()">
                                 <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                                   <span aria-hidden="true">&times;</span>
                                 </button>
                                 <h5 class="modal-title report-title">Ride details</h5>
-                                <div class="modal-body" *ngIf="ride.id == setRideId() break">
+                                <div class="modal-body">
                                   <div class="card card-ride">
                                     <div class="card-body-ride-date">
                                       <div class="row">
@@ -118,7 +119,8 @@
                                           <h5 class="card-title-ride-date">{{ride.startTime | date:'shortDate'}}</h5>
                                         </div>
                                         <div class="col-6">
-                                          <h5 class="card-title-ride-date">{{ride.startTime | date:'shortTime'| lowercase}}-{{ride.endTime | date:'shortTime'| lowercase}}</h5>
+                                          <h5 class="card-title-ride-date" *ngIf="ride.endTime != null">{{ride.startTime | date:'shortTime'| lowercase}}-{{ride.endTime | date:'shortTime'| lowercase}}</h5>
+                                          <h5 class="card-title-ride-date" *ngIf="ride.endTime == null">{{ride.startTime | date:'shortTime'| lowercase}}- active</h5>
                                         </div>
                                       </div>
                                     </div>
@@ -129,6 +131,7 @@
                                       <div id="map"
                                       leaflet
                                       [leafletOptions]='options'
+                                      [leafletLayers]='mainGroup' 
                                       >
                                       </div>
                                     </div>
@@ -157,13 +160,15 @@
                                     <div class="card-body">
                                       <div class="row">
                                         <div class="col-2">
-                                          <h5 class="r-h5-d">Driver</h5>
+                                          <h5 class="r-h5-d" *ngIf="role == 'DRIVER'">Passenger</h5>
+                                          <h5 class="r-h5-d" *ngIf="role == 'PASSENGER'">Driver</h5>
                                         </div>
                                         <div class="col-1">
                                           <div class="vl"></div>
                                         </div>
                                         <div class="col-7">
-                                          <h5 class="r-h5-d">{{ride.driver.name + " " + ride.driver.surname}}</h5>
+                                          <h5 class="r-h5-d" *ngIf="role == 'DRIVER'">Vrati passengera</h5>
+                                          <h5 class="r-h5-d" *ngIf="role == 'PASSENGER'">{{ride.driver.name + " " + ride.driver.surname}}</h5>
                                         </div>
                                       </div>
                                     </div>
@@ -184,7 +189,7 @@
                                     </div>
                                   </div>
                                   <div class="row">
-                                    <button class="bookBtn" (click)="bookAgain()">Book again</button>
+                                    <button class="bookBtn" *ngIf="role != 'DRIVER'" (click)="bookAgain()">Book again</button>
                                  
                                       <div class="card card-ride"  id="bookAgain" style="display: none;">
                                         <div class="card-body">

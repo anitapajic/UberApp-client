@@ -192,4 +192,9 @@ export class AuthService {
     return this.http.get('http://localhost:8085/api/driver/vehicles');
   }
 
+  getFavoriteRoutes(): Observable<any>{
+    return this.http.get('http://localhost:8085/api/ride/favorites/' + this.userId)
+  }
+
+
 }

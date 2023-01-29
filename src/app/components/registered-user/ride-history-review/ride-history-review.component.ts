@@ -7,6 +7,7 @@ import { Ride } from 'src/app/model/Ride';
 import { MapService } from '../../map/map.service'; 
 import { LatLng,  marker, geoJSON, LayerGroup, icon } from 'leaflet';
 import { LeafletDirective, LeafletModule } from '@asymmetrik/ngx-leaflet';
+import { FavoriteRoute } from 'src/app/model/FavoriteRoute';
 
 
 @Component({
@@ -15,6 +16,25 @@ import { LeafletDirective, LeafletModule } from '@asymmetrik/ngx-leaflet';
   styleUrls: ['./ride-history-review.component.css']
 })
 export class RideHistoryReviewComponent{
+  result!: any;
+  filter : any;
+  private map: any;
+  public rideId: any;
+  next : Boolean = false;
+  noRides: boolean = false;
+  mainGroup: LayerGroup[] = [];
+  rideHistory: Array<Ride> = [];
+  role: string | null | undefined;
+
+  dep!: LatLng;
+  des!: LatLng;
+  dep_input! : HTMLElement;
+  des_input! : HTMLElement;
+  des_marker : L.Marker = new L.Marker(new LatLng(0,0));
+  dep_marker : L.Marker = new L.Marker(new LatLng(0,0));
+  routingControl = L.Routing.control({ waypoints: [    ]});
+
+  constructor(private authService : AuthService, private routee : ActivatedRoute, private router: Router,private mapService: MapService){};
 
   @ViewChild(LeafletDirective) leafletDirective: LeafletDirective | undefined;
   options = {
@@ -28,45 +48,15 @@ export class RideHistoryReviewComponent{
     center: L.latLng(45.253434, 19.831323),
   };
 
-
-  private map: any;
-  role: string | null | undefined;
-  result!: any;
-  next : Boolean = false;
-  public rideId: any;
-  rideHistory: Array<Ride> = [];
-  filter : any;
-  noRides: boolean = false;
-
-  dep!: LatLng;
-  des!: LatLng;
-  des_marker : L.Marker = new L.Marker(new LatLng(0,0));
-  dep_marker : L.Marker = new L.Marker(new LatLng(0,0));
-  dep_input! : HTMLElement;
-  des_input! : HTMLElement;
-
-  routingControl = L.Routing.control({ waypoints: [    ]});
-
-  
-  constructor(private authService : AuthService, private routee : ActivatedRoute, private router: Router,private mapService: MapService){};
-  
   getRideId(id?:number){
     this.rideId = id;
-    console.log(this.rideId);
   }
   setRideId():number{
-
     return this.rideId;
   }
   bookAgain(){
     let changeDiv = document.getElementById("bookAgain") as HTMLElement;
     changeDiv.style.display="block"
-  }
-  ngAfterViewInit(): void {
-
-   
-    this.registerOnInput();
-    
   }
   registerOnInput() {
     let bookBtn = document.getElementById('detRideId');
@@ -93,7 +83,6 @@ export class RideHistoryReviewComponent{
       });
     });
   }
-
   route(r1: any, r2: any): void {
     if (this.routingControl != null)
           this.removeRoutingControl();
@@ -105,17 +94,17 @@ export class RideHistoryReviewComponent{
 
   }).addTo(this.map);
 }
-
-
   removeRoutingControl(){
     this.dep_marker.removeFrom(this.map);
     this.des_marker.removeFrom(this.map);
     this.routingControl.remove();   
   }
-
   ngOnInit() {
     this.routee.queryParams.subscribe(params => {
       this.filter = params;
+    });
+    this.authService.userState$.subscribe((result) => {
+      this.role = result;
     });
     this.authService.getRideHistory(this.filter).subscribe({
       next: (result) => {
@@ -130,6 +119,24 @@ export class RideHistoryReviewComponent{
         console.log(error);
       },
     });
+    
+
+    let geoLayerRouteGroup: LayerGroup = new LayerGroup();
+    this.mainGroup = [...this.mainGroup, geoLayerRouteGroup];
+ 
+  }
+  ngAfterViewInit(): void {
+
+    let DefaultIcon = L.icon({
+      iconUrl: 'https://unpkg.com/leaflet@1.6.0/dist/images/marker-icon.png',
+    });
+
+    L.Marker.prototype.options.icon = DefaultIcon;
+
+    this.map = this.leafletDirective?.getMap();
+
+   
+    this.registerOnInput();
     
   }
 

@@ -41,7 +41,10 @@ export class ReportComponent {
     horizontalBarOptions = {
       indexAxis: 'y',
     };
-
+  
+  printThisPage() {
+      window.print();
+  }
   getTotal(){
     var total = 0;
     for(let ride of this.rideHistory){

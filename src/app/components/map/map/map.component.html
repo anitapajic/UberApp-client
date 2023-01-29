@@ -9,19 +9,19 @@
   <app-coordinates></app-coordinates> 
 </div>
 
-<div *ngIf="role != null">
-
+<div *ngIf="role == 'PASSENGER'">
   <div class="app-nav-icons">
     <app-nav-icons></app-nav-icons> 
   </div>
+</div>
 
+<div *ngIf="role == 'DRIVER' || role == 'PASSENGER'">
   <div class="app-ride-history">
     <app-ride-history></app-ride-history> 
   </div>
-
 </div>
-<div *ngIf="role === null">
 
+<div *ngIf="role === null">
   <div class="app-about">
     <app-about></app-about> 
   </div>
@@ -33,7 +33,6 @@
   <div class="app-download-app">
     <app-download-app ></app-download-app> 
   </div>
-
 </div>
 
 

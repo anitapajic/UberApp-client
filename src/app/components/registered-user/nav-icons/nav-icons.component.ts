@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router'; 
+import { FavoriteRoute } from 'src/app/model/FavoriteRoute';
 import { AuthService } from '../../auth/auth.service';
 import { RideHistoryComponent } from '../ride-history/ride-history.component';
 
@@ -10,12 +11,17 @@ import { RideHistoryComponent } from '../ride-history/ride-history.component';
 })
 export class NavIconsComponent {
   star:any;
+  favoriteRoutes : Array<FavoriteRoute> = [ ];
   constructor(private authService: AuthService, private router: Router) {}
 
   async scrollRideHistory() {
     await this.router.navigate(['/home']);
 
     RideHistoryComponent.scrollInto();
+  }
+  addNewRoute(){
+    let changeDiv = document.getElementById("addNewBtn") as HTMLElement;
+    changeDiv.style.display="block"
   }
 
   postToController(): void{
@@ -25,4 +31,16 @@ export class NavIconsComponent {
     star.innerHTML = starChecked.value;
 
 }
+  ngOnInit(){
+    this.authService.getFavoriteRoutes().subscribe({
+      next: (result) => {
+        this.favoriteRoutes = result;
+        console.log(this.favoriteRoutes);
+
+      },
+      error: (error) => {
+        console.log(error);
+      },
+    });
+  }
 }
