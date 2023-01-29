@@ -1,0 +1,28 @@
+<div class="rectangle" *ngIf="hasRide">
+    <div class="circle">
+        <img class = "img-logo " src="./assets/images/logoCircle.png">
+    </div>
+    <label for="text" class="titleLabel">Total</label>
+    <p for="text" class="price"><span style="font-size: 30px;">&nbsp;{{ride.totalCost}}</span>&nbsp; RSD</p>
+    <label for="text" class="titleLabel" style="margin-top: 0;">Duration</label>
+    <p for="text" class="price"><span style="font-size: 30px;">&nbsp;{{ride.estimatedTimeInMinutes}}</span>&nbsp; MIN</p>
+    <div (click)="showText()">
+        <p class="card-text time"[ngClass]="{'limitTextHeight': isReadMore}"><img class = "img dot-img" src="./assets/images/whiteDot.png">&nbsp;&nbsp;&nbsp;{{ride.locations[0].departure.address}}</p>
+        <p class="card-text time"[ngClass]="{'limitTextHeight': isReadMore}"><img class = "img pin-img" src="./assets/images/whitePin.png">&nbsp;&nbsp; {{ride.locations[0].destination.address}}</p>           
+    </div>
+      <div class="row">
+        <div *ngIf="!accepted">
+            <button class="accept-btn" (click)="accept()">ACCEPT</button>
+            <button class="decline-btn" (click)="decline()">DECLINE</button>
+        </div>
+        <div *ngIf="accepted">
+            <button class="accept-btn" (click)="start()" [disabled] = "started == true">START</button>
+            <button class="decline-btn" (click)="end()" [disabled] = "started == false">END</button>   
+        </div>
+
+
+
+    </div>
+</div>
+<button id="panicBtn" class="btn" type="button" (click)="panic()" *ngIf="accepted">PANIC</button>
+              

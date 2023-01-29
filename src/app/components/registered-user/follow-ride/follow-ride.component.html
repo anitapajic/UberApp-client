@@ -1,11 +1,15 @@
-<div class="rectangle">
+<div class="rectangle" *ngIf="hasRide">
     <div class="circle">
         <img class = "img-logo " src="./assets/images/logoCircle.png">
     </div>
     <label for="text" class="titleLabel">Total</label>
-    <p for="text" class="price">RSD <span style="font-size: 30px;">2410,00</span></p>
-    <p class="card-text time"><img class = "img dot-img" src="./assets/images/whiteDot.png">&nbsp;&nbsp;&nbsp; Strumicka 6</p>
-    <p class="card-text time" ><img class = "img pin-img" src="./assets/images/whitePin.png">&nbsp;&nbsp; Brace Ribnikar 17</p>           
+    <p for="text" class="price"><span style="font-size: 30px;">&nbsp;{{ride.totalCost}}</span>&nbsp; RSD</p>
+    <label for="text" class="titleLabel" style="margin-top: 0;">Duration</label>
+    <p for="text" class="price"><span style="font-size: 30px;">&nbsp;{{ride.estimatedTimeInMinutes}}</span>&nbsp; MIN</p>
+    <div (click)="showText()">
+        <p class="card-text time"[ngClass]="{'limitTextHeight': isReadMore}"><img class = "img dot-img" src="./assets/images/whiteDot.png">&nbsp;&nbsp;&nbsp;{{ride.locations[0].departure.address}}</p>
+        <p class="card-text time"[ngClass]="{'limitTextHeight': isReadMore}"><img class = "img pin-img" src="./assets/images/whitePin.png">&nbsp;&nbsp; {{ride.locations[0].destination.address}}</p>           
+    </div>
     <div class="row">
             <p for="text" class="rate">Rate driver:</p>
             <div class="container d-flex justify-content-center mt-100">
@@ -27,5 +31,5 @@
         
     </div>
 </div>
-<button id="panicBtn" class="btn" type="button">PANIC</button>
+<button id="panicBtn" class="btn" type="button" *ngIf="hasRide">PANIC</button>
               

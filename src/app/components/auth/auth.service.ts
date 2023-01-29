@@ -30,14 +30,25 @@ export class AuthService {
   userState$ = this.user$.asObservable();
 
   constructor(private http: HttpClient) { }
+  getId(){
+    return this.userId;
+  }
 
   getRole(): any {
     if (this.isLoggedIn()) {
       var accessToken: any = localStorage.getItem('user');
       const helper = new JwtHelperService();
+      
       this.userId = JSON.parse(accessToken)['id'];
-
+      console.log('get role ',helper.decodeToken(accessToken).role[0] )
       const role = helper.decodeToken(accessToken).role[0].authority;
+      
+      // if(role == 'DRIVER'){
+      //   this.driverId = JSON.parse(accessToken)['id']
+      // }
+      // else{
+      //    this.userId = JSON.parse(accessToken)['id'];
+      // }
       //alert(helper.decodeToken(accessToken).sub);
       return role;
     }
@@ -65,6 +76,7 @@ export class AuthService {
   }
 
   logout(): Observable<string> {
+    this.userId = 0;
     return this.http.get('http://localhost:8085/api/user/logout', {
       responseType: 'text',
     });
@@ -106,11 +118,11 @@ export class AuthService {
     return this.http.get('http://localhost:8085/api/driver/update');
   }
 
-  approveRequest(id : Int16Array): Observable<any>{
+  approveRequest(id : number): Observable<any>{
     return this.http.put('http://localhost:8085/api/driver/update/' + id + '/approve', null);
   }
 
-  deleteRequest(id : Int16Array): Observable<any>{
+  deleteRequest(id : number): Observable<any>{
     return this.http.delete('http://localhost:8085/api/driver/update/' + id + '/delete');
   }
 
@@ -144,11 +156,11 @@ export class AuthService {
     return this.http.get('http://localhost:8085/api/user?size=1000');
   }
 
-  blockUser(id : Int16Array): Observable<any>{
+  blockUser(id : number): Observable<any>{
     return this.http.put('http://localhost:8085/api/user/' + id + '/block', null);
   }
 
-  unblockUser(id : Int16Array): Observable<any>{
+  unblockUser(id : number): Observable<any>{
     return this.http.put('http://localhost:8085/api/user/' + id + '/unblock', null);
   }
 
@@ -186,6 +198,11 @@ export class AuthService {
     return this.http.get('http://localhost:8085/api/driver', {
       headers: this.headers
     })
+  }
+
+  changeDriverActivity() : Observable<any>{
+    return this.http.get('http://localhost:8085/api/driver/'+ this.userId + '/activity');
+
   }
 
   getVehicles() : Observable<any>{
