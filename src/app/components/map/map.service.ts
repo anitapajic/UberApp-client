@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { CurrentLocation } from 'src/app/model/CurrentLocation';
 import { Path } from 'src/app/model/Path';
+import { Rejection } from 'src/app/model/Rejection';
 import { CreateRide, Ride, RideInfo } from 'src/app/model/Ride';
 
 @Injectable({
@@ -79,8 +80,8 @@ export class MapService {
     return this.http.put<Ride>('http://localhost:8085/api/ride/' + rideId +'/end', null);
   }
 
-  cancelRide(rideId : number): Observable<Ride> {
-    return this.http.put<Ride>('http://localhost:8085/api/ride/' + rideId +'/cancel', null);
+  cancelRide(rideId : number, rejection : Rejection): Observable<Ride> {
+    return this.http.put<Ride>('http://localhost:8085/api/ride/' + rideId +'/cancel', rejection);
   }
 
 }
