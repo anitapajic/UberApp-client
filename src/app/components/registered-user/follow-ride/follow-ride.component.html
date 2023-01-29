@@ -5,7 +5,7 @@
     <label for="text" class="searchTitle">Searching for driver</label>
     <div *ngIf="!time" style="width:100%;height:0;padding-bottom:75%;position:relative;"><iframe src="https://giphy.com/embed/kUTME7ABmhYg5J3psM" width="100%" height="100%" style="position:absolute" frameBorder="0" class="giphy-embed" allowFullScreen></iframe></div><p><a href="https://giphy.com/gifs/loading-load-builtbybritt-kUTME7ABmhYg5J3psM"></a></p>
     <div *ngIf="time"><p>{{ride.driver.name + " will arive in " + time + " minutes"}}</p></div>
-    <button class="decline-btn" (click)="decline()">DECLINE</button>
+    <button class="decline-btn" (click)="decline()">CANCEL</button>
 </div>
 <div class="rectangle" *ngIf="hasRide" >
     <div class="circle">
