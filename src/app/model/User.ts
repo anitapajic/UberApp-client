@@ -20,6 +20,7 @@ export interface User {
     telephoneNumber: string;    
     address: string;
     active: boolean;
+    hasRide : boolean;
     blocked: boolean;
     authorities : string;
     vehicle : Vehicle ;

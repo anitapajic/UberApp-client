@@ -110,7 +110,11 @@ export class MapComponent implements AfterViewInit {
         let markerLayer;
         let iconSize : L.PointExpression = [30,30];
         let iconUrl = '.\\assets\\images\\available-car.png'
+        console.log(driver, "driver")
         if(!driver.active){
+          iconUrl = '.\\assets\\images\\not-working-car.png'
+        }
+        if(driver.active && driver.hasRide){
           iconUrl = '.\\assets\\images\\not-available-car.png'
         }
         if(this.role == 'DRIVER' && driver.id == this.authService.getId()){
@@ -350,8 +354,12 @@ export class MapComponent implements AfterViewInit {
 
       let iconUrl = '.\\assets\\images\\available-car.png'
       if(!driver.active){
+        iconUrl = '.\\assets\\images\\not-working-car.png'
+      }
+      if(driver.active && driver.hasRide){
         iconUrl = '.\\assets\\images\\not-available-car.png'
       }
+
       let iconSize : L.PointExpression = [30,30];
       if(this.role == 'DRIVER'){
         iconSize = [40,40];
@@ -365,6 +373,11 @@ export class MapComponent implements AfterViewInit {
           iconAnchor: [18, 30],
         }),
       });
+
+      let oldMarker : L.Marker = this.vehicles[driver.vehicle.id];
+      oldMarker.removeFrom(this.map);
+
+      
       markerLayer.addTo(geoLayerRouteGroup);
       this.vehicles[driver.vehicle.id] = markerLayer;
       this.mainGroup = [...this.mainGroup, geoLayerRouteGroup];

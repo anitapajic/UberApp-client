@@ -57,7 +57,7 @@ export class MapService {
     await routeJson.then(json => {
       ride.routeJSON = JSON.stringify(json);
     });
-    return this.http.post<Ride>('http://localhost:8085/api/ride/create', ride);
+    return this.http.post<Ride>('http://localhost:8085/api/ride', ride);
   }
 
   getRouteJSON(location : Path) {
