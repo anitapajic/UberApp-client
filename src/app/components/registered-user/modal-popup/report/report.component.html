@@ -92,10 +92,28 @@
                   <div class="vl"></div>
                 </div>
                 <div class="col-8 r-col-8">
-                  <p class="r-rightTitles">Total money spe</p>
+                  <p class="r-rightTitles" *ngIf="role == 'DRIVER'">Total income</p>
+                  <p class="r-rightTitles"  *ngIf="role == 'PASSENGER'">Total outcome</p>
                   <p class="r-rightValues">{{getTotal()}} RSD</p>
                 </div>
-
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row report-row">
+          <div class="card">
+            <div class="card-body report-card-body">
+              <div class="row">
+                <div class="col-1 r-col-1">
+                  <img class = "img-logo money-img" src="./assets/images/moneyIcon.png">
+                </div>
+                <div class="col-1 r-col-1-vl">
+                  <div class="vl"></div>
+                </div>
+                <div class="col-8 r-col-8">
+                  <p class="r-rightTitles">Total kilometers</p>
+                  <p class="r-rightValues">{{getTotal()}} RSD</p>
+                </div>
               </div>
             </div>
           </div>
@@ -122,7 +140,7 @@
                   <div class="card-body report-card-body">
                     <div class="row" id="divChart">
                       <div class="chart">
-                        <canvas baseChart [type]="'bar'" [datasets]="datasets" [labels]= "getLabels()" ></canvas>
+                        <canvas baseChart [type]="'bar'" [datasets]="datasets" [labels]= "labels" ></canvas>
                       </div>
             
                     </div>

@@ -217,6 +217,15 @@ export class AuthService {
     return this.http.post('http://localhost:8085/api/statistics/date/rides', filter2);
   }
 
+  getRFilterNumOfRides(passengerId : number):Observable<any>{
+    return this.http.get('http://localhost:8085/api/statistics/date/passengerRides/' + passengerId);
+  }
+
+  getFilterNumOfDriverRides(driverId : number):Observable<any>{
+    return this.http.get('http://localhost:8085/api/statistics/date/driverRides/' + driverId);
+  }
+
+
 //Drivers and Vehicles
   getDrivers() : Observable<any>{
     return this.http.get('http://localhost:8085/api/driver', {

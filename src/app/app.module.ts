@@ -5,7 +5,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './layout-module/navbar/navbar.component';
 import { LoginComponent } from './components/auth/login/login.component';
-import { MapModule } from './components/map/map/map.module';
 import { RegistrationComponent } from './components/auth/registration/registration.component';
 import { ReactiveFormsModule} from "@angular/forms";
 import { FooterComponent } from './layout-module/footer/footer.component';
@@ -26,6 +25,7 @@ import { ReportComponent } from './components/registered-user/modal-popup/report
 import { BookRideAgainComponent } from './components/registered-user/modal-popup/book-ride-again/book-ride-again.component';
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import { StatisticsComponent } from './components/admin/statistics/statistics.component';
+import { MapModule } from './components/map/map/map.module';
 
 compileDirectiveFromMetadata
 
@@ -54,9 +54,7 @@ compileDirectiveFromMetadata
     LayoutModuleModule,
     HttpClientModule,
     NgChartsModule,
-
     LeafletModule
-
   ],
   providers: [
     {

@@ -13,21 +13,19 @@ export class ReportComponent {
    
   constructor(private authService : AuthService, private route : ActivatedRoute){};
   rideHistory: Array<Ride> = [];
-  labels: Array<string> = [];
+  labels: Array<String> = [];
   public datas: Array<number> = [];
   filter : any;
   noRides: boolean = false;
   sum: any;  
-  
-  
+  role : string | null | undefined;
+  numOfRides : Map<String, Number> = new Map<String, Number>;
+  numOfRidesValue : Array<Number> = new Array<Number>;
+  numOfRidesDates : Array<String> = new Array<String>;
 
-  
-  data = [
-    { data: [21560, 45320, 35624, 45200, 55800, 50840, 48700], label: 'Income', backgroundColor:'#D14054' }
-  ];
-    //labels = ["Red", "Orange", "Yellow", "Green", "Blue", "Purple", "Grey"];
+
     datasets = [
-      {label: "Number of rides",data: [22,33,44,55,11],
+      {label: "Number of rides",data: this.numOfRidesValue,
       backgroundColor: ["rgba(255, 99, 132, 0.2)", "rgba(255, 159, 64, 0.2)",
         "rgba(255, 205, 86, 0.2)", "rgba(75, 192, 192, 0.2)", "rgba(54, 162, 235, 0.2)",
         "rgba(153, 102, 255, 0.2)", "rgba(201, 203, 207, 0.2)"
@@ -37,11 +35,10 @@ export class ReportComponent {
       ],
       borderWidth: 1
     }];
-
     horizontalBarOptions = {
       indexAxis: 'y',
     };
-  
+
   printThisPage() {
       window.print();
   }
@@ -59,17 +56,11 @@ export class ReportComponent {
     }
     return total;
 }
-  getLabels(): Array<string>{
-    let labels = new Array();
-    for(let ride of this.rideHistory){
-      labels.push(ride.startTime);
-  }
-  return labels;
-  }
-
-
-
   ngOnInit() {
+    this.authService.userState$.subscribe((result) => {
+      this.role = result;
+    });
+
     this.route.queryParams.subscribe(params => {
       this.filter = params;
     });
@@ -86,5 +77,51 @@ export class ReportComponent {
         console.log(error);
       },
     });
+    if(this.authService.getRole()=='PASSENGER'){
+      this.authService.getRFilterNumOfRides(this.authService.getId()).subscribe({
+        next: (result) => {
+          this.numOfRides = result;
+          console.log(this.numOfRides)
+          this.numOfRidesDates = Array.from(Object.keys(this.numOfRides));
+          this.numOfRidesValue = Array.from(Object.values(this.numOfRides));
+          this.datasets = [
+            { data: this.numOfRidesValue, 
+              label: 'Number Of Rides',
+              backgroundColor: ["rgba(255, 99, 132, 0.2)", "rgba(255, 159, 64, 0.2)",
+                                "rgba(255, 205, 86, 0.2)", "rgba(75, 192, 192, 0.2)", 
+                                "rgba(54, 162, 235, 0.2)", "rgba(153, 102, 255, 0.2)", 
+                                "rgba(201, 203, 207, 0.2)"],
+              borderColor: ["rgb(255, 99, 132)", "rgb(255, 159, 64)", 
+                            "rgb(255, 205, 86)", "rgb(75, 192, 192)", 
+                            "rgb(54, 162, 235)", "rgb(153, 102, 255)", 
+                            "rgb(201, 203, 207)"],
+              borderWidth: 1, }];
+          this.labels = this.numOfRidesDates;
+        }
+      });  
+    }
+    if(this.authService.getRole()=='DRIVER'){
+      this.authService.getFilterNumOfDriverRides(this.authService.getId()).subscribe({
+        next: (result) => {
+          this.numOfRides = result;
+          console.log(this.numOfRides)
+          this.numOfRidesDates = Array.from(Object.keys(this.numOfRides));
+          this.numOfRidesValue = Array.from(Object.values(this.numOfRides));
+          this.datasets = [
+            { data: this.numOfRidesValue, 
+              label: 'Number Of Rides',
+              backgroundColor: ["rgba(255, 99, 132, 0.2)", "rgba(255, 159, 64, 0.2)",
+                                "rgba(255, 205, 86, 0.2)", "rgba(75, 192, 192, 0.2)", 
+                                "rgba(54, 162, 235, 0.2)", "rgba(153, 102, 255, 0.2)", 
+                                "rgba(201, 203, 207, 0.2)"],
+              borderColor: ["rgb(255, 99, 132)", "rgb(255, 159, 64)", 
+                            "rgb(255, 205, 86)", "rgb(75, 192, 192)", 
+                            "rgb(54, 162, 235)", "rgb(153, 102, 255)", 
+                            "rgb(201, 203, 207)"],
+              borderWidth: 1, }];
+          this.labels = this.numOfRidesDates;
+        }
+      });
+    }
   }
 }
