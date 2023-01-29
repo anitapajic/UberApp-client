@@ -12,6 +12,7 @@ import { ChangeUserInfo } from 'src/app/model/ChangeUserInfo';
 import { ChangePassword, ResetPassword } from 'src/app/model/ChangePasswordDTO';
 import { Login } from 'src/app/model/Login';
 import { DriverRegistration, Registration } from 'src/app/model/Registration';
+import {FilterRidesFromDate} from "../../model/FilterRidesFromDate";
 
 @Injectable({
   providedIn: 'root'
@@ -189,8 +190,19 @@ export class AuthService {
     return this.http.get('http://localhost:8085/api/statistics/totalRides')
   }
 
+  getTotalNumOfKm(): Observable<any> {
+    return this.http.get('http://localhost:8085/api/statistics/km')
+  }
+  getTodaysIncome(): Observable<any> {
+    return this.http.get('http://localhost:8085/api/statistics/todaysIncome')
+  }
+
   getIncomeFromDates(filter : Filter):Observable<any>{
     return this.http.post('http://localhost:8085/api/statistics/date/totalIncome', filter);
+  }
+
+  getRidesFromDates(filter2 : FilterRidesFromDate):Observable<any>{
+    return this.http.post('http://localhost:8085/api/statistics/date/rides', filter2);
   }
 
 //Drivers and Vehicles
