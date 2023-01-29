@@ -1,9 +1,10 @@
-<div class="rectangle left white" *ngIf="hasRequest">
+<div class="rectangle left white" *ngIf="!hasRide">
     <div class="circle white" >
         <img class = "img-logo " src="./assets/images/logoCircle.png">
     </div>
     <label for="text" class="searchTitle">Searching for driver</label>
-    <div style="width:100%;height:0;padding-bottom:75%;position:relative;"><iframe src="https://giphy.com/embed/kUTME7ABmhYg5J3psM" width="100%" height="100%" style="position:absolute" frameBorder="0" class="giphy-embed" allowFullScreen></iframe></div><p><a href="https://giphy.com/gifs/loading-load-builtbybritt-kUTME7ABmhYg5J3psM"></a></p>
+    <div *ngIf="!time" style="width:100%;height:0;padding-bottom:75%;position:relative;"><iframe src="https://giphy.com/embed/kUTME7ABmhYg5J3psM" width="100%" height="100%" style="position:absolute" frameBorder="0" class="giphy-embed" allowFullScreen></iframe></div><p><a href="https://giphy.com/gifs/loading-load-builtbybritt-kUTME7ABmhYg5J3psM"></a></p>
+    <div *ngIf="time"><p>{{ride.driver.name + " will arive in " + time + " minutes"}}</p></div>
     <button class="decline-btn" (click)="decline()">DECLINE</button>
 </div>
 <div class="rectangle" *ngIf="hasRide" >

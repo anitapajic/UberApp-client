@@ -38,11 +38,11 @@ export class FollowRideDriverComponent {
   showText() {
      this.isReadMore = !this.isReadMore
   }
+
   accept(){
     this.mapService.acceptRide(this.ride.id).subscribe({
       next: (result) => {
         console.log(result);
-        this.accepted = true
         this.started = false;
       },
       error: (error) => {
@@ -65,7 +65,6 @@ export class FollowRideDriverComponent {
       next: (result) => {
         console.log(result);
         this.hasRide = false;
-        this.accepted = false;
       },
       error: (error) => {
         console.log(error);
@@ -86,7 +85,6 @@ export class FollowRideDriverComponent {
 
   }
   end(){
-      this.accepted = !this.accepted
       this.hasRide = false;
       this.mapService.endRide(this.ride.id).subscribe({
         next: (result) => {
@@ -116,6 +114,7 @@ export class FollowRideDriverComponent {
   }
 
   openGlobalSocket(){
+    //WHEN RIDE IS CREATED ASK DRIVER IF HE CAN DO RIDE
     this.stompClient.subscribe('/map-updates/ask-driver', (message: { body: string }) => {
       let ride: Ride = JSON.parse(message.body);
       if(this.role == 'DRIVER' && this.authService.getId() == ride.driver.id){
@@ -123,17 +122,34 @@ export class FollowRideDriverComponent {
         this.hasRide = true;
       }
     });
+    //WHEN RIDE IS ACCEPTED
+    this.stompClient.subscribe('/map-updates/inform', (message: { body: string }) => {
+      let rideTime: any = JSON.parse(message.body);
+      console.log("inform" , rideTime);
+      let ride : Ride = rideTime.ride;
+      console.log(ride);
+      let time : string = rideTime.time;
+      console.log(time);
+      if(this.authService.getId() == ride.driver.id){
+        this.accepted = true;
+      }
+    });
+
+    //WHEN RIDE IS CANCELED OR REJECETED
     this.stompClient.subscribe('/map-updates/declined-ride', (message: { body: string }) => {
       let ride: Ride = JSON.parse(message.body);
       if(this.authService.getId() == ride.driver.id){
         this.hasRide = false;
+        this.accepted = false;
       }
     });
 
+    //WHEN RIDE IS ENDED
     this.stompClient.subscribe('/map-updates/end-ride', (message: { body: string }) => {
       let ride: Ride = JSON.parse(message.body);
       if(this.role == 'DRIVER' && this.authService.getId() == ride.driver.id){
         this.hasRide = false;
+        this.accepted = false;
       }
     });
 
