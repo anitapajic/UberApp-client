@@ -11,10 +11,10 @@ import { RideHistoryComponent } from 'src/app/components/registered-user/ride-hi
 export class DriverNavbarComponent {
   constructor( private router: Router, private authService : AuthService) {}
 
-  active : boolean = true;
+  active : boolean = false;
 
-  changeActivity(){
-    this.active = !this.active;
+  changeActivity(active : boolean){
+    this.active = active;
     this.authService.changeDriverActivity().subscribe({
       next : (result) => {
         console.log(result);

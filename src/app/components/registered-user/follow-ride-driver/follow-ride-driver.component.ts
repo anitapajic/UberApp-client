@@ -4,6 +4,8 @@ import { MapService } from '../../map/map.service';
 import * as Stomp from 'stompjs';
 import * as SockJS from 'sockjs-client';
 import { AuthService } from '../../auth/auth.service';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Rejection } from 'src/app/model/Rejection';
 
 @Component({
   selector: 'app-follow-ride-driver',
@@ -22,6 +24,10 @@ export class FollowRideDriverComponent {
   ride! : Ride;
   
   isReadMore = true
+
+  rejection= new FormGroup({
+    reason: new FormControl('', [Validators.required, Validators.minLength(20)]),
+  });
 
 
   ngOnInit() {
@@ -51,7 +57,11 @@ export class FollowRideDriverComponent {
   }
   
   decline(){
-    this.mapService.declineRide(this.ride.id).subscribe({
+    let rejection : Rejection = {
+      reason : this.rejection.value.reason
+    }
+
+    this.mapService.cancelRide(this.ride.id, rejection).subscribe({
       next: (result) => {
         console.log(result);
         this.hasRide = false;
@@ -111,6 +121,12 @@ export class FollowRideDriverComponent {
       if(this.role == 'DRIVER' && this.authService.getId() == ride.driver.id){
         this.ride = ride;
         this.hasRide = true;
+      }
+    });
+    this.stompClient.subscribe('/map-updates/declined-ride', (message: { body: string }) => {
+      let ride: Ride = JSON.parse(message.body);
+      if(this.authService.getId() == ride.driver.id){
+        this.hasRide = false;
       }
     });
 

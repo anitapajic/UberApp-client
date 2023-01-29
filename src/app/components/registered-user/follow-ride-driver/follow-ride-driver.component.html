@@ -13,7 +13,12 @@
       <div class="row">
         <div *ngIf="!accepted">
             <button class="accept-btn" (click)="accept()">ACCEPT</button>
-            <button class="decline-btn" (click)="decline()">DECLINE</button>
+            <button class="decline-btn" (click)="decline()" [disabled]="!rejection.valid">REJECT</button>
+            <div>
+                <form [formGroup]="rejection" >
+                    <input  class="rejection" type="text" placeholder="Rejection reason" formControlName="reason">
+                </form>
+            </div>
         </div>
         <div *ngIf="accepted">
             <button class="accept-btn" (click)="start()" [disabled] = "started == true">START</button>

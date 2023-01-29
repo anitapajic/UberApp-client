@@ -66,6 +66,13 @@ hr{
 .card-text{
     color: #FFFFFF;
 }
+
+.rejection{
+    width: 270px;
+    height: 40;
+    margin-left: 5px;
+}
+
 .btn {
     position: absolute;
     border-radius: 0%;

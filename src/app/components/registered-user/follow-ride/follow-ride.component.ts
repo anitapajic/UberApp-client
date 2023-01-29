@@ -16,6 +16,7 @@ export class FollowRideComponent {
   role: string | null | undefined;
 
   hasRide : boolean = false;
+  hasRequest : boolean = false;
   ride! : Ride;
   isReadMore = true
 
@@ -26,6 +27,19 @@ export class FollowRideComponent {
   showText() {
     this.isReadMore = !this.isReadMore
  }
+
+ decline(){
+  this.mapService.declineRide(this.ride.id).subscribe({
+    next: (result) => {
+      console.log(result);
+      this.hasRide = false;
+      this.hasRequest = false;
+    },
+    error: (error) => {
+      console.log(error);
+    },
+  });
+}
 
   initializeWebSocketConnection() {
     let ws = new SockJS('http://localhost:8085/socket');
@@ -38,16 +52,26 @@ export class FollowRideComponent {
   }
 
   openGlobalSocket(){
+
+    this.stompClient.subscribe('/map-updates/ask-driver', (message: { body: string }) => {
+      let ride: Ride = JSON.parse(message.body);
+      if(this.authService.getId() == ride.passengers[0].id){
+        this.ride = ride;
+        this.hasRequest = true;
+      }
+    });
     this.stompClient.subscribe('/map-updates/new-ride', (message: { body: string }) => {
       let ride: Ride = JSON.parse(message.body);
-      if(this.role == 'PASSENGER' && this.authService.getId() == ride.passengers[0].id){
+      if(this.authService.getId() == ride.passengers[0].id){
         this.ride = ride;
+        this.hasRequest = false;
         this.hasRide = true;
       }
     });
-    this.stompClient.subscribe('/map-updates/end-ride', (message: { body: string }) => {
+    this.stompClient.subscribe('/map-updates/declined-ride', (message: { body: string }) => {
       let ride: Ride = JSON.parse(message.body);
-      if(this.role == 'PASSENGER' && this.authService.getId() == ride.passengers[0].id){
+      if(this.authService.getId() == ride.passengers[0].id){
+        this.hasRequest = false;
         this.hasRide = false;
       }
     });

@@ -9,7 +9,11 @@
     left: 10%;
     padding: 45px;
     padding-bottom: 25px;
-  }
+}
+
+.left{
+    left: 40%;
+}
   
 .circle{
     position:absolute;
@@ -36,7 +40,19 @@
     font-size: 24px;
     line-height: 29px;
     color: #D14054;
+}
 
+.searchTitle{
+    margin-top: 28px;
+    margin-bottom: 0;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 24px;
+    line-height: 29px;
+    color: #25313C;
+}
+.white{
+    background-color: white;
 }
 .price{
     margin-top: -11px;
@@ -79,6 +95,29 @@ hr{
     border: #D14054;
     z-index: 100;
     color: #FFFFFF;
+}
+
+.btn:hover{
+    background-color: #EBEAE5;
+    color: #D14054;
+}
+
+.decline-btn{
+    border-radius: 0%;
+    width: 130px;
+    height: 40px;
+    margin: 20px 20%;
+    font-weight: 700;
+    font-size: 20px;
+    background-color: #D14054;
+    border: #D14054;
+    color: #FFFFFF;
+
+}
+.decline-btn:hover{
+    background-color: #EBEAE5;
+    border-color: #EBEAE5;
+    color: #D14054;
 }
 
 .a-close{

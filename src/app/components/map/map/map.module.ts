@@ -12,10 +12,11 @@ import { FollowRideComponent } from '../../registered-user/follow-ride/follow-ri
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import { FollowRideDriverComponent } from '../../registered-user/follow-ride-driver/follow-ride-driver.component';
 import { ToastrModule } from 'ngx-toastr'
+import { ReactiveFormsModule} from "@angular/forms";
 
 @NgModule({
   declarations: [MapComponent, CoordinatesComponent,VehicleCardsComponent, AboutComponent,DownloadAppComponent, NavIconsComponent,RideHistoryComponent,FollowRideComponent,FollowRideDriverComponent ],
-  imports: [CommonModule, RouterModule, LeafletModule,
+  imports: [CommonModule, RouterModule, LeafletModule, ReactiveFormsModule,
      ToastrModule.forRoot({
       timeOut : 2000,
       progressBar : true,

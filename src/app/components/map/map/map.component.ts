@@ -239,7 +239,6 @@ export class MapComponent implements AfterViewInit {
         .subscribe({
           next: (result) => {
             console.log(result);
-            alert("Searchin for driver...")
           },
           error: (error) => {
             console.log(error);
@@ -338,91 +337,14 @@ export class MapComponent implements AfterViewInit {
   }
 
   openGlobalSocket() {
+    //VEHICLE POSITION
     this.stompClient.subscribe('/map-updates/update-vehicle-position', (message: { body: string }) => {
       let vehicle: Vehicle = JSON.parse(message.body);
       let existingVehicle = this.vehicles[vehicle.id];
       existingVehicle.setLatLng([vehicle.location.latitude, vehicle.location.longitude]);
       existingVehicle.update();  
     });
-
-    // this.stompClient.subscribe('/map-updates/ask-driver', (message: { body: string }) => {
-    //   let ride: Ride = JSON.parse(message.body);
-    //   if(this.role == 'DRIVER' && this.authService.getId() == ride.driver.id){
-    //     this.rideOffer = ride;
-
-    //     let display = document.getElementById('rideOffer') as HTMLElement;
-    //     console.log(display);
-    //     display.style.display = 'block';
-    //   }
-    //   if(this.role == 'PASSENGER' && this.authService.getId() == ride.passengers[0].id){
-
-    //   }
-
-    // });
-
-
-    this.stompClient.subscribe('/map-updates/new-ride', (message: { body: string }) => {
-      console.log('new ride');
-      let ride: Ride = JSON.parse(message.body);
-      if(this.role == 'ADMIN' || this.authService.getId() == ride.driver.id || this.authService.getId() == ride.passengers[0].id){
-        console.log("ride", ride);
-        this.hasRide = true;
-        let geoLayerRouteGroup: LayerGroup = new LayerGroup();
-        for (let step of JSON.parse(JSON.parse(ride.routeJSON))['routes'][0]['legs'][0]['steps']) {
-          let routeLayer = geoJSON(step.geometry);
-          routeLayer.setStyle({ color:  `#D14054`});
-          routeLayer.addTo(geoLayerRouteGroup);
-          this.rides[ride.id] = geoLayerRouteGroup;
-        }
-
-        // let iconSize : L.PointExpression = [30,30];
-        // if(this.role == 'DRIVER'){
-        //   iconSize = [40,40];
-        // }
-
-      //   let markerLayer = marker([ride.vehicle.location.latitude, ride.vehicle.location.longitude], {
-      //     icon: icon({
-      //       iconUrl: '.\\assets\\images\\not-available-car.png',
-      //       iconSize: iconSize,
-      //       iconAnchor: [18, 30],
-      //     }),
-      //  });
-      //   markerLayer.addTo(geoLayerRouteGroup);
-      //   this.vehicles[ride.vehicle.id] = markerLayer;
-        this.mainGroup = [...this.mainGroup, geoLayerRouteGroup];
-      }
-
-    });
-    this.stompClient.subscribe('/map-updates/end-ride', (message: { body: string }) => {
-      let ride: Ride = JSON.parse(message.body);
-      if(this.role == 'ADMIN' || this.authService.getId() == ride.driver.id || this.authService.getId() == ride.passengers[0].id){
-        this.hasRide = false;
-        this.mainGroup = this.mainGroup.filter((lg: LayerGroup) => lg !== this.rides[ride.id]);
-        delete this.rides[ride.id];
-      }
-    });
-    this.stompClient.subscribe('/map-updates/declined-ride', (message: { body: string }) => {
-      let ride: Ride = JSON.parse(message.body);
-      if(this.authService.getId() == ride.passengers[0].id){
-        
-        //toastr ne radi, a alert pojavi 2 puta
-        // this.toastr.success("There is no available driver at the moment", "NO DRIVER", {timeOut: 3000})
-
-        alert('There is no available driver at the moment');
-      }
-    });
-
-  //   this.stompClient.subscribe('/map-updates/ended-ride', (message: { body: string }) => {
-  //     let ride: Ride = JSON.parse(message.body);
-  //     this.mainGroup = this.mainGroup.filter((lg: LayerGroup) => lg !== this.rides[ride.id]);
-  //     delete this.vehicles[ride.vehicle.id];
-  //     delete this.rides[ride.id];
-  //   });
-    this.stompClient.subscribe('/map-updates/delete-all-rides', (message: { body: string }) => {
-      this.rides = {};
-      this.mainGroup = [];
-      this.getAllDrivers();
-    });
+    //DRIVER ACTIVITY
     this.stompClient.subscribe('/map-updates/update-activity', (message: { body: string }) => {
       let driver : Driver = JSON.parse(message.body);
 
@@ -447,6 +369,61 @@ export class MapComponent implements AfterViewInit {
       this.vehicles[driver.vehicle.id] = markerLayer;
       this.mainGroup = [...this.mainGroup, geoLayerRouteGroup];
     });
+
+
+    //SENT REQUEST FOR RIDE
+    this.stompClient.subscribe('/map-updates/ask-driver', (message: { body: string }) => {
+      let ride: Ride = JSON.parse(message.body);
+      if(this.authService.getId() == ride.passengers[0].id){
+        this.hasRide = true;
+      }
+    });
+    //DRIVER ACCEPTED RIDE
+    this.stompClient.subscribe('/map-updates/new-ride', (message: { body: string }) => {
+      console.log('new ride');
+      let ride: Ride = JSON.parse(message.body);
+      if(this.role == 'ADMIN' || this.authService.getId() == ride.driver.id || this.authService.getId() == ride.passengers[0].id){
+        console.log("ride", ride);
+        this.hasRide = true;
+        let geoLayerRouteGroup: LayerGroup = new LayerGroup();
+        for (let step of JSON.parse(JSON.parse(ride.routeJSON))['routes'][0]['legs'][0]['steps']) {
+          let routeLayer = geoJSON(step.geometry);
+          routeLayer.setStyle({ color:  `#D14054`});
+          routeLayer.addTo(geoLayerRouteGroup);
+          this.rides[ride.id] = geoLayerRouteGroup;
+        }
+
+        this.mainGroup = [...this.mainGroup, geoLayerRouteGroup];
+      }
+
+    });
+    //DRIVER DECLINED OR PASSENGER CANCELED RIDE
+    this.stompClient.subscribe('/map-updates/declined-ride', (message: { body: string }) => {
+      let ride: Ride = JSON.parse(message.body);
+      if(this.authService.getId() == ride.passengers[0].id){
+        this.hasRide = false;
+        //toastr ne radi, a alert pojavi 2 puta
+        // this.toastr.success("There is no available driver at the moment", "NO DRIVER", {timeOut: 3000})
+
+      }
+    });
+
+    //DRIVER ENDED RIDE
+    this.stompClient.subscribe('/map-updates/end-ride', (message: { body: string }) => {
+      let ride: Ride = JSON.parse(message.body);
+      if(this.role == 'ADMIN' || this.authService.getId() == ride.driver.id || this.authService.getId() == ride.passengers[0].id){
+        this.hasRide = false;
+        this.mainGroup = this.mainGroup.filter((lg: LayerGroup) => lg !== this.rides[ride.id]);
+        delete this.rides[ride.id];
+      }
+    });
+
+    this.stompClient.subscribe('/map-updates/delete-all-rides', (message: { body: string }) => {
+      this.rides = {};
+      this.mainGroup = [];
+      this.getAllDrivers();
+    });
+
   }
 
 }
