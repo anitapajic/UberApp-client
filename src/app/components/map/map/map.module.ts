@@ -11,11 +11,18 @@ import { RideHistoryComponent } from '../../registered-user/ride-history/ride-hi
 import { FollowRideComponent } from '../../registered-user/follow-ride/follow-ride.component'; 
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import { FollowRideDriverComponent } from '../../registered-user/follow-ride-driver/follow-ride-driver.component';
-
+import { ToastrModule } from 'ngx-toastr'
 
 @NgModule({
   declarations: [MapComponent, CoordinatesComponent,VehicleCardsComponent, AboutComponent,DownloadAppComponent, NavIconsComponent,RideHistoryComponent,FollowRideComponent,FollowRideDriverComponent ],
-  imports: [CommonModule, RouterModule, LeafletModule],
+  imports: [CommonModule, RouterModule, LeafletModule,
+     ToastrModule.forRoot({
+      timeOut : 2000,
+      progressBar : true,
+      progressAnimation : 'increasing',
+      preventDuplicates : true
+    }
+  )],
   exports: [MapComponent],
 
 })

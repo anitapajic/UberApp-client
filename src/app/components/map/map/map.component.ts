@@ -12,6 +12,7 @@ import { Vehicle } from 'src/app/model/Vehicle';
 import { CurrentLocation } from 'src/app/model/CurrentLocation';
 import { Driver, User } from 'src/app/model/User';
 import { LeafletDirective, LeafletModule } from '@asymmetrik/ngx-leaflet';
+import { ToastrService } from 'ngx-toastr'
 
 @Component({
   selector: 'app-map',
@@ -36,7 +37,7 @@ export class MapComponent implements AfterViewInit {
   mainGroup: LayerGroup[] = [];
   private stompClient: any;
   rideOffer!: Ride;
-  noRide : boolean = true;
+  hasRide : boolean = false;
   // drivers : Array<Driver> = [];
 
   private map: any;
@@ -57,7 +58,7 @@ export class MapComponent implements AfterViewInit {
   routingControl = L.Routing.control({ waypoints: [    ]});
 
   
-  constructor(private mapService: MapService, private authService : AuthService) {}
+  constructor(private mapService: MapService, private authService : AuthService, private toastr: ToastrService) {}
 
 
   ngAfterViewInit(): void {
@@ -365,7 +366,7 @@ export class MapComponent implements AfterViewInit {
       let ride: Ride = JSON.parse(message.body);
       if(this.role == 'ADMIN' || this.authService.getId() == ride.driver.id || this.authService.getId() == ride.passengers[0].id){
         console.log("ride", ride);
-        this.noRide = false;
+        this.hasRide = true;
         let geoLayerRouteGroup: LayerGroup = new LayerGroup();
         for (let step of JSON.parse(JSON.parse(ride.routeJSON))['routes'][0]['legs'][0]['steps']) {
           let routeLayer = geoJSON(step.geometry);
@@ -374,25 +375,42 @@ export class MapComponent implements AfterViewInit {
           this.rides[ride.id] = geoLayerRouteGroup;
         }
 
-        let iconSize : L.PointExpression = [30,30];
-        if(this.role == 'DRIVER'){
-          iconSize = [40,40];
-        }
+        // let iconSize : L.PointExpression = [30,30];
+        // if(this.role == 'DRIVER'){
+        //   iconSize = [40,40];
+        // }
 
-        let markerLayer = marker([ride.vehicle.location.latitude, ride.vehicle.location.longitude], {
-          icon: icon({
-            iconUrl: '.\\assets\\images\\not-available-car.png',
-            iconSize: iconSize,
-            iconAnchor: [18, 30],
-          }),
-       });
-        markerLayer.addTo(geoLayerRouteGroup);
-        this.vehicles[ride.vehicle.id] = markerLayer;
+      //   let markerLayer = marker([ride.vehicle.location.latitude, ride.vehicle.location.longitude], {
+      //     icon: icon({
+      //       iconUrl: '.\\assets\\images\\not-available-car.png',
+      //       iconSize: iconSize,
+      //       iconAnchor: [18, 30],
+      //     }),
+      //  });
+      //   markerLayer.addTo(geoLayerRouteGroup);
+      //   this.vehicles[ride.vehicle.id] = markerLayer;
         this.mainGroup = [...this.mainGroup, geoLayerRouteGroup];
       }
 
     });
+    this.stompClient.subscribe('/map-updates/end-ride', (message: { body: string }) => {
+      let ride: Ride = JSON.parse(message.body);
+      if(this.role == 'ADMIN' || this.authService.getId() == ride.driver.id || this.authService.getId() == ride.passengers[0].id){
+        this.hasRide = false;
+        this.mainGroup = this.mainGroup.filter((lg: LayerGroup) => lg !== this.rides[ride.id]);
+        delete this.rides[ride.id];
+      }
+    });
+    this.stompClient.subscribe('/map-updates/declined-ride', (message: { body: string }) => {
+      let ride: Ride = JSON.parse(message.body);
+      if(this.authService.getId() == ride.passengers[0].id){
+        
+        //toastr ne radi, a alert pojavi 2 puta
+        // this.toastr.success("There is no available driver at the moment", "NO DRIVER", {timeOut: 3000})
 
+        alert('There is no available driver at the moment');
+      }
+    });
 
   //   this.stompClient.subscribe('/map-updates/ended-ride', (message: { body: string }) => {
   //     let ride: Ride = JSON.parse(message.body);
@@ -412,12 +430,16 @@ export class MapComponent implements AfterViewInit {
       if(!driver.active){
         iconUrl = '.\\assets\\images\\not-available-car.png'
       }
+      let iconSize : L.PointExpression = [30,30];
+      if(this.role == 'DRIVER'){
+        iconSize = [40,40];
+      }
       let geoLayerRouteGroup: LayerGroup = new LayerGroup();
 
       let markerLayer = marker([driver.vehicle.location.latitude, driver.vehicle.location.longitude], {
         icon: icon({
           iconUrl: iconUrl,
-          iconSize: [40, 40],
+          iconSize: iconSize,
           iconAnchor: [18, 30],
         }),
       });

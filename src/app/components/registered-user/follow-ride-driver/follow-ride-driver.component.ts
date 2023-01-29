@@ -17,25 +17,37 @@ export class FollowRideDriverComponent {
   role: string | null | undefined;
 
   accepted : boolean = false;
+  started : boolean = false;
   hasRide : boolean = false;
   ride! : Ride;
   
+  isReadMore = true
+
+
   ngOnInit() {
     this.initializeWebSocketConnection();
     this.role = this.authService.getRole()
   }
 
+  showText() {
+     this.isReadMore = !this.isReadMore
+  }
   accept(){
     this.mapService.acceptRide(this.ride.id).subscribe({
       next: (result) => {
         console.log(result);
         this.accepted = true
+        this.started = false;
       },
       error: (error) => {
         console.log(error);
       },
     });
 
+  }
+
+  getAddresss(address : string) : string{
+    return "TEST TEST";
   }
   
   decline(){
@@ -44,7 +56,6 @@ export class FollowRideDriverComponent {
         console.log(result);
         this.hasRide = false;
         this.accepted = false;
-
       },
       error: (error) => {
         console.log(error);
@@ -56,6 +67,7 @@ export class FollowRideDriverComponent {
     this.mapService.startRide(this.ride.id).subscribe({
       next: (result) => {
         console.log(result);
+        this.started = true;
       },
       error: (error) => {
         console.log(error);
@@ -65,10 +77,12 @@ export class FollowRideDriverComponent {
   }
   end(){
       this.accepted = !this.accepted
+      this.hasRide = false;
       this.mapService.endRide(this.ride.id).subscribe({
         next: (result) => {
           console.log(result);
           this.hasRide = false;
+          
         },
         error: (error) => {
           console.log(error);
@@ -99,5 +113,14 @@ export class FollowRideDriverComponent {
         this.hasRide = true;
       }
     });
+
+    this.stompClient.subscribe('/map-updates/end-ride', (message: { body: string }) => {
+      let ride: Ride = JSON.parse(message.body);
+      if(this.role == 'DRIVER' && this.authService.getId() == ride.driver.id){
+        this.hasRide = false;
+      }
+    });
+
+
   }
 }

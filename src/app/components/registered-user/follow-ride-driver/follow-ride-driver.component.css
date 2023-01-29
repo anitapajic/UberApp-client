@@ -103,8 +103,12 @@ hr{
     background-color: #EBEAE5;
     border-color: #EBEAE5;
     color: darkgreen;
-
+  
 }
+.accept-btn:disabled{
+    opacity: 50%;
+}
+
 .decline-btn{
     border-radius: 0%;
     width: 130px;
@@ -123,9 +127,22 @@ hr{
     color: #D14054;
 }
 
+.decline-btn:disabled{
+    opacity: 50%;
+}
 
 .a-close{
     float: center;
+}
+
+p{
+    max-width: 600px;
+}
+
+.limitTextHeight {
+    height: 30px;
+    width: 300px;
+    overflow: hidden;
 }
 
 .row-ratings{

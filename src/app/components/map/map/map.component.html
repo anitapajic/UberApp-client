@@ -10,11 +10,11 @@
   </div>
 </div>
 
-<div class="app-coordinates" *ngIf="(role == 'PASSENGER' && noRide)|| role == null">
+<div class="app-coordinates" *ngIf="(role == 'PASSENGER' && !hasRide)|| role == null">
   <app-coordinates></app-coordinates> 
 </div>
 
-<div class="app-follow-ride" *ngIf="role == 'PASSENGER' && !noRide">
+<div class="app-follow-ride" *ngIf="role == 'PASSENGER'">
   <app-follow-ride></app-follow-ride>
 </div>
 
