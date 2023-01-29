@@ -9,11 +9,21 @@ import { DownloadAppComponent } from '../../unregistered-user/download-app/downl
 import { NavIconsComponent } from '../../registered-user/nav-icons/nav-icons.component';
 import { RideHistoryComponent } from '../../registered-user/ride-history/ride-history.component';
 import { FollowRideComponent } from '../../registered-user/follow-ride/follow-ride.component'; 
-
+import { LeafletModule } from '@asymmetrik/ngx-leaflet';
+import { FollowRideDriverComponent } from '../../registered-user/follow-ride-driver/follow-ride-driver.component';
+import { ToastrModule } from 'ngx-toastr'
+import { ReactiveFormsModule} from "@angular/forms";
 
 @NgModule({
-  declarations: [MapComponent, CoordinatesComponent,VehicleCardsComponent, AboutComponent,DownloadAppComponent, NavIconsComponent,RideHistoryComponent,FollowRideComponent],
-  imports: [CommonModule, RouterModule],
+  declarations: [MapComponent, CoordinatesComponent,VehicleCardsComponent, AboutComponent,DownloadAppComponent, NavIconsComponent,RideHistoryComponent,FollowRideComponent,FollowRideDriverComponent ],
+  imports: [CommonModule, RouterModule, LeafletModule, ReactiveFormsModule,
+     ToastrModule.forRoot({
+      timeOut : 2000,
+      progressBar : true,
+      progressAnimation : 'increasing',
+      preventDuplicates : true
+    }
+  )],
   exports: [MapComponent],
 
 })

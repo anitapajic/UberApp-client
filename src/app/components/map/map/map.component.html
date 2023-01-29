@@ -1,15 +1,31 @@
 <p id= "p40"></p> 
 <div class="map-container">
   <div class="map-frame">
-    <div id="map"></div>
+    <div id="map"    style="height: 100%; width: 100%"
+    leaflet
+    [leafletOptions]='options'
+    [leafletLayers]='mainGroup' 
+    >
+    </div>
   </div>
 </div>
 
-<div class="app-coordinates" *ngIf="role != 'ADMIN'">
+<div class="app-coordinates" *ngIf="(role == 'PASSENGER' && !hasRide)|| role == null">
   <app-coordinates></app-coordinates> 
 </div>
 
 <div *ngIf="role == 'PASSENGER'">
+<div class="app-follow-ride" *ngIf="role == 'PASSENGER'">
+  <app-follow-ride></app-follow-ride>
+</div>
+
+<div id="rideOffer" class="app-follow-ride-driver"  *ngIf="role == 'DRIVER'">
+  <app-follow-ride-driver></app-follow-ride-driver>
+</div>
+
+
+<div *ngIf="role != null">
+
   <div class="app-nav-icons">
     <app-nav-icons></app-nav-icons> 
   </div>

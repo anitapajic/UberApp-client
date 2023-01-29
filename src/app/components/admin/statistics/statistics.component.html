@@ -1,0 +1,170 @@
+<!--<canvas baseChart [type]="'bar'" [datasets]="data" [labels]="labels"></canvas>-->
+<div class="container-fluid py-4">
+  <div class="row row1">
+    <div class="titleDash">
+    <b><p class="dashboard font-weight-bold">ADMINS'S DASHBOARD AND STATISTICS</p></b>
+    </div>
+    <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+      <div class="card smallOnes">
+        <div class="card-body p-3">
+          <div class="row">
+            <div class="col-8">
+              <div class="numbers">
+                <p class="text-sm mb-0 text-uppercase font-weight-bold">Today's Income</p>
+                <h5 class="font-weight-bolder">${{todaysIncome}}
+                </h5>
+                <p class="mb-0">
+                  <span class="text-success text-sm font-weight-bolder">+55%</span>
+                  since yesterday
+                </p>
+              </div>
+            </div>
+            <div class="col-4 text-end">
+              <div class="icon icon-shape bg-gradient-primary shadow-primary text-center rounded-circle">
+                <i class="ni ni-money-coins text-lg opacity-10" aria-hidden="true"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+      <div class="card smallOnes">
+        <div class="card-body p-3">
+          <div class="row">
+            <div class="col-8">
+              <div class="numbers">
+                <p class="text-sm mb-0 text-uppercase font-weight-bold">Total Number of Rides</p>
+                <h5 class="font-weight-bolder">
+                  {{totalNumberOfRides}}
+                </h5>
+                <p class="mb-0">
+                  <span class="text-success text-sm font-weight-bolder">+3%</span>
+                  since last week
+                </p>
+              </div>
+            </div>
+            <div class="col-4 text-end">
+              <div class="icon icon-shape bg-gradient-danger shadow-danger text-center rounded-circle">
+                <i class="ni ni-world text-lg opacity-10" aria-hidden="true"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+      <div class="card smallOnes">
+        <div class="card-body p-3">
+          <div class="row">
+            <div class="col-8">
+              <div class="numbers">
+                <p class="text-sm mb-0 text-uppercase font-weight-bold">Number of Kilometres</p>
+                <h5 class="font-weight-bolder">
+                  {{numOfKm}}km
+                </h5>
+                <p class="mb-0">
+                  <span class="text-danger text-sm font-weight-bolder">-2%</span>
+                  since last quarter
+                </p>
+              </div>
+            </div>
+            <div class="col-4 text-end">
+              <div class="icon icon-shape bg-gradient-success shadow-success text-center rounded-circle">
+                <i class="ni ni-paper-diploma text-lg opacity-10" aria-hidden="true"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-3 col-sm-6">
+      <div class="card smallOnes">
+        <div class="card-body p-3">
+          <div class="row">
+            <div class="col-8">
+              <div class="numbers">
+                <p class="text-sm mb-0 text-uppercase font-weight-bold">Total Income</p>
+                <h5 class="font-weight-bolder">
+                  ${{totalIncome}}
+                </h5>
+                <p class="mb-0">
+                  <span class="text-success text-sm font-weight-bolder">+5%</span> than last month
+                </p>
+              </div>
+            </div>
+            <div class="col-4 text-end">
+              <div class="icon icon-shape bg-gradient-warning shadow-warning text-center rounded-circle">
+                <i class="ni ni-cart text-lg opacity-10" aria-hidden="true"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row mt-4">
+    <div class="card-container">
+      <div class="card chart z-index-2 h-100">
+        <div class="card-header pb-0 pt-3 bg-transparent">
+          <h6 class="text-capitalize">Income Overview</h6>
+          <p class="text-sm mb-0">
+            <i class="fa fa-arrow-up text-success"></i>
+            <span class="font-weight-bold">4% more</span> in 2021
+          </p>
+        </div>
+        <div class="card-body p-3">
+          <div class="chart">
+            <canvas id="canvas1" baseChart [type]="'bar'" [datasets]="data" [labels]="labels"  style="display: block; box-sizing: border-box; height: 300px; width: 536.2px;"></canvas>
+            <div class="dateFrom">
+              <form>
+                <label for="date1">From: </label>
+                <input #startInput type='datetime-local' id="date1" >
+              </form>
+              <form>
+                <label for="date2">To: </label>
+                <input #endInput type="datetime-local" id="date2">
+              </form>
+            </div>
+            <div class="buttons">
+              <button class="button2" (click)="filterDates()">Filter</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card chart z-index-2 h-100">
+        <div class="card-header pb-0 pt-3 bg-transparent">
+          <h6 class="text-capitalize">Number of Rides Overview</h6>
+          <p class="text-sm mb-0">
+            <i class="fa fa-arrow-up text-success"></i>
+            <span class="font-weight-bold">4% more</span> in 2021
+          </p>
+        </div>
+        <div class="card-body p-3">
+          <div class="chart">
+            <canvas id="canvas2" baseChart [type]="'bar'" [datasets]="dataRides" [labels]="labelsRides" style="display: block; box-sizing: border-box; height: 300px; width: 536.2px;"></canvas>
+            <div class="dateFrom">
+              <form>
+                <label for="date3">From:</label>
+                <input #startInputRides type='datetime-local' id="date3">
+              </form>
+              <form>
+                <label for="date4">To: </label>
+                <input #endInputRides type='datetime-local' id="date4" >
+              </form>
+            </div>
+            <div class="buttons">
+              <button class="button" (click)="filterRideDates()">Filter</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+</div>
+
+
+
+
+
+

@@ -13,7 +13,7 @@ export class ChangeRequestsComponent {
   
   noRequests: boolean = false;
 
-  decline(id: Int16Array){
+  decline(id: number){
     this.authService.deleteRequest(id).subscribe({
       next: (result) => {
         console.log(result);
@@ -25,7 +25,7 @@ export class ChangeRequestsComponent {
     });
   }
 
-  approve(id: Int16Array){
+  approve(id: number){
     this.authService.approveRequest(id).subscribe({
       next: (result) => {
         console.log(result);

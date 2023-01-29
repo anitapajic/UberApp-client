@@ -25,6 +25,7 @@ import { NgChartsModule } from 'ng2-charts';
 import { ReportComponent } from './components/registered-user/modal-popup/report/report.component';
 import { BookRideAgainComponent } from './components/registered-user/modal-popup/book-ride-again/book-ride-again.component';
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
+import { StatisticsComponent } from './components/admin/statistics/statistics.component';
 
 compileDirectiveFromMetadata
 
@@ -42,6 +43,7 @@ compileDirectiveFromMetadata
     CreateVehicleComponent,
     ReportComponent,
     BookRideAgainComponent,
+    StatisticsComponent,
   ],
   imports: [
     BrowserModule,
@@ -52,9 +54,11 @@ compileDirectiveFromMetadata
     LayoutModuleModule,
     HttpClientModule,
     NgChartsModule,
+
     LeafletModule
+
   ],
-  providers: [  
+  providers: [
     {
     provide: HTTP_INTERCEPTORS,
     useClass: Interceptor,

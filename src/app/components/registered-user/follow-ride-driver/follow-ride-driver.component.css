@@ -9,11 +9,7 @@
     left: 10%;
     padding: 45px;
     padding-bottom: 25px;
-}
-
-.left{
-    left: 40%;
-}
+  }
   
 .circle{
     position:absolute;
@@ -40,19 +36,7 @@
     font-size: 24px;
     line-height: 29px;
     color: #D14054;
-}
 
-.searchTitle{
-    margin-top: 28px;
-    margin-bottom: 0;
-    font-style: normal;
-    font-weight: bold;
-    font-size: 24px;
-    line-height: 29px;
-    color: #25313C;
-}
-.white{
-    background-color: white;
 }
 .price{
     margin-top: -11px;
@@ -65,7 +49,7 @@
     font-size: 20px;
     line-height: 24px;
     margin-bottom: 1px;
-    margin-top: 30px;
+
     color: #FFFFFF;
 }
 hr{
@@ -82,6 +66,13 @@ hr{
 .card-text{
     color: #FFFFFF;
 }
+
+.rejection{
+    width: 270px;
+    height: 40;
+    margin-left: 5px;
+}
+
 .btn {
     position: absolute;
     border-radius: 0%;
@@ -102,11 +93,34 @@ hr{
     color: #D14054;
 }
 
+
+.accept-btn{
+    border-radius: 0%;
+    width: 130px;
+    height: 40px;
+    margin: 20px 5px;
+    font-weight: 700;
+    font-size: 20px;
+    background-color: darkgreen;
+    border: darkgreen;
+    color: #FFFFFF;
+
+}
+.accept-btn:hover{
+    background-color: #EBEAE5;
+    border-color: #EBEAE5;
+    color: darkgreen;
+  
+}
+.accept-btn:disabled{
+    opacity: 50%;
+}
+
 .decline-btn{
     border-radius: 0%;
     width: 130px;
     height: 40px;
-    margin: 20px 20%;
+    margin: 20px 5px;
     font-weight: 700;
     font-size: 20px;
     background-color: #D14054;
@@ -118,6 +132,10 @@ hr{
     background-color: #EBEAE5;
     border-color: #EBEAE5;
     color: #D14054;
+}
+
+.decline-btn:disabled{
+    opacity: 50%;
 }
 
 .a-close{
