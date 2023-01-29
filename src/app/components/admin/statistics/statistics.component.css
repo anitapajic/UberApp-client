@@ -1,0 +1,57 @@
+.container-fluid{
+  background-color: #EBEAE5;
+}
+.row1{
+  margin-top: 5rem;
+}
+.titleDash{
+  position: center;
+  margin-bottom: 3rem;
+  display:grid;
+  place-items: center;
+}
+.buttons{
+  display:grid;
+  place-items: center;
+}
+.dashboard{
+  color: #25313C;
+  font-size:150%;
+}
+.card-container{
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+}
+.chart{
+  margin-right: 5%;
+  margin-left: 5%;
+  background:whitesmoke;
+}
+.card{
+  border-radius: 0.5rem;
+}
+.smallOnes{
+  background:whitesmoke;
+}
+.dateFrom{
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+}
+.button{
+  margin-left: 1rem;
+  color: #FFFFFF;
+  background-color: #D14054;
+  border-radius: 0.5rem;
+  border-color: #FFFFFF;
+  width: 10rem;
+
+}
+.button2{
+  margin-left: 1rem;
+  color: #FFFFFF;
+  background-color: #25313C;
+  border-radius: 0.5rem;
+  border-color: #FFFFFF;
+  width: 10rem;
+
+}

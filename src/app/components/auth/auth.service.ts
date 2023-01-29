@@ -12,6 +12,7 @@ import { ChangeUserInfo } from 'src/app/model/ChangeUserInfo';
 import { ChangePassword, ResetPassword } from 'src/app/model/ChangePasswordDTO';
 import { Login } from 'src/app/model/Login';
 import { DriverRegistration, Registration } from 'src/app/model/Registration';
+import {FilterRidesFromDate} from "../../model/FilterRidesFromDate";
 
 @Injectable({
   providedIn: 'root'
@@ -67,7 +68,7 @@ export class AuthService {
   }
 
 // Login and Registration
-  
+
   login(login: Login): Observable<Token> {
     return this.http.post<Token>(
       'http://localhost:8085/api/user/login', login, {
@@ -150,7 +151,7 @@ export class AuthService {
     );
   }
 
-//Blocking users and leaving notes   
+//Blocking users and leaving notes
 
   getUsersWithNotes() : Observable<any>{
     return this.http.get('http://localhost:8085/api/user?size=1000');
@@ -176,8 +177,8 @@ export class AuthService {
     }
     if (filter.endDate) {
       params = params.append('endDate', filter.endDate);
-    }    
-    
+    }
+
     if(this.getRole() == 'PASSENGER'){
       return this.http.get('http://localhost:8085/api/passenger/' + this.userId + '/ride', {
         params : params
@@ -191,6 +192,29 @@ export class AuthService {
     }
 
     return this.http.post('http://localhost:8085/api/ride/all', filter);
+  }
+
+  getTotalIncome(): Observable<any>{
+      return this.http.get('http://localhost:8085/api/statistics/totalIncome')
+  }
+
+  getTotalNumberOfRides():Observable<any>{
+    return this.http.get('http://localhost:8085/api/statistics/totalRides')
+  }
+
+  getTotalNumOfKm(): Observable<any> {
+    return this.http.get('http://localhost:8085/api/statistics/km')
+  }
+  getTodaysIncome(): Observable<any> {
+    return this.http.get('http://localhost:8085/api/statistics/todaysIncome')
+  }
+
+  getIncomeFromDates(filter : Filter):Observable<any>{
+    return this.http.post('http://localhost:8085/api/statistics/date/totalIncome', filter);
+  }
+
+  getRidesFromDates(filter2 : FilterRidesFromDate):Observable<any>{
+    return this.http.post('http://localhost:8085/api/statistics/date/rides', filter2);
   }
 
 //Drivers and Vehicles
