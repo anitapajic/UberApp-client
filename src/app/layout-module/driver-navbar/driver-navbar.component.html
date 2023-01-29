@@ -2,10 +2,10 @@
     <li class="nav-item active">
         <a class="nav-link"  (click)="scrollRideHistory()">Ride history<span class="sr-only">(current)</span></a>
     </li>
-    <li class="nav-item active" *ngIf="!active" (click)="changeActivity()">
-        <a class="nav-link">Active<span class="sr-only">(current)</span></a>
+    <li class="nav-item active" *ngIf="!active" (click)="changeActivity(true)">
+        <a class="nav-link">Turn off activity<span class="sr-only">(current)</span></a>
     </li>
-    <li class="nav-item active" *ngIf="active" (click)="changeActivity()">
-        <a class="nav-link">Not active<span class="sr-only">(current)</span></a>
+    <li class="nav-item active" *ngIf="active" (click)="changeActivity(false)">
+        <a class="nav-link">Turn on activity<span class="sr-only">(current)</span></a>
     </li>
 </ul>
