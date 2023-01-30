@@ -131,6 +131,10 @@ export class AuthService {
     return this.http.delete('http://localhost:8085/api/driver/update/' + id + '/delete');
   }
 
+  deleteFavoriteRoute(id : number): Observable<any>{
+    return this.http.delete('http://localhost:8085/api/ride/favorites/' + id);
+  }
+
  //Password changes
 
   sendCode(username : any): Observable<any> {

@@ -19,13 +19,24 @@
         <h5>There are no rides.</h5>
     </div>
   </div>
+  <div class="map-container"  id="map-container"style="display: block;">
+    <div class="map-frame">
+      <div id="map"
+      leaflet
+      [leafletOptions]='options'
+      [leafletLayers]='mainGroup' 
+      ></div>
+      
+    </div>
+  </div>
   <div class="row row-cols-1 row-cols-md-2 g-4" *ngIf="!noRides">
     <div class="modal-body">
       <div class="row">
         <div class="row report-row">
           <div class="card">
             <div class="card-body">
-              <h5 class="card-title">22.11.2022 - 22.1.2023</h5>
+              <h5 class="card-title" *ngIf="sDate == null && eDate == null">All history</h5>
+              <h5 class="card-title" *ngIf="sDate != null && eDate != null">{{sDate | date:'shortDate'}}-{{eDate | date:'shortDate'}}</h5>
                 <div class="row report-row" *ngIf="!noRides">
                   <div class="card header-m">
                     <div class="card-body report-card-body">
@@ -103,10 +114,10 @@
                           <div class="vl"></div>
                         </div>
                         <div class="col-1 col-2-de">
-                          <button class="detailsBtn" data-bs-toggle="modal" data-bs-target=".bd-ride-details-modal-sm" id="detRideId" (click)="getRideId(ride.id)">Details</button>
+                          <button class="detailsBtn" data-bs-toggle="modal" data-bs-target=".bd-ride-details-modal-sm" id="detRideId" (click)="openDetails(ride)">Details</button>
                           <div class="modal fade bd-ride-details-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
-                            <div class="modal-dialog" role="document" *ngFor="let ride of rideHistory">
-                              <div class="modal-content" *ngIf="ride.id == setRideId()">
+                            <div class="modal-dialog" role="document">
+                              <div class="modal-content" *ngIf="currentRide">
                                 <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                                   <span aria-hidden="true">&times;</span>
                                 </button>
@@ -116,42 +127,43 @@
                                     <div class="card-body-ride-date">
                                       <div class="row">
                                         <div class="col-6">
-                                          <h5 class="card-title-ride-date">{{ride.startTime | date:'shortDate'}}</h5>
+                                          <h5 class="card-title-ride-date">{{currentRide.startTime | date:'shortDate'}}</h5>
                                         </div>
                                         <div class="col-6">
-                                          <h5 class="card-title-ride-date" *ngIf="ride.endTime != null">{{ride.startTime | date:'shortTime'| lowercase}}-{{ride.endTime | date:'shortTime'| lowercase}}</h5>
-                                          <h5 class="card-title-ride-date" *ngIf="ride.endTime == null">{{ride.startTime | date:'shortTime'| lowercase}}- active</h5>
+                                          <h5 class="card-title-ride-date" *ngIf="currentRide.endTime != null">{{currentRide.startTime | date:'shortTime'| lowercase}}-{{currentRide.endTime | date:'shortTime'| lowercase}}</h5>
+                                          <h5 class="card-title-ride-date" *ngIf="currentRide.endTime == null">{{currentRide.startTime | date:'shortTime'| lowercase}}- active</h5>
                                         </div>
                                       </div>
                                     </div>
                                   </div>
-                                  
+<!--                                   
                                   <div class="map-container">
                                     <div class="map-frame">
-                                      <div id="map"
+                                      <div id="map"></div>
                                       leaflet
                                       [leafletOptions]='options'
-                                      [leafletLayers]='mainGroup' 
-                                      >
-                                      </div>
+                                      [leafletLayers]='mainGroup'  
+                                      
+                                      
                                     </div>
-                                  </div>
+                                  </div> -->
                                 
                                   <div class="card p-padding">
                                     <div class="card-body">
                                       <div class="row">
                                         <div class="col-7">
                                           <div>
-                                            <p class="card-text time" id="fromLoc"><img class = "img-logo dot-img" src="./assets/images/dot.png">&nbsp;&nbsp;&nbsp;{{ride.locations[0].departure.address}}</p>
-                                            <p class="card-text time" id="toLoc"><img class = "img-logo pin-img" src="./assets/images/pin.png">&nbsp;&nbsp;{{ride.locations[0].destination.address}}</p>
+                                            <p class="card-text time" id="fromLoc"><img class = "img-logo dot-img" src="./assets/images/dot.png">&nbsp;&nbsp;&nbsp;{{currentRide.locations[0].departure.address}}</p>
+                                            <p class="card-text time" id="toLoc"><img class = "img-logo pin-img" src="./assets/images/pin.png">&nbsp;&nbsp;{{currentRide.locations[0].destination.address}}</p>
                                           </div>
                                         </div>
                                         <div class="col-1">
                                           <div class="vl-ride"></div>
                                         </div>
                                         <div class="col-2-ride">
-                                          <h5 class="h5-ride total">Total</h5>
-                                          <h5 class="h5-ride">{{ride.totalCost}} RSD</h5>
+                                          <h5 class="r-h5-d total" *ngIf="role == 'DRIVER'">Income</h5>
+                                          <h5 class="r-h5-d total" *ngIf="role == 'PASSENGER'">Total</h5>
+                                          <h5 class="h5-ride">{{currentRide.totalCost}} RSD</h5>
                                         </div>
                                       </div>
                                     </div>
@@ -167,8 +179,11 @@
                                           <div class="vl"></div>
                                         </div>
                                         <div class="col-7">
-                                          <h5 class="r-h5-d" *ngIf="role == 'DRIVER'">Vrati passengera</h5>
-                                          <h5 class="r-h5-d" *ngIf="role == 'PASSENGER'">{{ride.driver.name + " " + ride.driver.surname}}</h5>
+                                          <div *ngFor="let passenger of currentRide.passengers"> 
+                                            <h5 class="r-h5-d" *ngIf="role == 'DRIVER'">{{passenger.name + " " + passenger.surname}}</h5>
+
+                                          </div>
+                                          <h5 class="r-h5-d" *ngIf="role == 'PASSENGER'">{{currentRide.driver.name + " " + currentRide.driver.surname}}</h5>
                                         </div>
                                       </div>
                                     </div>
