@@ -25,6 +25,8 @@ export class FollowRideDriverComponent {
   started : boolean = false;
   hasRide : boolean = false;
   ride! : Ride;
+  rideDuration! : number;
+
   panicObject! : Panic;
   reason! : Reason;
   panics : Array<Panic> = new Array<Panic>();

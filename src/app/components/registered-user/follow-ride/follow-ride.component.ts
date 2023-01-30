@@ -4,9 +4,9 @@ import { AuthService } from '../../auth/auth.service';
 import { MapService } from '../../map/map.service';
 import * as Stomp from 'stompjs';
 import * as SockJS from 'sockjs-client';
-import {Panic} from "../../../model/Panic";
-import {Reason} from "../../../model/Reason";
+import {Reason} from "src/app/model/Reason";
 import { min } from 'rxjs';
+import { Panic } from 'src/app/model/Panic';
 
 @Component({
   selector: 'app-follow-ride',
