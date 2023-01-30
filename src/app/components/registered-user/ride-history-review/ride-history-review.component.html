@@ -1,218 +1,275 @@
 
 <div class="container-fluid">
-    <div class="row justify-content-between">
-        <div class="col-3">
-            <h1>History</h1>
-        </div>
-        <div class="col-4">
-          <button data-bs-toggle="modal" data-bs-target=".bd-example-modal-sm" class="btn generete-btn">Generete report</button>
-          <div class="modal fade bd-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
-              <div class="modal-dialog modal-xl" role="document">
-                  <div class="modal-content">
-                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                      <span aria-hidden="true">&times;</span>
-                    </button>
-                    <h5 class="modal-title report-title">Report</h5>
-                  <div class="modal-body">
-                   <div class="row">
-                    <div class="col-8">
-                      <div class="row report-row">
-                        <div class="card">
-                          <div class="card-body">
-                            <h5 class="card-title">22.11.2022 - 22.1.2023</h5>
-                            <div class="row report-row" *ngIf="!noRides">
-                              <div class="card header">
-                                <div class="card-body report-card-body">
-                                  <div class="row">
-                                    <div class="col-3">
-                                      <h5 class="r-h5">Date</h5>
-                                    </div>
-                                    <div class="col-1">
-                                      <div class="vl"></div>
-                                    </div>
-                                    <div class="col-3">
-                                      <h5 class="r-h5"> From</h5>
-                                    </div>
-                                    <div class="col-1">
-                                      <div class="vl"></div>
-                                    </div>
-                                    <div class="col-3">
-                                      <h5 class="r-h5">To</h5>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                            <div class="row report-row"  *ngFor="let ride of rideHistory">
-                              <div class="card">
-                                <div class="card-body report-card-body-d">
-                                  <div class="row">
-                                    <div class="col-3">
-                                      <h5 class="r-h5-d">{{ride.startTime | date:'fullDate'}}</h5>
-                                    </div>
-                                    <div class="col-1">
-                                      <div class="vl"></div>
-                                    </div>
-                                    <div class="col-3">
-                                      <h5 class="r-h5-d">{{ride.locations[0].departure.address}}</h5>
-                                    </div>
-                                    <div class="col-1">
-                                      <div class="vl"></div>
-                                    </div>
-                                    <div class="col-3">
-                                      <h5 class="r-h5-d">{{ride.locations[0].destination.address}}</h5>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-md-3">
-                      <div class="row report-row" >
-                        <div class="card">
-                          <div class="card-body report-card-body">
-                            <div class="row">
-                              <div class="col-1 r-col-1">
-                                <img class = "img-logo time-img" src="./assets/images/timeClock.png">
-                              </div>
-                              <div class="col-1 r-col-1-vl">
-                                <div class="vl"></div>
-                              </div>
-                              <div class="col-8 r-col-8">
-                                <p class="r-rightTitles">Total driving time</p>
-                                <p class="r-rightValues">12:32:00h</p>
-                              </div>
-
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="row report-row">
-                        <div class="card">
-                          <div class="card-body report-card-body">
-                            <div class="row">
-                              <div class="col-1 r-col-1">
-                                <img class = "img-logo money-img" src="./assets/images/moneyIcon.png">
-                              </div>
-                              <div class="col-1 r-col-1-vl">
-                                <div class="vl"></div>
-                              </div>
-                              <div class="col-8 r-col-8">
-                                <p class="r-rightTitles">Total money spe</p>
-                                <p class="r-rightValues">{{getTotal()}}</p>
-                              </div>
-
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="row report-row">
-                        <div class="card">
-                          <div class="card-body r-print-card-body">
-                            <div class="row">
-                              <button class="printBtn">PRINT</button>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                   </div>
-                   <div class="row">
-                    <div class="col-8">
-                      <div class="row report-row">
-                        <div class="card">
-                          <div class="card-body">
-                            <h5 class="card-title">Chart</h5>
-                            <div class="row report-row" *ngIf="!noRides">
-                              <div class="card">
-                                <div class="card-body report-card-body">
-                                  <div class="row" id="divChart">
-                                    <div class="chart">
-                                      <canvas baseChart [type]="'bar'" [datasets]="datasets" [labels]="labels" ></canvas>
-                                    </div>
-                          
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                   </div>
-                  </div>
-                 
-                  <!--<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Print</button>-->
-                  
-                  </div>
-              </div>
-            </div>
-        </div>
-    </div>
-    <div class="row row-cols-1 row-cols-md-2 g-4" *ngIf="noRides">
-      <div style="height: 600px;">
-          <h5>There are no rides.</h5>
+  <div class="row justify-content-between">
+      <div class="col-3">
+        <h1>History</h1>
       </div>
+      <div class="col-4">
+        <button data-bs-toggle="modal" data-bs-target=".bd-example-modal-sm" class="btn generete-btn">Generete report</button>
+        
+        <div class="modal fade bd-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-xl" role="document">
+            <app-report></app-report>
+          </div>
+        </div>
+      </div>
+  </div>
+  <div class="row row-cols-1 row-cols-md-2 g-4" *ngIf="noRides">
+    <div style="height: 600px;">
+        <h5>There are no rides.</h5>
     </div>
-    <div class="row row-cols-1 row-cols-md-2 g-4" *ngIf="!noRides">
-        <div class="col" *ngFor="let ride of rideHistory">
+  </div>
+  <div class="row row-cols-1 row-cols-md-2 g-4" *ngIf="!noRides">
+    <div class="modal-body">
+      <div class="row">
+        <div class="row report-row">
           <div class="card">
             <div class="card-body">
-              <h5 class="card-title">{{ride.startTime | date:'fullDate'}}</h5>
-              <hr>
-              <div class="p-padding" >
-                <p class="card-text time"><img class = "img-logo dot-img" src="./assets/images/dot.png">&nbsp;&nbsp;{{ride.startTime | date:'shortTime'| lowercase}} <span class="address">{{ride.locations[0].departure.address}}</span></p>
-                <p class="card-text time"  *ngIf="ride.endTime"><img class = "img-logo pin-img" src="./assets/images/pin.png">&nbsp;&nbsp;{{ride.endTime | date:'shortTime'| lowercase}} <span class="address">{{ride.locations[0].destination.address}}</span></p>
-                <p class="card-text time"  *ngIf="!ride.endTime"><img class = "img-logo pin-img" src="./assets/images/pin.png">&nbsp;&nbsp;<span style="margin-right: 70px;"></span><span class="address">{{ride.locations[0].destination.address}}</span></p>
-                <p class="card-text driver">Driver: <span>{{ride.driver.name + " " + ride.driver.surname}}</span></p>
-                <p class="card-text driver">Passengers: <span *ngFor="let passenger of ride.passengers">{{"\n" +passenger.name + " " + passenger.surname}}</span></p>
+              <h5 class="card-title">22.11.2022 - 22.1.2023</h5>
+                <div class="row report-row" *ngIf="!noRides">
+                  <div class="card header-m">
+                    <div class="card-body report-card-body">
+                      <div class="row ">
+                        <div class="col-2 col-2-d">
+                          <h5 class="r-h5">Date</h5>
+                        </div>
+                        <div class="col-1">
+                          <div class="vl-h"></div>
+                        </div>
+                        <div class="col-1 col-1-m">
+                          <h5 class="r-h5">Start</h5>
+                        </div>
+                        <div class="col-1">
+                          <div class="vl-h"></div>
+                        </div>
+                        <div class="col-1 col-1-m">
+                          <h5 class="r-h5">End</h5>
+                        </div>
+                        <div class="col-1">
+                          <div class="vl-h"></div>
+                        </div>
+                        <div class="col-2">
+                          <h5 class="r-h5">From</h5>
+                        </div>
+                        <div class="col-1">
+                          <div class="vl-h"></div>
+                        </div>
+                        <div class="col-2 col-2-t">
+                          <h5 class="r-h5">To</h5>
+                        </div>
+                        <div class="col-1">
+                          <div class="vl-h"></div>
+                        </div>
+                        <div class="col-2 col-2-de">
+                          <h5 class="r-h5">Details</h5>
+                        </div>
+                     </div>
+                  </div>
+                </div>
+              </div>
+               
+              <div class="row report-row"  *ngFor="let ride of rideHistory">
+                    <div class="card-body report-card-body-d">
+                      <div class="row" >
+                       <div class="col-2 col-2-d">
+                          <h5 class="r-h5-d">{{ride.startTime | date:'shortDate'}}</h5>
+                       </div>
+                       <div class="col-1">
+                          <div class="vl"></div>
+                       </div>
+                       <div class="col-1 col-1-m">
+                          <h5 class="r-h5-d">{{ride.startTime | date:'shortTime'| lowercase}}</h5>
+                        </div>
+                        <div class="col-1">
+                          <div class="vl"></div>
+                        </div>
+                        <div class="col-1 col-1-m">
+                          <h5 class="r-h5-d" *ngIf="ride.endTime!=null;">{{ride.endTime | date:'shortTime'| lowercase}}</h5>
+                          <h5 class="r-h5-d" *ngIf="ride.endTime==null;">active ride</h5>
+                        </div>
+                        <div class="col-1">
+                          <div class="vl"></div>
+                        </div>
+                        <div class="col-2">
+                          <h5 class="r-h5-d">{{ride.locations[0].departure.address}}</h5>
+                        </div>
+                        <div class="col-1">
+                          <div class="vl"></div>
+                        </div>
+                        <div class="col-2 col-2-t">
+                          <h5 class="r-h5-d">{{ride.locations[0].destination.address}}</h5>
+                        </div>
+                        <div class="col-1">
+                          <div class="vl"></div>
+                        </div>
+                        <div class="col-1 col-2-de">
+                          <button class="detailsBtn" data-bs-toggle="modal" data-bs-target=".bd-ride-details-modal-sm" id="detRideId" (click)="getRideId(ride.id)">Details</button>
+                          <div class="modal fade bd-ride-details-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document" *ngFor="let ride of rideHistory">
+                              <div class="modal-content" *ngIf="ride.id == setRideId()">
+                                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                  <span aria-hidden="true">&times;</span>
+                                </button>
+                                <h5 class="modal-title report-title">Ride details</h5>
+                                <div class="modal-body">
+                                  <div class="card card-ride">
+                                    <div class="card-body-ride-date">
+                                      <div class="row">
+                                        <div class="col-6">
+                                          <h5 class="card-title-ride-date">{{ride.startTime | date:'shortDate'}}</h5>
+                                        </div>
+                                        <div class="col-6">
+                                          <h5 class="card-title-ride-date" *ngIf="ride.endTime != null">{{ride.startTime | date:'shortTime'| lowercase}}-{{ride.endTime | date:'shortTime'| lowercase}}</h5>
+                                          <h5 class="card-title-ride-date" *ngIf="ride.endTime == null">{{ride.startTime | date:'shortTime'| lowercase}}- active</h5>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  
+                                  <div class="map-container">
+                                    <div class="map-frame">
+                                      <div id="map"
+                                      leaflet
+                                      [leafletOptions]='options'
+                                      [leafletLayers]='mainGroup' 
+                                      >
+                                      </div>
+                                    </div>
+                                  </div>
+                                
+                                  <div class="card p-padding">
+                                    <div class="card-body">
+                                      <div class="row">
+                                        <div class="col-7">
+                                          <div>
+                                            <p class="card-text time" id="fromLoc"><img class = "img-logo dot-img" src="./assets/images/dot.png">&nbsp;&nbsp;&nbsp;{{ride.locations[0].departure.address}}</p>
+                                            <p class="card-text time" id="toLoc"><img class = "img-logo pin-img" src="./assets/images/pin.png">&nbsp;&nbsp;{{ride.locations[0].destination.address}}</p>
+                                          </div>
+                                        </div>
+                                        <div class="col-1">
+                                          <div class="vl-ride"></div>
+                                        </div>
+                                        <div class="col-2-ride">
+                                          <h5 class="h5-ride total">Total</h5>
+                                          <h5 class="h5-ride">{{ride.totalCost}} RSD</h5>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div class="card card-ride">
+                                    <div class="card-body">
+                                      <div class="row">
+                                        <div class="col-2">
+                                          <h5 class="r-h5-d" *ngIf="role == 'DRIVER'">Passenger</h5>
+                                          <h5 class="r-h5-d" *ngIf="role == 'PASSENGER'">Driver</h5>
+                                        </div>
+                                        <div class="col-1">
+                                          <div class="vl"></div>
+                                        </div>
+                                        <div class="col-7">
+                                          <h5 class="r-h5-d" *ngIf="role == 'DRIVER'">Vrati passengera</h5>
+                                          <h5 class="r-h5-d" *ngIf="role == 'PASSENGER'">{{ride.driver.name + " " + ride.driver.surname}}</h5>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div class="card card-ride">
+                                    <div class="card-body">
+                                      <div class="row">
+                                        <div class="col-2">
+                                          <h5 class="r-h5-d">Rating</h5>
+                                        </div>
+                                        <div class="col-1">
+                                          <div class="vl"></div>
+                                        </div>
+                                        <div class="col-7">
+                                          <p class="r-h5-p">4.5 &nbsp;<img class="star-img" src="./assets/images/star.png"></p>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div class="row">
+                                    <button class="bookBtn" *ngIf="role != 'DRIVER'" (click)="bookAgain()">Book again</button>
+                                 
+                                      <div class="card card-ride"  id="bookAgain" style="display: none;">
+                                        <div class="card-body">
+                                              <h5 class="r-h5-d">Pick a date</h5>
+                                              <div class="form-group">
+                                                <div class="row">
+                                                  <div class="col-8">
+                                                    <input id = "fromLocation" type="date" name="from" class="form-control"/>
+                                                  </div>
+                                                  <div class="col-2">
+                                                    <button class="greenBtn">/</button>
+                                                  </div>
+                                                </div>
+                                              </div> 
+                                        </div>
+                                      </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>  
+                        </div>
+                      </div>
+                    </div> 
+                </div>
+              </div>  
 
-              </div>
-              <hr class="hr-dotted">
-              <div class="center-end">
-                <p class="card-text total">Total: <span class="price">{{ride.totalCost | number:'1.2-2'}} RSD</span></p>
-              </div>
+
+
+
+
+
+
+
+                       
+
+
+
+
+
+
+
+
+
+
+
+
             </div>
           </div>
         </div>
-<!--        
-        <div class="col">
-          <div class="card">
-              <div class="card-body">
-                <h5 class="card-title">Tuesday, Novemer 21, 2022</h5>
-                <hr>
-                <div class="p-padding">
-                  <p class="card-text time"><img class = "img-logo dot-img" src="./assets/images/dot.png">&nbsp;&nbsp;7:30pm <span class="address">Puskinova 3</span></p>
-                  <p class="card-text time"><img class = "img-logo pin-img" src="./assets/images/pin.png">&nbsp;&nbsp;8:00pm <span class="address">Mise Dimitrijevica 3</span></p>
-                  <p class="card-text driver">Driver: <span>Tamara Dzambic</span></p>
-                </div>
-                <hr class="hr-dotted">
-                <div class="center-end">
-                  <p class="card-text total">Total: <span class="price">RSD 2430,00</span></p>
-                </div>
-              </div>
-          </div>
-        </div>
-        
-        <div class="col">
-          <div class="card">
-              <div class="card-body">
-                <h5 class="card-title">Tuesday, Novemer 21, 2022</h5>
-                <hr>
-                <div class="p-padding">
-                  <p class="card-text time"><img class = "img-logo dot-img" src="./assets/images/dot.png">&nbsp;&nbsp;7:30pm <span class="address">Puskinova 3</span></p>
-                  <p class="card-text time"><img class = "img-logo pin-img" src="./assets/images/pin.png">&nbsp;&nbsp;8:00pm <span class="address">Mise Dimitrijevica 3</span></p>
-                  <p class="card-text driver">Driver: <span>Tamara Dzambic</span></p>
-                </div>
-                <hr class="hr-dotted">
-                <div class="center-end">
-                  <p class="card-text total">Total: <span class="price">RSD 2430,00</span></p>
-                </div>
-              </div>
-          </div>
-        </div> -->
       </div>
-</div>
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+      <!-- <div class="col" *ngFor="let ride of rideHistory">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">{{ride.startTime | date:'fullDate'}}</h5>
+            <hr>
+            <div class="p-padding" >
+              <p class="card-text time"><img class = "img-logo dot-img" src="./assets/images/dot.png">&nbsp;&nbsp;{{ride.startTime | date:'shortTime'| lowercase}} <span class="address">{{ride.locations[0].departure.address}}</span></p>
+              <p class="card-text time"  *ngIf="ride.endTime"><img class = "img-logo pin-img" src="./assets/images/pin.png">&nbsp;&nbsp;{{ride.endTime | date:'shortTime'| lowercase}} <span class="address">{{ride.locations[0].destination.address}}</span></p>
+              <p class="card-text time"  *ngIf="!ride.endTime"><img class = "img-logo pin-img" src="./assets/images/pin.png">&nbsp;&nbsp;<span style="margin-right: 70px;"></span><span class="address">{{ride.locations[0].destination.address}}</span></p>
+              <p class="card-text driver">Driver: <span>{{ride.driver.name + " " + ride.driver.surname}}</span></p>
+              <p class="card-text driver">Passengers: <span *ngFor="let passenger of ride.passengers">{{"\n" +passenger.name + " " + passenger.surname}}</span></p>
+
+            </div>
+            <hr class="hr-dotted">
+            <div class="center-end">
+              <p class="card-text total">Total: <span class="price">{{ride.totalCost | number:'1.2-2'}} RSD</span></p>
+            </div>
+          </div>
+        </div> 
+      </div>-->
+
+

@@ -4,7 +4,6 @@
             <a class="nav-link" (click)="scrollRideHistory()" > <span class="sr-only">(current)</span>
                 <img class = "img-logo" src="./assets/images/rideHistory.png">
             </a>
-
         </div>
         <div class="col col-lg-2 text-center">
             <a href="#"><img class = "img-logo" data-bs-toggle="modal" data-bs-target=".bd-example-modal-sm" src="./assets/images/ratings.png"></a>
@@ -12,7 +11,7 @@
                 <div class="modal-dialog modal-sm">
                     <div class="modal-content">
                         <div class="rectangle">
-                            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"> 
                                 <span aria-hidden="true">&times;</span>
                             </button>
                             <div class="circle">
@@ -20,7 +19,6 @@
                             </div>
                             <label for="text" class="titleLabel">Enjoying TAXXI?</label>
                             <p for="text" class="price">How would you rate our service?</p>
-
                             <div class="container d-flex justify-content-center mt-100">
                                 <div class="row row-ratings">
                                              <span class="myratings" id="myratings" [innerHTML]="star">4.2</span>
@@ -38,8 +36,6 @@
                                                 </fieldset>
                                             </div>
                                         </div>
-
-
                             <a href="#" class="a-close" data-bs-dismiss="modal" aria-label="Close"><p for="text" class="underlined" >Maybe, next time!</p></a>
                         </div>
                     </div>
@@ -51,30 +47,57 @@
             <div class="modal fade bd-example2-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-sm">
                     <div class="modal-content">
-                        <div class="rectangle">
-                            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                        <div class="modal-body rectangle r2">
+                            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"> 
                                 <span aria-hidden="true">&times;</span>
                             </button>
                             <div class="circle">
                                 <img class = "img-logo-ratings" src="./assets/images/starLogo.png">
                             </div>
                             <label for="text" class="titleLabel">Favorite routes</label>
-                            <p class="label"><img class = "img-star" src="./assets/images/star.png">&nbsp;&nbsp;Home</p>
-                            <p class="location"><img class = "img-dot" src="./assets/images/dot.png">&nbsp;&nbsp;&nbsp;Mise Dimitrijevica 43</p>
-                            <p class="location"><img class = "img-pin" src="./assets/images/pin.png">&nbsp;&nbsp;Strumicka </p>
-                            <p class="label"><img class = "img-star" src="./assets/images/star.png">&nbsp;&nbsp;&nbsp;Home</p>
-                            <p class="location"><img class = "img-dot" src="./assets/images/dot.png">&nbsp;&nbsp;Mise Dimitrijevica 43</p>
-                            <p class="location"><img class = "img-pin" src="./assets/images/pin.png">&nbsp;&nbsp;Strumicka </p>
-
+                            <div *ngFor="let favRoute of favoriteRoutes">
+                            <p class="label"><img class = "img-star" src="./assets/images/star.png">&nbsp;&nbsp;{{favRoute.favoriteName}}</p>
+                            <p class="location" [ngClass]="{'limitTextHeight': true}"><img class = "img-dot" src="./assets/images/dot.png">&nbsp;&nbsp;&nbsp;{{favRoute.locations[0].departure.address}}</p>
+                            <p class="location" [ngClass]="{'limitTextHeight': true}"><img class = "img-pin" src="./assets/images/pin.png">&nbsp;&nbsp;{{favRoute.locations[0].destination.address}} </p>
+                            </div>
+                            <div>
+                                <button class="addNewBtn" (click)="addNewRoute()">ADD NEW</button>
+                                <div class="card card-ride"  id="addNewBtn" style="display: none;">
+                                    <div class="card-body">
+                                          <h5 class="r-h5-f">New favorite route</h5>
+                                          <div class="form-group">
+                                            <div class="row row-favorite-route">
+                                              <div class="col">
+                                                <input id = "favRouteName" type="text" placeholder="Name" name="favRouteName" class="form-control"/>
+                                              </div>
+                                            </div>
+                                            <div class="row row-favorite-route">
+                                                <div class="col">
+                                                  <input id = "favFromLocation" type="text" placeholder="From" name="from" class="form-control"/>
+                                                </div>
+                                              </div>
+                                          </div> 
+                                          <div class="row row-favorite-route">
+                                            <div class="col">
+                                              <input id = "favToLocation" type="text" placeholder="To" name="to" class="form-control"/>
+                                            </div>
+                                          </div>
+                                          <div class="row row-favorite-route">
+                                            <div class="col">
+                                              <button id="createBtn">Create</button>
+                                            </div>
+                                          </div>
+                                      </div> 
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-
+            
         </div>
         <div class="col col-lg-2 text-center">
-          <img class = "img-logo" [routerLink]="['/statistics']" src="./assets/images/reports.png">
+            <img class = "img-logo" [routerLink]="['/home']" src="./assets/images/reports.png">
         </div>
-      </div>
+    </div>
 </div>
-
