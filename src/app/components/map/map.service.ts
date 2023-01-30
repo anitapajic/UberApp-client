@@ -87,7 +87,7 @@ export class MapService {
   }
 
   panicRide(rideId : number, reason : Reason): Observable<Panic>{
-    return this.http.put<Panic>('http://localhost:8085//api/ride/' + rideId + '/panic', reason);
+    return this.http.put<Panic>('http://localhost:8085/api/ride/' + rideId + '/panic', reason);
   }
 
 }

@@ -111,8 +111,10 @@ export class FollowRideDriverComponent {
   panic(){
     this.hasRide = false;
     let oldPassword = document.getElementById("oldPass") as HTMLInputElement;
-    this.reason.reason = oldPassword.value;
-
+    console.log(oldPassword);
+    this.reason = {
+      reason : "test reason"
+    }
     this.mapService.panicRide(this.ride.id, this.reason).subscribe({
       next: (result) => {
         this.panicObject = result;
