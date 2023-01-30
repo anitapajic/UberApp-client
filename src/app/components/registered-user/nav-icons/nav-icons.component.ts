@@ -112,11 +112,22 @@ export class NavIconsComponent {
         console.log(error)
         },
       })
+      let changeDiv = document.getElementById("addNewBtn") as HTMLElement;
+      changeDiv.style.display="none"
       console.log(favoriteRoute);
       this.getFavorites()
   });
   };
-
+  deleteFavRoute(id: number){
+    this.authService.deleteFavoriteRoute(id).subscribe({
+      next: (result) => {
+        console.log(result);;
+      },
+      error: (error) => {
+        console.log(error);
+      },
+    });
+  }
   initializeWebSocketConnection() {
     let ws = new SockJS('http://localhost:8085/socket');
     this.stompClient = Stomp.over(ws);
@@ -126,7 +137,6 @@ export class NavIconsComponent {
       that.openGlobalSocket();
     });
   }
-
   openGlobalSocket(){
     this.stompClient.subscribe('/map-updates/new-favorite-route', (message: { body: string }) => {
       let favRoute: FavoriteRoute = JSON.parse(message.body);

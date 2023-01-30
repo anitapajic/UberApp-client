@@ -24,7 +24,7 @@
 
   }
   .limitTextHeight {
-    height: 20px;
+    height: 30px;
     width: 180px;
     overflow: hidden;
 }
