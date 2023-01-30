@@ -128,6 +128,14 @@ export class NavIconsComponent {
       },
     });
   }
+  filter(){
+    this.router.navigate(['/ride-history-review'], { queryParams: {
+      startDate : null,
+      endDate : null,
+      } });
+  }
+
+
   initializeWebSocketConnection() {
     let ws = new SockJS('http://localhost:8085/socket');
     this.stompClient = Stomp.over(ws);
@@ -145,7 +153,13 @@ export class NavIconsComponent {
       }
     });
     
-
+    this.stompClient.subscribe('/map-updates/delete-favorite-route', (message: { body: string }) => {
+      let favRoute: FavoriteRoute = JSON.parse(message.body);
+      if(this.authService.getId() == favRoute.passengers[0].id){
+        let index = this.favoriteRoutes.indexOf(favRoute);
+        this.favoriteRoutes.splice(index, 1);
+      }
+    });
 
   }
 }

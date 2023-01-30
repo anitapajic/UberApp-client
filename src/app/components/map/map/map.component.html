@@ -40,7 +40,7 @@
   </div>
 </div>
 
-<div *ngIf="role == 'DRIVER' || role == 'PASSENGER'">
+<div *ngIf="role != null">
   <div class="app-ride-history">
     <app-ride-history></app-ride-history> 
   </div>

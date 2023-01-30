@@ -75,7 +75,8 @@ export class RideHistoryReviewComponent implements OnInit{
   }
   addRoute(ride : Ride){
     let geoLayerRouteGroup: LayerGroup = new LayerGroup();
-    for (let step of (JSON.parse(JSON.parse(ride.routeJSON)))['routes'][0]['legs'][0]['steps']) {
+    for (let step of JSON.parse(ride.routeJSON)['routes'][0]['legs'][0]['steps']) {
+      console.log(step, "step");
       let routeLayer = geoJSON(step.geometry);
       routeLayer.setStyle({ color: `#D14054` });
       routeLayer.addTo(geoLayerRouteGroup);
