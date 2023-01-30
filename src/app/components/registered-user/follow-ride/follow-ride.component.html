@@ -42,8 +42,39 @@
 
     </div>
 </div>
-<button id="panicBtn" class="btn" type="button" (click)="openForm()" *ngIf="rideStarted">PANIC</button>
-<div class="card mt-3" id="changePassword" style="display: none;">
+<button id="panicBtn" class="btn" type="button" (click)="openForm()" style="display: block;" *ngIf="rideStarted">PANIC</button>
+
+
+<div class="card mt-3" id="panicReason" style="display: none;">
+  <ul class="list-group list-group-flush">
+      <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+          <h6>Reason of panic</h6>
+      </li>
+
+      <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+          <div class="col-sm-3">
+              <h6 class="mt-2">Reason</h6>
+          </div>
+          <div class="col-sm-9 text-secondary">
+              <input type="text" id="reasonInput" class="form-control">
+          </div>
+      </li>
+      <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+          <div class="col-sm-3">
+          </div>
+          <div class="col-sm-9 text-secondary">
+              <button class="reasonPanicBtn"  id="changePass" (click)="panic()" style="width:100% ;">SEND PANIC</button>
+          </div>
+      </li>
+  </ul>
+
+</div>
+
+
+
+
+
+<!-- <div class="card mt-3" id="changePassword" style="display: none;">
   <ul class="list-group list-group-flush">
     <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
       <h6>Reason of panic</h6>
@@ -55,13 +86,11 @@
       <div class="col-sm-9 text-secondary">
         <input type="text" id="oldPass" class="form-control">
       </div>
-    <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-      <div class="col-sm-3">
-      </div>
+    </li>
+    <li>
       <div class="col-sm-9 text-secondary">
         <button class="btn" id="changePass" (click)="panic()" style="width:100% ;">Send panic</button>
       </div>
     </li>
   </ul>
-
-</div>
+</div> -->

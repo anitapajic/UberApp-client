@@ -51,13 +51,15 @@ export class FollowRideComponent {
 }
 
   openForm(){
-    let changeDiv = document.getElementById("changePassword") as HTMLElement;
+    let changeDiv = document.getElementById("panicReason") as HTMLElement;
     changeDiv.style.display="block"
+    let remove = document.getElementById("panicBtn") as HTMLElement;
+    remove.style.display="none"
   }
 
   panic(){
     this.hasRide = false;
-    let oldPassword = document.getElementById("oldPass") as HTMLInputElement;
+    let oldPassword = document.getElementById("reasonInput") as HTMLInputElement;
     console.log(oldPassword);
     this.reason = {
       reason : oldPassword.value

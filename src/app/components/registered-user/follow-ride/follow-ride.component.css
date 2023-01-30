@@ -59,6 +59,38 @@
     margin-left: 20px;
     color: aliceblue;
 }
+.mt-3, .my-3 {
+    margin-top: 1rem!important;
+    position: absolute;
+    background-color: #D9D9D9;
+    top: 55%;
+    left: 70%;
+    z-index: 200;
+}
+.mt2{
+    margin-top: 0;
+}
+ul{
+    background-color: #EBEAE5;
+    border-radius: 0;
+
+}
+.reasonPanicBtn{
+    border-radius: 0%;
+    width: 180px;
+    margin-bottom: 25px;
+    font-weight: 500;
+    font-size: 17px;
+    background-color: #D14054;
+    border: #D14054;
+    color: #FFFFFF;
+}
+.col-sm-9{
+    max-width: 70%;
+}
+.col-sm-3{
+    max-width: 30%;
+}
 .rate{
     font-style: normal;
     font-weight: 400;
