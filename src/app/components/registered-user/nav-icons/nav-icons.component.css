@@ -3,6 +3,7 @@
 }
 .img-logo{
     width: 50%;
+   cursor: pointer;
 }
 .row{
     padding-top: 50px;
@@ -41,7 +42,7 @@
     padding-bottom: 10px;
     margin-bottom: 20px;
 }
-  
+
 .circle{
     position:absolute;
     height:110px;
@@ -143,13 +144,13 @@ p{
     padding-bottom: 0;
 }
 
-.rating { 
+.rating {
     border: 2px;
     border-color: #25313C;
     margin-right: 0px;
     font-size: 1.25em;
     padding-right: 50px;
-    
+
 }
 
 .myratings{
@@ -158,8 +159,8 @@ font-size: 35px;
 color: green;
 }
 
-.rating > [id^="star"] { display: none; } 
-.rating > label:before { 
+.rating > [id^="star"] { display: none; }
+.rating > label:before {
     padding-top: 0;
     padding-left: 0;
     margin: 5px;
@@ -169,14 +170,14 @@ color: green;
     content: "\f005";
 }
 
-.rating > .half:before { 
+.rating > .half:before {
 content: "\f089";
 position: absolute;
 }
 
-.rating > label { 
-    color: rgb(68, 65, 65); 
-    float: right; 
+.rating > label {
+    color: rgb(68, 65, 65);
+    float: right;
 }
 
 /***** CSS Magic to Highlight Stars on Hover *****/
