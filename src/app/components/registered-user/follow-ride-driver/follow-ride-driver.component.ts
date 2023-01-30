@@ -25,6 +25,8 @@ export class FollowRideDriverComponent {
   started : boolean = false;
   hasRide : boolean = false;
   ride! : Ride;
+  rideDuration! : number;
+
   panicObject! : Panic;
   reason! : Reason;
   panics : Array<Panic> = new Array<Panic>();
@@ -165,6 +167,21 @@ export class FollowRideDriverComponent {
       }
     });
 
+    //STARTED RIDE
+    this.stompClient.subscribe('/map-updates/new-ride', (message: { body: string }) => {
+      let ride: Ride = JSON.parse(message.body);
+      if(this.authService.getId() == ride.driver.id){
+        this.rideDuration = 0;
+      }
+    });
+
+
+    //UPDATING RIDE DURATION
+    this.stompClient.subscribe('/map-updates/change-time', (message: { body: string }) => {
+      if(this.rideDuration >= 0){
+        this.rideDuration += 2;
+      }
+    })
     //WHEN RIDE IS CANCELED OR REJECETED
     this.stompClient.subscribe('/map-updates/declined-ride', (message: { body: string }) => {
       let ride: Ride = JSON.parse(message.body);
