@@ -14,7 +14,7 @@ import * as SockJS from "sockjs-client";
 })
 export class PanicComponent implements OnInit {
 
-  constructor(private authService: AuthService, private dataService: DataService) {
+  constructor(private authService: AuthService) {
   };
 
   panics: Array<Panic> = [];

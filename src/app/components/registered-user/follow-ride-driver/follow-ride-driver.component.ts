@@ -17,7 +17,7 @@ import {DataService} from "../../admin/data.service";
 })
 export class FollowRideDriverComponent {
 
-  constructor(private mapService : MapService, private authService : AuthService, private dataService: DataService){}
+  constructor(private mapService : MapService, private authService : AuthService){}
   private stompClient: any;
   role: string | null | undefined;
 
@@ -27,7 +27,6 @@ export class FollowRideDriverComponent {
   ride! : Ride;
   panicObject! : Panic;
   reason! : Reason;
-  @Output() listEmitter = new EventEmitter<any[]>();
   panics : Array<Panic> = new Array<Panic>();
 
   isReadMore = true
@@ -42,9 +41,6 @@ export class FollowRideDriverComponent {
     this.role = this.authService.getRole()
   }
 
-  sendList() {
-    this.dataService.sendList(this.panics);
-  }
   showText() {
      this.isReadMore = !this.isReadMore
   }
@@ -113,13 +109,12 @@ export class FollowRideDriverComponent {
     let oldPassword = document.getElementById("oldPass") as HTMLInputElement;
     console.log(oldPassword);
     this.reason = {
-      reason : "test reason"
+      reason : oldPassword.value
     }
     this.mapService.panicRide(this.ride.id, this.reason).subscribe({
       next: (result) => {
         this.panicObject = result;
         this.panics.push(this.panicObject);
-        this.sendList();
         console.log(result);
         this.hasRide = false;
 

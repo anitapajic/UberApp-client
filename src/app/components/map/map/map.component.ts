@@ -447,7 +447,7 @@ export class MapComponent implements AfterViewInit {
     this.stompClient.subscribe('/map-updates/panic', (message: { body: string }) => {
       let panic: Panic = JSON.parse(message.body);
       if(this.authService.getRole() == 'ADMIN'){
-        alert("NEW PANIC NOTIFICATION FROM: " + panic.sender.name + " " + panic.sender.surname);
+        alert("NEW PANIC NOTIFICATION FROM: " + panic.sender.name + " " + panic.sender.surname + '/n' + panic.reason);
       }
     });
 
