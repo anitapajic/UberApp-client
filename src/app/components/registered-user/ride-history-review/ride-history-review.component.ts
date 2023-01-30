@@ -1,54 +1,110 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import * as L from 'leaflet';
+import 'leaflet-routing-machine';
 import { AuthService } from '../../auth/auth.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Ride } from 'src/app/model/Ride';
+import { MapService } from '../../map/map.service'; 
+import { LatLng,  marker, geoJSON, LayerGroup, icon } from 'leaflet';
+import { LeafletDirective, LeafletModule } from '@asymmetrik/ngx-leaflet';
+import { FavoriteRoute } from 'src/app/model/FavoriteRoute';
+
 
 @Component({
   selector: 'app-ride-history-review',
   templateUrl: './ride-history-review.component.html',
   styleUrls: ['./ride-history-review.component.css']
 })
-export class RideHistoryReviewComponent {
-  
-  constructor(private authService : AuthService, private route : ActivatedRoute){};
-  rideHistory: Array<Ride> = [];
+export class RideHistoryReviewComponent{
+  result!: any;
   filter : any;
+  private map: any;
+  public rideId: any;
+  next : Boolean = false;
   noRides: boolean = false;
-  sum: any;
+  mainGroup: LayerGroup[] = [];
+  rideHistory: Array<Ride> = [];
+  role: string | null | undefined;
 
-  
-  data = [
-    { data: [21560, 45320, 35624, 45200, 55800, 50840, 48700], label: 'Income', backgroundColor:'#D14054' }
-  ];
-    labels = ["Red", "Orange", "Yellow", "Green", "Blue", "Purple", "Grey"];
-    datasets = [
-      {label: "Number of rides",data: [22, 33, 55, 12, 86, 23, 14],
-      backgroundColor: ["rgba(255, 99, 132, 0.2)", "rgba(255, 159, 64, 0.2)",
-        "rgba(255, 205, 86, 0.2)", "rgba(75, 192, 192, 0.2)", "rgba(54, 162, 235, 0.2)",
-        "rgba(153, 102, 255, 0.2)", "rgba(201, 203, 207, 0.2)"
-      ],
-      borderColor: ["rgb(255, 99, 132)", "rgb(255, 159, 64)", "rgb(255, 205, 86)",
-        "rgb(75, 192, 192)", "rgb(54, 162, 235)", "rgb(153, 102, 255)", "rgb(201, 203, 207)"
-      ],
-      borderWidth: 1
-    }];
+  dep!: LatLng;
+  des!: LatLng;
+  dep_input! : HTMLElement;
+  des_input! : HTMLElement;
+  des_marker : L.Marker = new L.Marker(new LatLng(0,0));
+  dep_marker : L.Marker = new L.Marker(new LatLng(0,0));
+  routingControl = L.Routing.control({ waypoints: [    ]});
 
-    horizontalBarOptions = {
-      indexAxis: 'y',
-    };
+  constructor(private authService : AuthService, private routee : ActivatedRoute, private router: Router,private mapService: MapService){};
 
-    getTotal(){
-      var total = 0;
-      for(let ride of this.rideHistory){
-          total += ride.totalCost;
-      }
-      return total;
+  @ViewChild(LeafletDirective) leafletDirective: LeafletDirective | undefined;
+  options = {
+    layers: [
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 18,
+        attribution: '...',
+      }),
+    ],
+    zoom: 14,
+    center: L.latLng(45.253434, 19.831323),
+  };
+
+  getRideId(id?:number){
+    this.rideId = id;
   }
+  setRideId():number{
+    return this.rideId;
+  }
+  bookAgain(){
+    let changeDiv = document.getElementById("bookAgain") as HTMLElement;
+    changeDiv.style.display="block"
+  }
+  registerOnInput() {
+    let bookBtn = document.getElementById('detRideId');
+    bookBtn?.addEventListener('click', async (e : any) => {
+      const dep = await this.search("Mise Dimitrijevica 6");
+      this.dep = new LatLng(Number(dep[0].lat), Number(dep[0].lon));
 
+      const des = await this.search("Brace Ribnikar 17");
+      this.des = new LatLng(Number(des[0].lat), Number(des[0].lon));
+      this.route(this.dep, this.des);
+      console.log(this.dep,this.des)
+      
+    });
+}
+  async search(input: string): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.mapService.search(input).subscribe({
+        next: (result) => {
+          resolve(result);
+        },
+        error: (error) => {
+          reject(error);
+        },
+      });
+    });
+  }
+  route(r1: any, r2: any): void {
+    if (this.routingControl != null)
+          this.removeRoutingControl();
+
+    this.routingControl = L.Routing.control({
+    waypoints: [
+      r1, r2
+    ]
+
+  }).addTo(this.map);
+}
+  removeRoutingControl(){
+    this.dep_marker.removeFrom(this.map);
+    this.des_marker.removeFrom(this.map);
+    this.routingControl.remove();   
+  }
   ngOnInit() {
-    this.route.queryParams.subscribe(params => {
+    this.routee.queryParams.subscribe(params => {
       this.filter = params;
+    });
+    this.authService.userState$.subscribe((result) => {
+      this.role = result;
     });
     this.authService.getRideHistory(this.filter).subscribe({
       next: (result) => {
@@ -63,6 +119,25 @@ export class RideHistoryReviewComponent {
         console.log(error);
       },
     });
+    
+
+    let geoLayerRouteGroup: LayerGroup = new LayerGroup();
+    this.mainGroup = [...this.mainGroup, geoLayerRouteGroup];
+ 
+  }
+  ngAfterViewInit(): void {
+
+    let DefaultIcon = L.icon({
+      iconUrl: 'https://unpkg.com/leaflet@1.6.0/dist/images/marker-icon.png',
+    });
+
+    L.Marker.prototype.options.icon = DefaultIcon;
+
+    this.map = this.leafletDirective?.getMap();
+
+   
+    this.registerOnInput();
+    
   }
 
 }

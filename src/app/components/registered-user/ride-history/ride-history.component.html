@@ -23,7 +23,7 @@
                     </div>
                   </div>
                   <div class="form-group">
-                    <select class="custom-select form-control"  id="driver" [disabled]="role !== 'ADMIN'">
+                    <select class="custom-select form-control"  id="driver" *ngIf = "role == 'ADMIN'">
                         <option selected value="" disabled>Driver</option>
                         <option *ngFor="let driver of drivers" [value]="driver.id">{{ driver.name + " " + driver.surname }}</option>
 

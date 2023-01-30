@@ -13,6 +13,7 @@ import { ChangePassword, ResetPassword } from 'src/app/model/ChangePasswordDTO';
 import { Login } from 'src/app/model/Login';
 import { DriverRegistration, Registration } from 'src/app/model/Registration';
 import {FilterRidesFromDate} from "../../model/FilterRidesFromDate";
+import { FavoriteRouteCreate } from 'src/app/model/FavoriteRoute';
 
 @Injectable({
   providedIn: 'root'
@@ -97,6 +98,9 @@ export class AuthService {
 
   createVehicle(newVehicle : CreateVehicle) : Observable<any>{
     return this.http.post('http://localhost:8085/api/vehicle', newVehicle);
+  }
+  createFavoriteRoute(newFavoriteRoute : FavoriteRouteCreate) : Observable<any>{
+    return this.http.post('http://localhost:8085/api/ride/favorites', newFavoriteRoute);
   }
 
 
@@ -217,6 +221,20 @@ export class AuthService {
     return this.http.post('http://localhost:8085/api/statistics/date/rides', filter2);
   }
 
+  getRFilterNumOfRides(passengerId : number):Observable<any>{
+    return this.http.get('http://localhost:8085/api/statistics/date/passengerRides/' + passengerId);
+  }
+
+  getFilterNumOfDriverRides(driverId : number):Observable<any>{
+    return this.http.get('http://localhost:8085/api/statistics/date/driverRides/' + driverId);
+  }
+  getKmOfDriverRides(driverId : number):Observable<any>{
+    return this.http.get('http://localhost:8085/api/statistics/driverKm/' + driverId);
+  }
+  getKmOfPassengerRides(passengerId : number):Observable<any>{
+    return this.http.get('http://localhost:8085/api/statistics/passengerKm/' + passengerId);
+  }
+
 //Drivers and Vehicles
   getDrivers() : Observable<any>{
     return this.http.get('http://localhost:8085/api/driver', {
@@ -232,5 +250,10 @@ export class AuthService {
   getVehicles() : Observable<any>{
     return this.http.get('http://localhost:8085/api/driver/vehicles');
   }
+
+  getFavoriteRoutes(): Observable<any>{
+    return this.http.get('http://localhost:8085/api/ride/favorites/' + this.userId)
+  }
+
 
 }
