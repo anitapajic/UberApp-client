@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, EventEmitter, Output} from '@angular/core';
 import { Ride } from 'src/app/model/Ride';
 import { MapService } from '../../map/map.service';
 import * as Stomp from 'stompjs';
@@ -8,6 +8,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Rejection } from 'src/app/model/Rejection';
 import {Panic} from "../../../model/Panic";
 import {Reason} from "../../../model/Reason";
+import {DataService} from "../../admin/data.service";
 
 @Component({
   selector: 'app-follow-ride-driver',
@@ -16,7 +17,7 @@ import {Reason} from "../../../model/Reason";
 })
 export class FollowRideDriverComponent {
 
-  constructor(private mapService : MapService, private authService : AuthService){}
+  constructor(private mapService : MapService, private authService : AuthService, private dataService: DataService){}
   private stompClient: any;
   role: string | null | undefined;
 
@@ -26,6 +27,8 @@ export class FollowRideDriverComponent {
   ride! : Ride;
   panicObject! : Panic;
   reason! : Reason;
+  @Output() listEmitter = new EventEmitter<any[]>();
+  panics : Array<Panic> = new Array<Panic>();
 
   isReadMore = true
 
@@ -39,6 +42,9 @@ export class FollowRideDriverComponent {
     this.role = this.authService.getRole()
   }
 
+  sendList() {
+    this.dataService.sendList(this.panics);
+  }
   showText() {
      this.isReadMore = !this.isReadMore
   }
@@ -109,6 +115,9 @@ export class FollowRideDriverComponent {
 
     this.mapService.panicRide(this.ride.id, this.reason).subscribe({
       next: (result) => {
+        this.panicObject = result;
+        this.panics.push(this.panicObject);
+        this.sendList();
         console.log(result);
         this.hasRide = false;
 
@@ -177,14 +186,6 @@ export class FollowRideDriverComponent {
       }
     });
 
-    //PANIC PROCEDURE
-    this.stompClient.subscribe('/map-updates/panic', (message: { body: string }) => {
-      let ride: Ride = JSON.parse(message.body);
-      if(this.authService.getId() == ride.driver.id){
-        this.hasRide = false;
-        this.accepted = false;
-      }
-    });
 
 
   }

@@ -6,6 +6,7 @@ import { Path } from 'src/app/model/Path';
 import { Rejection } from 'src/app/model/Rejection';
 import { CreateRide, Ride, RideInfo } from 'src/app/model/Ride';
 import {Reason} from "../../model/Reason";
+import {Panic} from "../../model/Panic";
 
 @Injectable({
   providedIn: 'root',
@@ -85,8 +86,8 @@ export class MapService {
     return this.http.put<Ride>('http://localhost:8085/api/ride/' + rideId +'/cancel', rejection);
   }
 
-  panicRide(rideId : number, reason : Reason): Observable<Ride>{
-    return this.http.put<Ride>('http://localhost:8085//api/ride/' + rideId + '/panic', reason);
+  panicRide(rideId : number, reason : Reason): Observable<Panic>{
+    return this.http.put<Panic>('http://localhost:8085//api/ride/' + rideId + '/panic', reason);
   }
 
 }

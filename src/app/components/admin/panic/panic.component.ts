@@ -2,6 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {AuthService} from "../../auth/auth.service";
 import {User} from "../../../model/User";
 import {Panic} from "../../../model/Panic";
+import {FollowRideDriverComponent} from "../../registered-user/follow-ride-driver/follow-ride-driver.component";
+import {DataService} from "../data.service";
 
 @Component({
   selector: 'app-panic',
@@ -10,26 +12,18 @@ import {Panic} from "../../../model/Panic";
 })
 export class PanicComponent implements OnInit{
 
-  constructor(private authService : AuthService){};
-  panics: Array<Panic> = [];
+  constructor(private authService : AuthService, private dataService: DataService){};
+
+  panics: Array<Panic> =[];
   noPanics: boolean = false;
 
   ngOnInit() {
-
-    this.authService.getChangeRequests().subscribe({
-      next: (result) => {
-        this.panics = result;
-        console.log(this.panics);
+      this.dataService.list$.subscribe(list => {
+      this.panics = list;
         if(this.panics.length === 0){
           this.noPanics = true;
         }
-
-      },
-      error: (error) => {
-        console.log(error);
-      },
-    });
-
-
+      });
   }
+
 }
