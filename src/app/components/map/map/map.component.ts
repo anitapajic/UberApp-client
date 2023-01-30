@@ -143,21 +143,12 @@ export class MapComponent implements AfterViewInit {
       for (let ride of ret) {
         // let color = Math.floor(Math.random() * 16777215).toString(16);
         let geoLayerRouteGroup: LayerGroup = new LayerGroup();
-        for (let step of (JSON.parse(JSON.parse(ride.routeJSON)))['routes'][0]['legs'][0]['steps']) {
+        for (let step of JSON.parse(ride.routeJSON)['routes'][0]['legs'][0]['steps']) {
           let routeLayer = geoJSON(step.geometry);
           routeLayer.setStyle({ color: `#D14054` });
           routeLayer.addTo(geoLayerRouteGroup);
           this.rides[ride.id] = geoLayerRouteGroup;
         }
-        let markerLayer = marker([ride.vehicle.location.latitude, ride.vehicle.location.longitude], {
-          icon: icon({
-            iconUrl: '.\\assets\\images\\not-available-car.png',
-            iconSize: [30, 30],
-            iconAnchor: [18, 30],
-          }),
-        });
-        markerLayer.addTo(geoLayerRouteGroup);
-        this.vehicles[ride.vehicle.id] = markerLayer;
         this.mainGroup = [...this.mainGroup, geoLayerRouteGroup];
       }
     });
@@ -391,6 +382,7 @@ export class MapComponent implements AfterViewInit {
       let ride: Ride = JSON.parse(message.body);
       if(this.authService.getId() == ride.passengers[0].id){
         this.hasRequest = true;
+        console.log(ride);
       }
     });
     //DRIVER STARTED RIDE
@@ -401,7 +393,7 @@ export class MapComponent implements AfterViewInit {
 
         this.hasRide = true;
         let geoLayerRouteGroup: LayerGroup = new LayerGroup();
-        for (let step of JSON.parse(JSON.parse(JSON.parse(ride.routeJSON)))['routes'][0]['legs'][0]['steps']) {
+        for (let step of JSON.parse(ride.routeJSON)['routes'][0]['legs'][0]['steps']) {
           let routeLayer = geoJSON(step.geometry);
           routeLayer.setStyle({ color:  `#D14054`});
           routeLayer.addTo(geoLayerRouteGroup);
@@ -441,6 +433,14 @@ export class MapComponent implements AfterViewInit {
       this.getAllDrivers();
     });
 
+
+    //PANIC PROCEDURE
+    this.stompClient.subscribe('/map-updates/panic', (message: { body: string }) => {
+      let panic: Panic = JSON.parse(message.body);
+      if(this.authService.getRole() == 'ADMIN'){
+        alert("NEW PANIC NOTIFICATION FROM: " + panic.sender.name + " " + panic.sender.surname + '/n' + panic.reason);
+      }
+    });
   }
 
 }

@@ -4,6 +4,9 @@ import { AuthService } from '../../auth/auth.service';
 import { MapService } from '../../map/map.service';
 import * as Stomp from 'stompjs';
 import * as SockJS from 'sockjs-client';
+import {Panic} from "../../../model/Panic";
+import {Reason} from "../../../model/Reason";
+import { min } from 'rxjs';
 
 @Component({
   selector: 'app-follow-ride',
@@ -16,9 +19,11 @@ export class FollowRideComponent {
   role: string | null | undefined;
   hasRequest : boolean = false;
   hasRide : boolean = false;
+  waitingForDriver : boolean = false;
   rideStarted : boolean = false;
   ride! : Ride;
-  time! : string;
+  time : string = "";
+  rideDuration! : number;
   isReadMore = true
 
   ngOnInit() {
@@ -70,7 +75,26 @@ export class FollowRideComponent {
       let time : string = rideTime.time;
       console.log(time);
       if(this.authService.getId() == ride.passengers[0].id){
+        this.waitingForDriver = true;
         this.time = time;
+      }
+    });
+
+    this.stompClient.subscribe('/map-updates/change-time', (message: { body: string }) => {
+      if(this.time != ""){
+          let minutes : number = parseInt(this.time) -1;
+          console.log(minutes, " : minutes");
+          console.log(minutes >= 0, " : isGreater");
+
+          if (minutes >= 0){
+            this.time = minutes.toString();
+          }
+          else{
+            this.time = "";
+          }  
+      }
+      if(this.rideDuration >= 0){
+        this.rideDuration += 2;
       }
     });
 
@@ -82,6 +106,7 @@ export class FollowRideComponent {
         this.hasRide = true;
         this.time = '';
         this.rideStarted = true;
+        this.rideDuration = 0;
       }
     });
     this.stompClient.subscribe('/map-updates/declined-ride', (message: { body: string }) => {

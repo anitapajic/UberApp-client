@@ -5,7 +5,7 @@
     <label for="text" class="titleLabel">Total</label>
     <p for="text" class="price"><span style="font-size: 30px;">&nbsp;{{ride.totalCost}}</span>&nbsp; RSD</p>
     <label for="text" class="titleLabel" style="margin-top: 0;">Duration</label>
-    <p for="text" class="price"><span style="font-size: 30px;">&nbsp;{{ride.estimatedTimeInMinutes}}</span>&nbsp; MIN</p>
+    <p for="text" class="price"><span style="font-size: 30px;">&nbsp;{{rideDuration}}</span>&nbsp; MIN</p>
     <div (click)="showText()">
         <p class="card-text time"[ngClass]="{'limitTextHeight': isReadMore}"><img class = "img dot-img" src="./assets/images/whiteDot.png">&nbsp;&nbsp;&nbsp;{{ride.locations[0].departure.address}}</p>
         <p class="card-text time"[ngClass]="{'limitTextHeight': isReadMore}"><img class = "img pin-img" src="./assets/images/whitePin.png">&nbsp;&nbsp; {{ride.locations[0].destination.address}}</p>           
