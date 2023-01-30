@@ -20,7 +20,7 @@ export class FollowRideComponent {
   hasRide : boolean = false;
   rideStarted : boolean = false;
   ride! : Ride;
-  time! : string;
+  time : string = "";
   isReadMore = true
   panicObject! : Panic;
   reason! : Reason;
@@ -99,9 +99,10 @@ export class FollowRideComponent {
       let ride : Ride = rideTime.ride;
       console.log(ride);
       let time : string = rideTime.time;
-      console.log(time);
+      console.log(time, " time");
       if(this.authService.getId() == ride.passengers[0].id){
         this.time = time;
+        console.log();
       }
     });
 
