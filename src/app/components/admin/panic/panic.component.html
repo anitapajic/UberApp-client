@@ -1,0 +1,28 @@
+<div class="container-fluid">
+  <div class="row justify-content-between">
+    <div class="col-3">
+      <h1>Panic notifications</h1>
+    </div>
+  </div>
+  <div class="row row-cols-1 row-cols-md-2 g-4" *ngIf="noPanics">
+    <div style="height: 600px;">
+      <h5>There are no panics.</h5>
+    </div>
+  </div>
+  <div class="row row-cols-1 row-cols-md-2 g-4" *ngIf="!noPanics">
+    <div class="col" *ngFor="let panic of panics">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">{{panic.sender.name + " " + panic.sender.surname}}</h5>
+          <hr>
+          <div class="p-padding" >
+            <p class="card-text time"><img class = "img-logo dot-img" src="./assets/images/dot.png">Id: <span class="address">{{panic.id}}</span> </p>
+            <p class="card-text time"><img class = "img-logo dot-img" src="./assets/images/dot.png">Time: <span class="address">{{panic.time}}</span></p>
+            <p class="card-text time"><img class = "img-logo dot-img" src="./assets/images/dot.png">Reason: <span class="address">{{panic.reason}}</span></p>
+          </div>
+          <hr class="hr-dotted">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

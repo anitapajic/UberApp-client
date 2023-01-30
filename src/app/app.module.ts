@@ -5,7 +5,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './layout-module/navbar/navbar.component';
 import { LoginComponent } from './components/auth/login/login.component';
-import { MapModule } from './components/map/map/map.module';
 import { RegistrationComponent } from './components/auth/registration/registration.component';
 import { ReactiveFormsModule} from "@angular/forms";
 import { FooterComponent } from './layout-module/footer/footer.component';
@@ -21,8 +20,15 @@ import { ChangeRequestsComponent } from './components/registered-user/change-req
 import { RegisterDriverComponent } from './components/auth/register-driver/register-driver.component';
 import { BlockUserComponent } from './components/auth/block-user/block-user.component';
 import { CreateVehicleComponent } from './components/auth/create-vehicle/create-vehicle.component';
+import { NgChartsModule } from 'ng2-charts';
+import { ReportComponent } from './components/registered-user/modal-popup/report/report.component';
+import { BookRideAgainComponent } from './components/registered-user/modal-popup/book-ride-again/book-ride-again.component';
+import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import { StatisticsComponent } from './components/admin/statistics/statistics.component';
-import {NgChartsModule} from "ng2-charts";
+
+import { PanicComponent } from './components/admin/panic/panic.component';
+import { MapModule } from './components/map/map/map.module';
+import { RatingsComponent } from './components/registered-user/modal-popup/ratings/ratings.component';
 
 compileDirectiveFromMetadata
 
@@ -38,7 +44,11 @@ compileDirectiveFromMetadata
     RegisterDriverComponent,
     BlockUserComponent,
     CreateVehicleComponent,
+    ReportComponent,
+    BookRideAgainComponent,
     StatisticsComponent,
+    PanicComponent,
+    RatingsComponent,
   ],
   imports: [
     BrowserModule,
@@ -49,6 +59,7 @@ compileDirectiveFromMetadata
     LayoutModuleModule,
     HttpClientModule,
     NgChartsModule,
+    LeafletModule
   ],
   providers: [
     {

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, EventEmitter, Output} from '@angular/core';
 import { Ride } from 'src/app/model/Ride';
 import { AuthService } from '../../auth/auth.service';
 import { MapService } from '../../map/map.service';
@@ -25,6 +25,9 @@ export class FollowRideComponent {
   time : string = "";
   rideDuration! : number;
   isReadMore = true
+  panicObject! : Panic;
+  reason! : Reason;
+  panics : Array<Panic> = new Array<Panic>();
 
   ngOnInit() {
     this.initializeWebSocketConnection();
@@ -47,6 +50,32 @@ export class FollowRideComponent {
   });
 }
 
+  openForm(){
+    let changeDiv = document.getElementById("changePassword") as HTMLElement;
+    changeDiv.style.display="block"
+  }
+
+  panic(){
+    this.hasRide = false;
+    let oldPassword = document.getElementById("oldPass") as HTMLInputElement;
+    console.log(oldPassword);
+    this.reason = {
+      reason : oldPassword.value
+    }
+    this.mapService.panicRide(this.ride.id, this.reason).subscribe({
+      next: (result) => {
+        this.panicObject = result;
+        this.panics.push(this.panicObject);
+        console.log(result);
+        this.hasRide = false;
+
+      },
+      error: (error) => {
+        console.log(error);
+      },
+    });
+
+  }
   initializeWebSocketConnection() {
     let ws = new SockJS('http://localhost:8085/socket');
     this.stompClient = Stomp.over(ws);
@@ -73,10 +102,11 @@ export class FollowRideComponent {
       let ride : Ride = rideTime.ride;
       console.log(ride);
       let time : string = rideTime.time;
-      console.log(time);
+      console.log(time, " time");
       if(this.authService.getId() == ride.passengers[0].id){
         this.waitingForDriver = true;
         this.time = time;
+        console.log();
       }
     });
 

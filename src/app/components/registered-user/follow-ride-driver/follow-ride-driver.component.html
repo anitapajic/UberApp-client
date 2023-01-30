@@ -8,7 +8,7 @@
     <p for="text" class="price"><span style="font-size: 30px;">&nbsp;{{rideDuration}}</span>&nbsp; MIN</p>
     <div (click)="showText()">
         <p class="card-text time"[ngClass]="{'limitTextHeight': isReadMore}"><img class = "img dot-img" src="./assets/images/whiteDot.png">&nbsp;&nbsp;&nbsp;{{ride.locations[0].departure.address}}</p>
-        <p class="card-text time"[ngClass]="{'limitTextHeight': isReadMore}"><img class = "img pin-img" src="./assets/images/whitePin.png">&nbsp;&nbsp; {{ride.locations[0].destination.address}}</p>           
+        <p class="card-text time"[ngClass]="{'limitTextHeight': isReadMore}"><img class = "img pin-img" src="./assets/images/whitePin.png">&nbsp;&nbsp; {{ride.locations[0].destination.address}}</p>
     </div>
       <div class="row">
         <div *ngIf="!accepted">
@@ -22,12 +22,33 @@
         </div>
         <div *ngIf="accepted">
             <button class="accept-btn" (click)="start()" [disabled] = "started == true">START</button>
-            <button class="decline-btn" (click)="end()" [disabled] = "started == false">END</button>   
+            <button class="decline-btn" (click)="end()" [disabled] = "started == false">END</button>
         </div>
 
 
 
     </div>
 </div>
-<button id="panicBtn" class="btn" type="button" (click)="panic()" *ngIf="accepted">PANIC</button>
-              
+<button id="panicBtn" class="btn" type="button" (click)="openForm()" *ngIf="accepted">PANIC</button>
+<div class="card mt-3" id="changePassword" style="display: none;">
+  <ul class="list-group list-group-flush">
+    <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+      <h6>Reason of panic</h6>
+    </li>
+    <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+      <div class="col-sm-3">
+        <h6 class="mt-2">Reason:</h6>
+      </div>
+      <div class="col-sm-9 text-secondary">
+        <input type="text" id="oldPass" class="form-control">
+      </div>
+    <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+      <div class="col-sm-3">
+      </div>
+      <div class="col-sm-9 text-secondary">
+        <button class="btn" id="changePass" (click)="panic()" style="width:100% ;">Send panic</button>
+      </div>
+    </li>
+  </ul>
+
+</div>

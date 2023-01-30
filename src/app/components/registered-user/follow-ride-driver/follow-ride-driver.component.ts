@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, EventEmitter, Output} from '@angular/core';
 import { Ride } from 'src/app/model/Ride';
 import { MapService } from '../../map/map.service';
 import * as Stomp from 'stompjs';
@@ -6,6 +6,9 @@ import * as SockJS from 'sockjs-client';
 import { AuthService } from '../../auth/auth.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Rejection } from 'src/app/model/Rejection';
+import {Panic} from "../../../model/Panic";
+import {Reason} from "../../../model/Reason";
+import {DataService} from "../../admin/data.service";
 
 @Component({
   selector: 'app-follow-ride-driver',
@@ -22,8 +25,6 @@ export class FollowRideDriverComponent {
   started : boolean = false;
   hasRide : boolean = false;
   ride! : Ride;
-  
-  rideDuration! : number;
   panicObject! : Panic;
   reason! : Reason;
   panics : Array<Panic> = new Array<Panic>();
@@ -60,7 +61,7 @@ export class FollowRideDriverComponent {
   getAddresss(address : string) : string{
     return "TEST TEST";
   }
-  
+
   decline(){
     let rejection : Rejection = {
       reason : this.rejection.value.reason
@@ -95,7 +96,7 @@ export class FollowRideDriverComponent {
         next: (result) => {
           console.log(result);
           this.hasRide = false;
-          
+
         },
         error: (error) => {
           console.log(error);
@@ -104,8 +105,32 @@ export class FollowRideDriverComponent {
   }
 
   panic(){
-    
+    this.hasRide = false;
+    let oldPassword = document.getElementById("oldPass") as HTMLInputElement;
+    console.log(oldPassword);
+    this.reason = {
+      reason : oldPassword.value
+    }
+    this.mapService.panicRide(this.ride.id, this.reason).subscribe({
+      next: (result) => {
+        this.panicObject = result;
+        this.panics.push(this.panicObject);
+        console.log(result);
+        this.hasRide = false;
+
+      },
+      error: (error) => {
+        console.log(error);
+      },
+    });
+
   }
+
+  openForm(){
+      let changeDiv = document.getElementById("changePassword") as HTMLElement;
+      changeDiv.style.display="block"
+  }
+
 
 
   initializeWebSocketConnection() {
@@ -172,6 +197,7 @@ export class FollowRideDriverComponent {
         this.accepted = false;
       }
     });
+
 
 
   }

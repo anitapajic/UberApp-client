@@ -13,6 +13,7 @@ import { CurrentLocation } from 'src/app/model/CurrentLocation';
 import { Driver, User } from 'src/app/model/User';
 import { LeafletDirective, LeafletModule } from '@asymmetrik/ngx-leaflet';
 import { ToastrService } from 'ngx-toastr'
+import {Panic} from "../../../model/Panic";
 
 @Component({
   selector: 'app-map',
@@ -20,7 +21,7 @@ import { ToastrService } from 'ngx-toastr'
   styleUrls: ['./map.component.css'],
 })
 export class MapComponent implements AfterViewInit {
-  
+
   @ViewChild(LeafletDirective) leafletDirective: LeafletDirective | undefined;
   options = {
     layers: [
@@ -43,10 +44,10 @@ export class MapComponent implements AfterViewInit {
   // drivers : Array<Driver> = [];
 
   private map: any;
-  
+
   role: string | null | undefined;
   result!: any;
-  
+
   //First click is dep, second is des, and so on
   next : Boolean = false;
 
@@ -59,7 +60,7 @@ export class MapComponent implements AfterViewInit {
 
   routingControl = L.Routing.control({ waypoints: [    ]});
 
-  
+
   constructor(private mapService: MapService, private authService : AuthService, private toastr: ToastrService) {}
 
 
@@ -77,7 +78,7 @@ export class MapComponent implements AfterViewInit {
     if(this.role == "PASSENGER" || this.role == null){
       this.dep_input =  document.getElementById('fromLocation') as HTMLInputElement;
       this.des_input =  document.getElementById('toLocation') as HTMLInputElement;
-  
+
       this.registerOnInput();
       this.registerOnClick();
     }
@@ -251,7 +252,7 @@ export class MapComponent implements AfterViewInit {
       const coord = e.latlng;
       const lat = coord.lat;
       const lng = coord.lng;
-    
+
       this.mapService.reverseSearch(lat, lng).subscribe((res) => {
         if(!this.next) {
           this.des_marker.removeFrom(this.map);
@@ -288,7 +289,7 @@ export class MapComponent implements AfterViewInit {
   removeRoutingControl(){
     this.dep_marker.removeFrom(this.map);
     this.des_marker.removeFrom(this.map);
-    this.routingControl.remove();   
+    this.routingControl.remove();
   }
 
   calculatePrice(rideInfo : RideInfo): void{
@@ -315,7 +316,7 @@ export class MapComponent implements AfterViewInit {
     })
 
   }
-  
+
 
   static scrollInto() {
     document.getElementById('map')?.scrollIntoView();
@@ -339,7 +340,7 @@ export class MapComponent implements AfterViewInit {
       let vehicle: Vehicle = JSON.parse(message.body);
       let existingVehicle = this.vehicles[vehicle.id];
       existingVehicle.setLatLng([vehicle.location.latitude, vehicle.location.longitude]);
-      existingVehicle.update();  
+      existingVehicle.update();
     });
     //DRIVER ACTIVITY
     this.stompClient.subscribe('/map-updates/update-activity', (message: { body: string }) => {
@@ -441,6 +442,7 @@ export class MapComponent implements AfterViewInit {
         alert("NEW PANIC NOTIFICATION FROM: " + panic.sender.name + " " + panic.sender.surname + '/n' + panic.reason);
       }
     });
+
   }
 
 }
