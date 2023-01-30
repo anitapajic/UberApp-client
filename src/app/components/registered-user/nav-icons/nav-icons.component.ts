@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router'; 
+import { Router } from '@angular/router';
 import { LatLng } from 'leaflet';
 import { FavoriteRoute, FavoriteRouteCreate } from 'src/app/model/FavoriteRoute';
 import { AuthService } from '../../auth/auth.service';
@@ -45,6 +45,7 @@ export class NavIconsComponent {
     this.getFavorites()
     this.createFavRoute()
     this.initializeWebSocketConnection()
+    this.role=this.authService.getRole();
   }
   getFavorites(){
     this.authService.getFavoriteRoutes().subscribe({
@@ -69,7 +70,7 @@ export class NavIconsComponent {
         },
       });
     });
-  } 
+  }
   createFavRoute(){
 
     this.dep_input =  document.getElementById('favFromLocation') as HTMLInputElement;
@@ -134,7 +135,7 @@ export class NavIconsComponent {
         this.favoriteRoutes.push(favRoute);
       }
     });
-    
+
 
 
   }

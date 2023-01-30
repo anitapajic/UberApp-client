@@ -14,6 +14,8 @@ import { Driver, User } from 'src/app/model/User';
 import { LeafletDirective, LeafletModule } from '@asymmetrik/ngx-leaflet';
 import { ToastrService } from 'ngx-toastr'
 import {Panic} from "../../../model/Panic";
+import {Howl} from "howler";
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-map',
@@ -61,7 +63,7 @@ export class MapComponent implements AfterViewInit {
   routingControl = L.Routing.control({ waypoints: [    ]});
 
 
-  constructor(private mapService: MapService, private authService : AuthService, private toastr: ToastrService) {}
+  constructor(private mapService: MapService, private authService : AuthService, private toastr: ToastrService, private snackBar: MatSnackBar) {}
 
 
   ngAfterViewInit(): void {
@@ -322,6 +324,12 @@ export class MapComponent implements AfterViewInit {
     document.getElementById('map')?.scrollIntoView();
   }
 
+  // playSound(){
+  //   const sound = new Howl({
+  //     src: ['assets/panicNotification.wav']
+  //   });
+  //   sound.play();
+  // }
 
 
   initializeWebSocketConnection() {
@@ -435,13 +443,14 @@ export class MapComponent implements AfterViewInit {
     });
 
 
-    //PANIC PROCEDURE
-    this.stompClient.subscribe('/map-updates/panic', (message: { body: string }) => {
-      let panic: Panic = JSON.parse(message.body);
-      if(this.authService.getRole() == 'ADMIN'){
-        alert("NEW PANIC NOTIFICATION FROM: " + panic.sender.name + " " + panic.sender.surname + '/n' + panic.reason);
-      }
-    });
+    // //PANIC PROCEDURE
+    // this.stompClient.subscribe('/map-updates/panic', (message: { body: string }) => {
+    //   let panic: Panic = JSON.parse(message.body);
+    //   if(this.authService.getRole() == 'ADMIN'){
+    //     this.playSound();
+    //     this.snackBar.open("NEW PANIC NOTIFICATION FROM: " + panic.sender.name + " " + panic.sender.surname, 'Close');
+    //   }
+    // });
 
   }
 

@@ -6,6 +6,8 @@ import * as Stomp from 'stompjs';
 import {FollowRideDriverComponent} from "../../registered-user/follow-ride-driver/follow-ride-driver.component";
 import {DataService} from "../data.service";
 import * as SockJS from "sockjs-client";
+import {Howl} from "howler";
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-panic',
@@ -14,7 +16,7 @@ import * as SockJS from "sockjs-client";
 })
 export class PanicComponent implements OnInit {
 
-  constructor(private authService: AuthService) {
+  constructor(private authService: AuthService, private snackBar: MatSnackBar) {
   };
 
   panics: Array<Panic> = [];
@@ -37,12 +39,26 @@ export class PanicComponent implements OnInit {
     });
   }
 
+  playSound(){
+    const sound = new Howl({
+      src: ['assets/panicNotification.wav']
+    });
+    sound.play();
+  }
   openGlobalSocket() {
     this.stompClient.subscribe('/map-updates/panic', (message: { body: string }) => {
       let panic: Panic = JSON.parse(message.body);
       if (this.authService.getRole() == "ADMIN") {
         this.panics.push(panic);
         this.noPanics = false;
+      }
+    });
+    //PANIC PROCEDURE
+    this.stompClient.subscribe('/map-updates/panic', (message: { body: string }) => {
+      let panic: Panic = JSON.parse(message.body);
+      if(this.authService.getRole() == 'ADMIN'){
+        this.playSound();
+        alert("NEW PANIC NOTIFICATION FROM: " + panic.sender.name + " " + panic.sender.surname);
       }
     });
 
