@@ -5,12 +5,13 @@ import { CurrentLocation } from 'src/app/model/CurrentLocation';
 import { Path } from 'src/app/model/Path';
 import { Rejection } from 'src/app/model/Rejection';
 import { CreateRide, Ride, RideInfo } from 'src/app/model/Ride';
+import {Reason} from "../../model/Reason";
 
 @Injectable({
   providedIn: 'root',
 })
 export class MapService {
-  
+
   private headers = new HttpHeaders({
     'Accept': 'application/json',
     'Content-Type': 'application/json',
@@ -63,7 +64,7 @@ export class MapService {
   getRouteJSON(location : Path) {
     return this.http.get('https://routing.openstreetmap.de/routed-car/route/v1/driving/' + location.departure.longitude + ',' + location.departure.latitude + ';' + location.destination.longitude + ',' + location.destination.latitude + '?geometries=geojson&overview=false&alternatives=true&steps=true', {headers : { 'routeJson' : 'true'}}).toPromise();
   }
-  
+
   acceptRide(rideId : number): Observable<Ride> {
     return this.http.put<Ride>('http://localhost:8085/api/ride/' + rideId +'/accept', null);
   }
@@ -82,6 +83,10 @@ export class MapService {
 
   cancelRide(rideId : number, rejection : Rejection): Observable<Ride> {
     return this.http.put<Ride>('http://localhost:8085/api/ride/' + rideId +'/cancel', rejection);
+  }
+
+  panicRide(rideId : number, reason : Reason): Observable<Ride>{
+    return this.http.put<Ride>('http://localhost:8085//api/ride/' + rideId + '/panic', reason);
   }
 
 }

@@ -6,6 +6,8 @@ import * as SockJS from 'sockjs-client';
 import { AuthService } from '../../auth/auth.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Rejection } from 'src/app/model/Rejection';
+import {Panic} from "../../../model/Panic";
+import {Reason} from "../../../model/Reason";
 
 @Component({
   selector: 'app-follow-ride-driver',
@@ -22,7 +24,9 @@ export class FollowRideDriverComponent {
   started : boolean = false;
   hasRide : boolean = false;
   ride! : Ride;
-  
+  panicObject! : Panic;
+  reason! : Reason;
+
   isReadMore = true
 
   rejection= new FormGroup({
@@ -55,7 +59,7 @@ export class FollowRideDriverComponent {
   getAddresss(address : string) : string{
     return "TEST TEST";
   }
-  
+
   decline(){
     let rejection : Rejection = {
       reason : this.rejection.value.reason
@@ -90,7 +94,7 @@ export class FollowRideDriverComponent {
         next: (result) => {
           console.log(result);
           this.hasRide = false;
-          
+
         },
         error: (error) => {
           console.log(error);
@@ -99,8 +103,28 @@ export class FollowRideDriverComponent {
   }
 
   panic(){
-    
+    this.hasRide = false;
+    let oldPassword = document.getElementById("oldPass") as HTMLInputElement;
+    this.reason.reason = oldPassword.value;
+
+    this.mapService.panicRide(this.ride.id, this.reason).subscribe({
+      next: (result) => {
+        console.log(result);
+        this.hasRide = false;
+
+      },
+      error: (error) => {
+        console.log(error);
+      },
+    });
+
   }
+
+  openForm(){
+      let changeDiv = document.getElementById("changePassword") as HTMLElement;
+      changeDiv.style.display="block"
+  }
+
 
 
   initializeWebSocketConnection() {
@@ -148,6 +172,15 @@ export class FollowRideDriverComponent {
     this.stompClient.subscribe('/map-updates/end-ride', (message: { body: string }) => {
       let ride: Ride = JSON.parse(message.body);
       if(this.role == 'DRIVER' && this.authService.getId() == ride.driver.id){
+        this.hasRide = false;
+        this.accepted = false;
+      }
+    });
+
+    //PANIC PROCEDURE
+    this.stompClient.subscribe('/map-updates/panic', (message: { body: string }) => {
+      let ride: Ride = JSON.parse(message.body);
+      if(this.authService.getId() == ride.driver.id){
         this.hasRide = false;
         this.accepted = false;
       }
