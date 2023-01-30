@@ -11,7 +11,7 @@
                 <div class="modal-dialog modal-sm">
                     <div class="modal-content">
                         <div class="rectangle">
-                            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"> 
+                            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                             <div class="circle">
@@ -48,7 +48,7 @@
                 <div class="modal-dialog modal-sm">
                     <div class="modal-content">
                         <div class="modal-body rectangle r2">
-                            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"> 
+                            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                             <div class="circle">
@@ -77,7 +77,7 @@
                                                   <input id = "favFromLocation" type="text" placeholder="From" name="from" class="form-control"/>
                                                 </div>
                                               </div>
-                                          </div> 
+                                          </div>
                                           <div class="row row-favorite-route">
                                             <div class="col">
                                               <input id = "favToLocation" type="text" placeholder="To" name="to" class="form-control"/>
@@ -88,17 +88,16 @@
                                               <button id="createBtn">Create</button>
                                             </div>
                                           </div>
-                                      </div> 
+                                      </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            
         </div>
-        <div class="col col-lg-2 text-center">
-            <img class = "img-logo" (click)="filter()" src="./assets/images/reports.png">
-        </div>
-    </div>
+        <div class="col col-lg-2 text-center" >
+          <img class = "img-logo" [routerLink]="['/statistics']" src="./assets/images/reports.png" *ngIf="role=='ADMIN'">
+          <img class = "img-logo" (click)="filter()" src="./assets/images/reports.png"></div>
+      </div>
 </div>
