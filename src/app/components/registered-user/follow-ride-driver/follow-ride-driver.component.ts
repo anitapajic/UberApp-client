@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, EventEmitter, Output} from '@angular/core';
 import { Ride } from 'src/app/model/Ride';
 import { MapService } from '../../map/map.service';
 import * as Stomp from 'stompjs';
@@ -6,6 +6,9 @@ import * as SockJS from 'sockjs-client';
 import { AuthService } from '../../auth/auth.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Rejection } from 'src/app/model/Rejection';
+import {Panic} from "../../../model/Panic";
+import {Reason} from "../../../model/Reason";
+import {DataService} from "../../admin/data.service";
 
 @Component({
   selector: 'app-follow-ride-driver',
@@ -22,7 +25,10 @@ export class FollowRideDriverComponent {
   started : boolean = false;
   hasRide : boolean = false;
   ride! : Ride;
-  
+  panicObject! : Panic;
+  reason! : Reason;
+  panics : Array<Panic> = new Array<Panic>();
+
   isReadMore = true
 
   rejection= new FormGroup({
@@ -38,11 +44,11 @@ export class FollowRideDriverComponent {
   showText() {
      this.isReadMore = !this.isReadMore
   }
+
   accept(){
     this.mapService.acceptRide(this.ride.id).subscribe({
       next: (result) => {
         console.log(result);
-        this.accepted = true
         this.started = false;
       },
       error: (error) => {
@@ -55,7 +61,7 @@ export class FollowRideDriverComponent {
   getAddresss(address : string) : string{
     return "TEST TEST";
   }
-  
+
   decline(){
     let rejection : Rejection = {
       reason : this.rejection.value.reason
@@ -65,7 +71,6 @@ export class FollowRideDriverComponent {
       next: (result) => {
         console.log(result);
         this.hasRide = false;
-        this.accepted = false;
       },
       error: (error) => {
         console.log(error);
@@ -86,13 +91,12 @@ export class FollowRideDriverComponent {
 
   }
   end(){
-      this.accepted = !this.accepted
       this.hasRide = false;
       this.mapService.endRide(this.ride.id).subscribe({
         next: (result) => {
           console.log(result);
           this.hasRide = false;
-          
+
         },
         error: (error) => {
           console.log(error);
@@ -101,8 +105,32 @@ export class FollowRideDriverComponent {
   }
 
   panic(){
-    
+    this.hasRide = false;
+    let oldPassword = document.getElementById("oldPass") as HTMLInputElement;
+    console.log(oldPassword);
+    this.reason = {
+      reason : oldPassword.value
+    }
+    this.mapService.panicRide(this.ride.id, this.reason).subscribe({
+      next: (result) => {
+        this.panicObject = result;
+        this.panics.push(this.panicObject);
+        console.log(result);
+        this.hasRide = false;
+
+      },
+      error: (error) => {
+        console.log(error);
+      },
+    });
+
   }
+
+  openForm(){
+      let changeDiv = document.getElementById("changePassword") as HTMLElement;
+      changeDiv.style.display="block"
+  }
+
 
 
   initializeWebSocketConnection() {
@@ -116,6 +144,7 @@ export class FollowRideDriverComponent {
   }
 
   openGlobalSocket(){
+    //WHEN RIDE IS CREATED ASK DRIVER IF HE CAN DO RIDE
     this.stompClient.subscribe('/map-updates/ask-driver', (message: { body: string }) => {
       let ride: Ride = JSON.parse(message.body);
       if(this.role == 'DRIVER' && this.authService.getId() == ride.driver.id){
@@ -123,19 +152,37 @@ export class FollowRideDriverComponent {
         this.hasRide = true;
       }
     });
+    //WHEN RIDE IS ACCEPTED
+    this.stompClient.subscribe('/map-updates/inform', (message: { body: string }) => {
+      let rideTime: any = JSON.parse(message.body);
+      console.log("inform" , rideTime);
+      let ride : Ride = rideTime.ride;
+      console.log(ride);
+      let time : string = rideTime.time;
+      console.log(time);
+      if(this.authService.getId() == ride.driver.id){
+        this.accepted = true;
+      }
+    });
+
+    //WHEN RIDE IS CANCELED OR REJECETED
     this.stompClient.subscribe('/map-updates/declined-ride', (message: { body: string }) => {
       let ride: Ride = JSON.parse(message.body);
       if(this.authService.getId() == ride.driver.id){
         this.hasRide = false;
+        this.accepted = false;
       }
     });
 
+    //WHEN RIDE IS ENDED
     this.stompClient.subscribe('/map-updates/end-ride', (message: { body: string }) => {
       let ride: Ride = JSON.parse(message.body);
       if(this.role == 'DRIVER' && this.authService.getId() == ride.driver.id){
         this.hasRide = false;
+        this.accepted = false;
       }
     });
+
 
 
   }

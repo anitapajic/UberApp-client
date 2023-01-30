@@ -1,43 +1,35 @@
 <div class="vh-100 gradient-custom ">
-    <div class="container login-padding h-100">
-      <div class="row justify-content-center align-items-center h-100">
-        <div class="col-12 col-lg-9 col-xl-7">
-          <div class="card shadow-2-strong card-registration" >
-            <div class="card-body p-4 p-md-5 popup">
-              <h3 class="mb-4 pb-2 pb-md-0 mb-md-5 centriraj title">LOGIN &nbsp; <span class="titleForm" > FORM</span></h3>
-              <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" >
+  <div class="container login-padding h-100">
+    <div class="row justify-content-center align-items-center h-100">
+      <div class="col-12 col-lg-9 col-xl-7">
+        <div class="card shadow-2-strong card-registration">
+          <div class="card-body p-4 p-md-5 popup">
+            <h3 class="mb-4 pb-2 pb-md-0 mb-md-5 centriraj title">LOGIN &nbsp; <span class="titleForm"> FORM</span></h3>
+            <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
 
 
-                  <div class=" mb-4">
-
-                    <div class="form-outline">
-                        <input type="email" placeholder= "Email" id="emailAddress" formControlName="email" class="form-control form-control-lg" />
-                      
-                    </div>
-
-
-                  </div>
-                  <div class=" mb-4">
-
-                    <div class="form-outline">
-                      <input type="text" placeholder= "Password" id="passwor" class="form-control form-control-lg" formControlName="password" />
-                  
-                    </div>
-
-                  </div>
-
-
-
-                <div class="mt-4 pt-2 centriraj">
-                  <input class="btn btn-primary btn-lg" type="submit" value="LOGIN" />
+              <div class=" mb-4">
+                <div class="form-outline">
+                  <input type="email" placeholder="Email" id="emailAddress" formControlName="email"
+                    class="form-control form-control-lg" />
                 </div>
-                <div class="passLink">
-                  <a  [routerLink]="['/reset-code']">Forgot your password?</a>
+              </div>
+              <div class=" mb-4">
+                <div class="form-outline">
+                  <input type="password" placeholder="Password" id="password" class="form-control form-control-lg"
+                    formControlName="password"  formControlName="password"/>
                 </div>
-              </form>
-            </div>
+              </div>
+              <div class="mt-4 pt-2 centriraj">
+                <input class="btn btn-primary btn-lg" type="submit" value="LOGIN" />
+              </div>
+              <div class="passLink">
+                <a [routerLink]="['/reset-code']">Forgot your password?</a>
+              </div>
+            </form>
           </div>
         </div>
       </div>
     </div>
   </div>
+</div>

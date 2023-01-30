@@ -13,6 +13,7 @@ import { CurrentLocation } from 'src/app/model/CurrentLocation';
 import { Driver, User } from 'src/app/model/User';
 import { LeafletDirective, LeafletModule } from '@asymmetrik/ngx-leaflet';
 import { ToastrService } from 'ngx-toastr'
+import {Panic} from "../../../model/Panic";
 
 @Component({
   selector: 'app-map',
@@ -20,7 +21,7 @@ import { ToastrService } from 'ngx-toastr'
   styleUrls: ['./map.component.css'],
 })
 export class MapComponent implements AfterViewInit {
-  
+
   @ViewChild(LeafletDirective) leafletDirective: LeafletDirective | undefined;
   options = {
     layers: [
@@ -38,13 +39,15 @@ export class MapComponent implements AfterViewInit {
   private stompClient: any;
   rideOffer!: Ride;
   hasRide : boolean = false;
+  hasRequest : boolean = false;
+
   // drivers : Array<Driver> = [];
 
   private map: any;
-  
+
   role: string | null | undefined;
   result!: any;
-  
+
   //First click is dep, second is des, and so on
   next : Boolean = false;
 
@@ -57,7 +60,7 @@ export class MapComponent implements AfterViewInit {
 
   routingControl = L.Routing.control({ waypoints: [    ]});
 
-  
+
   constructor(private mapService: MapService, private authService : AuthService, private toastr: ToastrService) {}
 
 
@@ -75,7 +78,7 @@ export class MapComponent implements AfterViewInit {
     if(this.role == "PASSENGER" || this.role == null){
       this.dep_input =  document.getElementById('fromLocation') as HTMLInputElement;
       this.des_input =  document.getElementById('toLocation') as HTMLInputElement;
-  
+
       this.registerOnInput();
       this.registerOnClick();
     }
@@ -110,7 +113,11 @@ export class MapComponent implements AfterViewInit {
         let markerLayer;
         let iconSize : L.PointExpression = [30,30];
         let iconUrl = '.\\assets\\images\\available-car.png'
+        console.log(driver, "driver")
         if(!driver.active){
+          iconUrl = '.\\assets\\images\\not-working-car.png'
+        }
+        if(driver.active && driver.hasRide){
           iconUrl = '.\\assets\\images\\not-available-car.png'
         }
         if(this.role == 'DRIVER' && driver.id == this.authService.getId()){
@@ -211,6 +218,8 @@ export class MapComponent implements AfterViewInit {
 
 
       if(this.role == 'PASSENGER'){
+        this.hasRequest = true;
+
         let babyTransport = document.getElementById('babyTransport') as HTMLInputElement;
         let petTransport = document.getElementById('petTransport') as HTMLInputElement;
         let vehicleType = document.querySelector('input[name="car-type"]:checked') as HTMLInputElement;
@@ -233,15 +242,13 @@ export class MapComponent implements AfterViewInit {
           vehicleType : vehicleType.value,
           routeJSON : ""
         };
-
-        console.log("aaa");
         (await this.mapService.createRide(rideInfo))
         .subscribe({
           next: (result) => {
             console.log(result);
           },
           error: (error) => {
-            console.log(error);
+            console.log("No available driver");
           },
         });
       }
@@ -254,7 +261,7 @@ export class MapComponent implements AfterViewInit {
       const coord = e.latlng;
       const lat = coord.lat;
       const lng = coord.lng;
-    
+
       this.mapService.reverseSearch(lat, lng).subscribe((res) => {
         if(!this.next) {
           this.des_marker.removeFrom(this.map);
@@ -291,7 +298,7 @@ export class MapComponent implements AfterViewInit {
   removeRoutingControl(){
     this.dep_marker.removeFrom(this.map);
     this.des_marker.removeFrom(this.map);
-    this.routingControl.remove();   
+    this.routingControl.remove();
   }
 
   calculatePrice(rideInfo : RideInfo): void{
@@ -317,8 +324,8 @@ export class MapComponent implements AfterViewInit {
       },
     })
 
-
   }
+
 
   static scrollInto() {
     document.getElementById('map')?.scrollIntoView();
@@ -342,7 +349,7 @@ export class MapComponent implements AfterViewInit {
       let vehicle: Vehicle = JSON.parse(message.body);
       let existingVehicle = this.vehicles[vehicle.id];
       existingVehicle.setLatLng([vehicle.location.latitude, vehicle.location.longitude]);
-      existingVehicle.update();  
+      existingVehicle.update();
     });
     //DRIVER ACTIVITY
     this.stompClient.subscribe('/map-updates/update-activity', (message: { body: string }) => {
@@ -350,8 +357,12 @@ export class MapComponent implements AfterViewInit {
 
       let iconUrl = '.\\assets\\images\\available-car.png'
       if(!driver.active){
+        iconUrl = '.\\assets\\images\\not-working-car.png'
+      }
+      if(driver.active && driver.hasRide){
         iconUrl = '.\\assets\\images\\not-available-car.png'
       }
+
       let iconSize : L.PointExpression = [30,30];
       if(this.role == 'DRIVER'){
         iconSize = [40,40];
@@ -365,6 +376,11 @@ export class MapComponent implements AfterViewInit {
           iconAnchor: [18, 30],
         }),
       });
+
+      let oldMarker : L.Marker = this.vehicles[driver.vehicle.id];
+      oldMarker.removeFrom(this.map);
+
+
       markerLayer.addTo(geoLayerRouteGroup);
       this.vehicles[driver.vehicle.id] = markerLayer;
       this.mainGroup = [...this.mainGroup, geoLayerRouteGroup];
@@ -375,18 +391,18 @@ export class MapComponent implements AfterViewInit {
     this.stompClient.subscribe('/map-updates/ask-driver', (message: { body: string }) => {
       let ride: Ride = JSON.parse(message.body);
       if(this.authService.getId() == ride.passengers[0].id){
-        this.hasRide = true;
+        this.hasRequest = true;
       }
     });
-    //DRIVER ACCEPTED RIDE
+    //DRIVER STARTED RIDE
     this.stompClient.subscribe('/map-updates/new-ride', (message: { body: string }) => {
       console.log('new ride');
       let ride: Ride = JSON.parse(message.body);
       if(this.role == 'ADMIN' || this.authService.getId() == ride.driver.id || this.authService.getId() == ride.passengers[0].id){
-        console.log("ride", ride);
+
         this.hasRide = true;
         let geoLayerRouteGroup: LayerGroup = new LayerGroup();
-        for (let step of JSON.parse(JSON.parse(ride.routeJSON))['routes'][0]['legs'][0]['steps']) {
+        for (let step of JSON.parse(JSON.parse(JSON.parse(ride.routeJSON)))['routes'][0]['legs'][0]['steps']) {
           let routeLayer = geoJSON(step.geometry);
           routeLayer.setStyle({ color:  `#D14054`});
           routeLayer.addTo(geoLayerRouteGroup);
@@ -402,6 +418,7 @@ export class MapComponent implements AfterViewInit {
       let ride: Ride = JSON.parse(message.body);
       if(this.authService.getId() == ride.passengers[0].id){
         this.hasRide = false;
+        this.hasRequest = false;
         //toastr ne radi, a alert pojavi 2 puta
         // this.toastr.success("There is no available driver at the moment", "NO DRIVER", {timeOut: 3000})
 
@@ -413,6 +430,7 @@ export class MapComponent implements AfterViewInit {
       let ride: Ride = JSON.parse(message.body);
       if(this.role == 'ADMIN' || this.authService.getId() == ride.driver.id || this.authService.getId() == ride.passengers[0].id){
         this.hasRide = false;
+        this.hasRequest = false;
         this.mainGroup = this.mainGroup.filter((lg: LayerGroup) => lg !== this.rides[ride.id]);
         delete this.rides[ride.id];
       }
@@ -422,6 +440,15 @@ export class MapComponent implements AfterViewInit {
       this.rides = {};
       this.mainGroup = [];
       this.getAllDrivers();
+    });
+
+
+    //PANIC PROCEDURE
+    this.stompClient.subscribe('/map-updates/panic', (message: { body: string }) => {
+      let panic: Panic = JSON.parse(message.body);
+      if(this.authService.getRole() == 'ADMIN'){
+        alert("NEW PANIC NOTIFICATION FROM: " + panic.sender.name + " " + panic.sender.surname + '/n' + panic.reason);
+      }
     });
 
   }

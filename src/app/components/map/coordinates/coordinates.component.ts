@@ -17,4 +17,12 @@ export class CoordinatesComponent {
     });
   }
 
+  change(){
+    if(this.role == 'PASSENGER'){
+      let form = document.getElementById('main-form') as HTMLElement;
+      form.style.opacity = '0%';
+
+    }
+  }
+
 }
