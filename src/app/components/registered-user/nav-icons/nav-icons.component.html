@@ -96,8 +96,9 @@
                 </div>
 
         </div>
-        <div class="col col-lg-2 text-center">
-          <img class = "img-logo" [routerLink]="['/statistics']" src="./assets/images/reports.png">
+        <div class="col col-lg-2 text-center" >
+          <img class = "img-logo" [routerLink]="['/statistics']" src="./assets/images/reports.png" *ngIf="role=='ADMIN'">
+          <img class = "img-logo" [routerLink]="['/home']" src="./assets/images/reports.png" *ngIf="role!='ADMIN'">
         </div>
       </div>
 </div>
