@@ -47,7 +47,7 @@
             <div class="modal fade bd-example2-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-sm">
                     <div class="modal-content">
-                        <div class="rectangle r2">
+                        <div class="modal-body rectangle r2">
                             <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"> 
                                 <span aria-hidden="true">&times;</span>
                             </button>
@@ -57,8 +57,8 @@
                             <label for="text" class="titleLabel">Favorite routes</label>
                             <div *ngFor="let favRoute of favoriteRoutes">
                             <p class="label"><img class = "img-star" src="./assets/images/star.png">&nbsp;&nbsp;{{favRoute.favoriteName}}</p>
-                            <p class="location"><img class = "img-dot" src="./assets/images/dot.png">&nbsp;&nbsp;&nbsp;{{favRoute.locations[0].departure.address}}</p>
-                            <p class="location"><img class = "img-pin" src="./assets/images/pin.png">&nbsp;&nbsp;{{favRoute.locations[0].destination.address}} </p>
+                            <p class="location" [ngClass]="{'limitTextHeight': true}"><img class = "img-dot" src="./assets/images/dot.png">&nbsp;&nbsp;&nbsp;{{favRoute.locations[0].departure.address}}</p>
+                            <p class="location" [ngClass]="{'limitTextHeight': true}"><img class = "img-pin" src="./assets/images/pin.png">&nbsp;&nbsp;{{favRoute.locations[0].destination.address}} </p>
                             </div>
                             <div>
                                 <button class="addNewBtn" (click)="addNewRoute()">ADD NEW</button>
@@ -73,22 +73,28 @@
                                             </div>
                                             <div class="row row-favorite-route">
                                                 <div class="col">
-                                                  <input id = "fromLocation" type="text" placeholder="From" name="from" class="form-control"/>
+                                                  <input id = "favFromLocation" type="text" placeholder="From" name="from" class="form-control"/>
                                                 </div>
                                               </div>
                                           </div> 
                                           <div class="row row-favorite-route">
                                             <div class="col">
-                                              <input id = "toLocation" type="text" placeholder="To" name="to" class="form-control"/>
+                                              <input id = "favToLocation" type="text" placeholder="To" name="to" class="form-control"/>
                                             </div>
-                                        </div>
+                                          </div>
+                                          <div class="row row-favorite-route">
+                                            <div class="col">
+                                              <button id="createBtn">Create</button>
+                                            </div>
+                                          </div>
+                                      </div> 
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            
         </div>
         <div class="col col-lg-2 text-center">
             <img class = "img-logo" [routerLink]="['/home']" src="./assets/images/reports.png">

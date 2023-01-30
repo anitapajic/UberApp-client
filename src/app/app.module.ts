@@ -26,6 +26,7 @@ import { BookRideAgainComponent } from './components/registered-user/modal-popup
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import { StatisticsComponent } from './components/admin/statistics/statistics.component';
 import { MapModule } from './components/map/map/map.module';
+import { RatingsComponent } from './components/registered-user/modal-popup/ratings/ratings.component';
 
 compileDirectiveFromMetadata
 
@@ -44,6 +45,7 @@ compileDirectiveFromMetadata
     ReportComponent,
     BookRideAgainComponent,
     StatisticsComponent,
+    RatingsComponent,
   ],
   imports: [
     BrowserModule,

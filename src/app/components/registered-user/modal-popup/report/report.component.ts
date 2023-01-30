@@ -22,6 +22,7 @@ export class ReportComponent {
   numOfRides : Map<String, Number> = new Map<String, Number>;
   numOfRidesValue : Array<Number> = new Array<Number>;
   numOfRidesDates : Array<String> = new Array<String>;
+  totalKm = 0;
 
 
     datasets = [
@@ -99,6 +100,7 @@ export class ReportComponent {
           this.labels = this.numOfRidesDates;
         }
       });  
+      this.authService.getKmOfPassengerRides(this.authService.getId()).subscribe({next:(result)=>{this.totalKm = result;}});
     }
     if(this.authService.getRole()=='DRIVER'){
       this.authService.getFilterNumOfDriverRides(this.authService.getId()).subscribe({
@@ -122,6 +124,7 @@ export class ReportComponent {
           this.labels = this.numOfRidesDates;
         }
       });
+      this.authService.getKmOfDriverRides(this.authService.getId()).subscribe({next:(result)=>{this.totalKm = result;}});
     }
   }
 }
