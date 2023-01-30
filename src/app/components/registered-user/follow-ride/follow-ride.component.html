@@ -1,10 +1,13 @@
-<div class="rectangle left white" *ngIf="hasRequest">
+<div class="rectangle left white" *ngIf="!hasRide">
     <div class="circle white" >
         <img class = "img-logo " src="./assets/images/logoCircle.png">
     </div>
-    <label for="text" class="searchTitle">Searching for driver</label>
-    <div style="width:100%;height:0;padding-bottom:75%;position:relative;"><iframe src="https://giphy.com/embed/kUTME7ABmhYg5J3psM" width="100%" height="100%" style="position:absolute" frameBorder="0" class="giphy-embed" allowFullScreen></iframe></div><p><a href="https://giphy.com/gifs/loading-load-builtbybritt-kUTME7ABmhYg5J3psM"></a></p>
-    <button class="decline-btn" (click)="decline()">DECLINE</button>
+    <label *ngIf="!waitingForDriver" for="text" class="searchTitle">Searching for driver</label>
+    <label *ngIf="waitingForDriver" for="text" class="searchTitle">Waiting for driver</label>
+
+    <div *ngIf="time.length == 0" style="width:100%;height:0;padding-bottom:75%;position:relative;"><iframe src="https://giphy.com/embed/kUTME7ABmhYg5J3psM" width="100%" height="100%" style="position:absolute" frameBorder="0" class="giphy-embed" allowFullScreen></iframe></div><p><a href="https://giphy.com/gifs/loading-load-builtbybritt-kUTME7ABmhYg5J3psM"></a></p>
+    <div *ngIf="time.length != 0"><p>{{ride.driver.name + " will arive in " + time + " minutes"}}</p></div>
+    <button class="decline-btn" (click)="decline()">CANCEL</button>
 </div>
 <div class="rectangle" *ngIf="hasRide" >
     <div class="circle">
@@ -13,10 +16,10 @@
     <label for="text" class="titleLabel">Total</label>
     <p for="text" class="price"><span style="font-size: 30px;">&nbsp;{{ride.totalCost}}</span>&nbsp; RSD</p>
     <label for="text" class="titleLabel" style="margin-top: 0;">Duration</label>
-    <p for="text" class="price"><span style="font-size: 30px;">&nbsp;{{ride.estimatedTimeInMinutes}}</span>&nbsp; MIN</p>
+    <p for="text" class="price"><span style="font-size: 30px;">&nbsp;{{rideDuration}}</span>&nbsp; MIN</p>
     <div (click)="showText()">
         <p class="card-text time"[ngClass]="{'limitTextHeight': isReadMore}"><img class = "img dot-img" src="./assets/images/whiteDot.png">&nbsp;&nbsp;&nbsp;{{ride.locations[0].departure.address}}</p>
-        <p class="card-text time"[ngClass]="{'limitTextHeight': isReadMore}"><img class = "img pin-img" src="./assets/images/whitePin.png">&nbsp;&nbsp; {{ride.locations[0].destination.address}}</p>           
+        <p class="card-text time"[ngClass]="{'limitTextHeight': isReadMore}"><img class = "img pin-img" src="./assets/images/whitePin.png">&nbsp;&nbsp; {{ride.locations[0].destination.address}}</p>
     </div>
     <div class="row">
             <p for="text" class="rate">Rate driver:</p>
@@ -33,11 +36,32 @@
                         <input type="radio" id="star1half" name="rating" value="1.5" /><label class="half" for="star1half" title="Meh - 1.5 stars"></label>
                         <input type="radio" id="star1" name="rating" value="1" /><label class = "full" for="star1" title="Sucks big time - 1 star"></label>
                         <input type="radio" id="starhalf" name="rating" value="0.5" /><label class="half" for="starhalf" title="Sucks big time - 0.5 stars"></label>
-                    </fieldset>           
+                    </fieldset>
                 </div>
             </div>
-        
+
     </div>
 </div>
-<button id="panicBtn" class="btn" type="button" *ngIf="hasRide">PANIC</button>
-              
+<button id="panicBtn" class="btn" type="button" (click)="openForm()" *ngIf="rideStarted">PANIC</button>
+<div class="card mt-3" id="changePassword" style="display: none;">
+  <ul class="list-group list-group-flush">
+    <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+      <h6>Reason of panic</h6>
+    </li>
+    <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+      <div class="col-sm-3">
+        <h6 class="mt-2">Reason:</h6>
+      </div>
+      <div class="col-sm-9 text-secondary">
+        <input type="text" id="oldPass" class="form-control">
+      </div>
+    <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+      <div class="col-sm-3">
+      </div>
+      <div class="col-sm-9 text-secondary">
+        <button class="btn" id="changePass" (click)="panic()" style="width:100% ;">Send panic</button>
+      </div>
+    </li>
+  </ul>
+
+</div>

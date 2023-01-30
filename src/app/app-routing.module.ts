@@ -12,6 +12,7 @@ import { RegisterDriverComponent } from './components/auth/register-driver/regis
 import { BlockUserComponent } from './components/auth/block-user/block-user.component';
 import { CreateVehicleComponent } from './components/auth/create-vehicle/create-vehicle.component';
 import {StatisticsComponent} from "./components/admin/statistics/statistics.component";
+import {PanicComponent} from "./components/admin/panic/panic.component";
 
 
 const routes: Routes = [
@@ -26,6 +27,7 @@ const routes: Routes = [
   {path : 'create-vehicle', component: CreateVehicleComponent },
   {path : 'block-user', component: BlockUserComponent },
   {path: 'statistics', component: StatisticsComponent },
+  {path : 'panic', component: PanicComponent},
   {path : '**', component: MapComponent}
 
 ];

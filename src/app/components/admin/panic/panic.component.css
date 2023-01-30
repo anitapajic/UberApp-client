@@ -1,0 +1,76 @@
+.container-fluid{
+  background-color:#EBEAE5;
+  padding: 100px;
+}
+.btn {
+  border-radius: 0%;
+  width: 46%;
+  margin: 5px;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 21px;
+  color: #FFFFFF;
+
+}
+
+
+.col-3{
+  max-width: 50%;
+  flex:content;
+}
+
+.card-title{
+  margin-top: 10px;
+  color: #D14054;
+
+}
+
+h1{
+  padding-bottom: 15px;
+  color: #25313C;
+}
+.card-body{
+  padding-top: 0.5rem;
+}
+.hr-dotted{
+  border: 4px dotted #25313C;
+  border-style: none none dotted;
+  color: #fff;
+  background-color: #fff;
+}
+.p-padding{
+  padding-left: 35px;
+  padding-right: 30px;
+}
+.price{
+  color: #D14054;
+}
+
+.address{
+  font-style: normal;
+  display: flex;
+  margin-left: 15px;
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 24px;
+  color: #D14054;
+
+}
+.time{
+  font-style: italic;
+  font-weight: 450;
+  font-size: 20px;
+  line-height: 24px;
+  color: #25313C;
+
+}
+
+.dot-img{
+  width: 8px;
+  margin-bottom: 8px;
+}
+
+
+.col{
+  flex: 0 0 48%;
+}

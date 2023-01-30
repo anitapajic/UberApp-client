@@ -25,6 +25,8 @@ import { ReportComponent } from './components/registered-user/modal-popup/report
 import { BookRideAgainComponent } from './components/registered-user/modal-popup/book-ride-again/book-ride-again.component';
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import { StatisticsComponent } from './components/admin/statistics/statistics.component';
+
+import { PanicComponent } from './components/admin/panic/panic.component';
 import { MapModule } from './components/map/map/map.module';
 import { RatingsComponent } from './components/registered-user/modal-popup/ratings/ratings.component';
 
@@ -45,6 +47,7 @@ compileDirectiveFromMetadata
     ReportComponent,
     BookRideAgainComponent,
     StatisticsComponent,
+    PanicComponent,
     RatingsComponent,
   ],
   imports: [
