@@ -16,6 +16,7 @@ import { ToastrService } from 'ngx-toastr'
 import {Panic} from "../../../model/Panic";
 import {Howl} from "howler";
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { RideService } from 'src/app/services/ride/ride.service';
 
 @Component({
   selector: 'app-map',
@@ -63,7 +64,9 @@ export class MapComponent implements AfterViewInit {
   routingControl = L.Routing.control({ waypoints: [    ]});
 
 
-  constructor(private mapService: MapService, private authService : AuthService, private toastr: ToastrService, private snackBar: MatSnackBar) {}
+  constructor(private mapService: MapService,
+              private authService : AuthService,
+              private rideService : RideService) {}
 
 
   ngAfterViewInit(): void {
@@ -142,7 +145,7 @@ export class MapComponent implements AfterViewInit {
   }
 
   adminMapView(){
-    this.mapService.getAllActiveRides().subscribe((ret) => {
+    this.rideService.getAllActiveRides().subscribe((ret) => {
       for (let ride of ret) {
         // let color = Math.floor(Math.random() * 16777215).toString(16);
         let geoLayerRouteGroup: LayerGroup = new LayerGroup();
@@ -235,7 +238,7 @@ export class MapComponent implements AfterViewInit {
           vehicleType : vehicleType.value,
           routeJSON : ""
         };
-        (await this.mapService.createRide(rideInfo))
+        (await this.rideService.createRide(rideInfo))
         .subscribe({
           next: (result) => {
             console.log(result);
@@ -302,7 +305,7 @@ export class MapComponent implements AfterViewInit {
 
     console.log("Ride Info: ", JSON.stringify(rideInfo));
 
-    this.mapService.calculateEstimatedPrice(rideInfo).subscribe({
+    this.rideService.calculateEstimatedPrice(rideInfo).subscribe({
       next: (result) => {
         console.log(JSON.stringify(result))
         estimated.style.display = "block";

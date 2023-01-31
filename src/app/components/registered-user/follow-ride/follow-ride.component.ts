@@ -7,6 +7,7 @@ import * as SockJS from 'sockjs-client';
 import {Reason} from "src/app/model/Reason";
 import { min } from 'rxjs';
 import { Panic } from 'src/app/model/Panic';
+import { RideService } from 'src/app/services/ride/ride.service';
 
 @Component({
   selector: 'app-follow-ride',
@@ -14,7 +15,9 @@ import { Panic } from 'src/app/model/Panic';
   styleUrls: ['./follow-ride.component.css']
 })
 export class FollowRideComponent {
-  constructor(private mapService : MapService, private authService : AuthService){}
+  constructor(private mapService : MapService,
+              private rideService : RideService,
+              private authService : AuthService){}
   private stompClient: any;
   role: string | null | undefined;
   hasRequest : boolean = false;
@@ -38,7 +41,7 @@ export class FollowRideComponent {
  }
 
  decline(){
-  this.mapService.declineRide(this.ride.id).subscribe({
+  this.rideService.declineRide(this.ride.id).subscribe({
     next: (result) => {
       console.log(result);
       this.hasRide = false;
@@ -68,7 +71,7 @@ export class FollowRideComponent {
     this.reason = {
       reason : oldPassword.value
     }
-    this.mapService.panicRide(this.ride.id, this.reason).subscribe({
+    this.rideService.panicRide(this.ride.id, this.reason).subscribe({
       next: (result) => {
         this.panicObject = result;
         this.panics.push(this.panicObject);
