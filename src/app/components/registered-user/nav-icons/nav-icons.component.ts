@@ -7,6 +7,7 @@ import { RideHistoryComponent } from '../ride-history/ride-history.component';
 import * as Stomp from 'stompjs';
 import * as SockJS from 'sockjs-client';
 import { MapService } from 'src/app/services/map/map.service';
+import { FavoriteRouteService } from 'src/app/services/favourite-route/favorite-route.service';
 
 @Component({
   selector: 'app-nav-icons',
@@ -23,7 +24,10 @@ export class NavIconsComponent {
   des!: LatLng;
   dep_input! : HTMLInputElement;
   des_input! : HTMLInputElement;
-  constructor(private authService: AuthService, private router: Router,private mapService: MapService) {}
+  constructor(private authService: AuthService, 
+              private favService : FavoriteRouteService,
+              private router: Router,
+              private mapService: MapService) {}
 
   async scrollRideHistory() {
     await this.router.navigate(['/home']);
@@ -48,7 +52,7 @@ export class NavIconsComponent {
     this.role=this.authService.getRole();
   }
   getFavorites(){
-    this.authService.getFavoriteRoutes().subscribe({
+    this.favService.getFavoriteRoutes().subscribe({
       next: (result) => {
         this.favoriteRoutes = result;
         console.log(this.favoriteRoutes);
@@ -105,7 +109,7 @@ export class NavIconsComponent {
         scheduledTime: null,
         passengers: [{id: this.authService.getId()}]
       };
-      this.authService.createFavoriteRoute(favoriteRoute).subscribe({
+      this.favService.createFavoriteRoute(favoriteRoute).subscribe({
         next: (result) => {
           console.log(result)
         },
@@ -120,7 +124,7 @@ export class NavIconsComponent {
   });
   };
   deleteFavRoute(id: number){
-    this.authService.deleteFavoriteRoute(id).subscribe({
+    this.favService.deleteFavoriteRoute(id).subscribe({
       next: (result) => {
         console.log(result);;
       },

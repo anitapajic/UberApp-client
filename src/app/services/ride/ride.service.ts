@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { Review } from 'src/app/model/Review';
 import { Panic } from '../../model/Panic';
 import { Path } from '../../model/Path';
 import { Reason } from '../../model/Reason';
@@ -67,6 +68,8 @@ export class RideService {
     return this.http.put<Panic>('http://localhost:8085/api/ride/' + rideId + '/panic', reason);
   }
 
-
+  postReview(review: Review): Observable<any>{
+    return this.http.post('http://localhost:8085/api/review/' + review.rideId, review);
+  }
 
 }

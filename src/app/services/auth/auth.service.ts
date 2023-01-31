@@ -84,9 +84,6 @@ export class AuthService {
     );
   }
 
-  createFavoriteRoute(newFavoriteRoute : FavoriteRouteCreate) : Observable<any>{
-    return this.http.post('http://localhost:8085/api/ride/favorites', newFavoriteRoute);
-  }
 
 
 // Profil info and changes
@@ -163,15 +160,5 @@ export class AuthService {
  
 //Drivers and Vehicles
 
-  deleteFavoriteRoute(id : number): Observable<any>{
-    return this.http.delete('http://localhost:8085/api/ride/favorites/' + id);
-  }
-  getFavoriteRoutes(): Observable<any>{
-    return this.http.get('http://localhost:8085/api/ride/favorites/' + this.userId)
-  }
-  
-  postReview(review: Review): Observable<any>{
-    return this.http.post('http://localhost:8085/api/review/' + review.rideId, review);
-  }
 
 }
