@@ -17,6 +17,7 @@ import {Panic} from "../../../model/Panic";
 import {Howl} from "howler";
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { RideService } from 'src/app/services/ride/ride.service';
+import { DriverService } from 'src/app/services/driver-vehicle/driver.service';
 
 @Component({
   selector: 'app-map',
@@ -66,6 +67,7 @@ export class MapComponent implements AfterViewInit {
 
   constructor(private mapService: MapService,
               private authService : AuthService,
+              private driverService : DriverService,
               private rideService : RideService) {}
 
 
@@ -112,7 +114,7 @@ export class MapComponent implements AfterViewInit {
   }
 
   getAllDrivers(){
-    this.authService.getDrivers().subscribe((ret) => {
+    this.driverService.getDrivers().subscribe((ret) => {
       for (let driver of ret['results']) {
         let geoLayerRouteGroup: LayerGroup = new LayerGroup();
         let markerLayer;

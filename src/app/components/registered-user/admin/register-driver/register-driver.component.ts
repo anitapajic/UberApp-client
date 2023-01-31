@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Vehicle } from 'src/app/model/Vehicle';
-import { AuthService } from 'src/app/services/auth/auth.service';
+import { DriverService } from 'src/app/services/driver-vehicle/driver.service';
 
 @Component({
   selector: 'app-register-driver',
@@ -12,7 +12,7 @@ import { AuthService } from 'src/app/services/auth/auth.service';
 })
 export class RegisterDriverComponent {
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(private driverService: DriverService, private router: Router) {}
   
   
   vehicles : Array<Vehicle> = [ ];
@@ -47,7 +47,7 @@ export class RegisterDriverComponent {
     console.log(registrationVal);
     if(registrationVal.password===registrationVal.confirmPassword) {
       if (this.driverRegistrationForm.valid) {
-        this.authService.driverRegistration(registrationVal).subscribe({
+        this.driverService.driverRegistration(registrationVal).subscribe({
           next: (result) => {
             console.log(result)
             this.router.navigate(['/home']);
@@ -73,7 +73,7 @@ export class RegisterDriverComponent {
   }
 
   ngOnInit(): void {
-    this.authService.getVehicles().subscribe({
+    this.driverService.getVehicles().subscribe({
       next: (result) => {
         this.vehicles = result;
         console.log(this.vehicles);

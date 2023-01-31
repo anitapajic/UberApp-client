@@ -33,6 +33,7 @@ export class AuthService {
   userState$ = this.user$.asObservable();
 
   constructor(private http: HttpClient) { }
+  
   getId(){
     return this.userId;
   }
@@ -50,15 +51,15 @@ export class AuthService {
     return null;
   }
 
+  setUser(): void {
+    this.user$.next(this.getRole());
+  }
+
   isLoggedIn(): boolean {
     if (localStorage.getItem('user') != null) {
       return true;
     }
     return false;
-  }
-
-  setUser(): void {
-    this.user$.next(this.getRole());
   }
 
 // Login and Registration
@@ -83,15 +84,6 @@ export class AuthService {
     );
   }
 
-  driverRegistration(newDriver: DriverRegistration): Observable<any> {
-    return this.http.post(
-      'http://localhost:8085/api/driver', newDriver
-    );
-  }
-
-  createVehicle(newVehicle : CreateVehicle) : Observable<any>{
-    return this.http.post('http://localhost:8085/api/vehicle', newVehicle);
-  }
   createFavoriteRoute(newFavoriteRoute : FavoriteRouteCreate) : Observable<any>{
     return this.http.post('http://localhost:8085/api/ride/favorites', newFavoriteRoute);
   }
@@ -124,9 +116,7 @@ export class AuthService {
     return this.http.delete('http://localhost:8085/api/driver/update/' + id + '/delete');
   }
 
-  deleteFavoriteRoute(id : number): Observable<any>{
-    return this.http.delete('http://localhost:8085/api/ride/favorites/' + id);
-  }
+
 
  //Password changes
 
@@ -172,21 +162,10 @@ export class AuthService {
 
  
 //Drivers and Vehicles
-  getDrivers() : Observable<any>{
-    return this.http.get('http://localhost:8085/api/driver', {
-      headers: this.headers
-    })
+
+  deleteFavoriteRoute(id : number): Observable<any>{
+    return this.http.delete('http://localhost:8085/api/ride/favorites/' + id);
   }
-
-  changeDriverActivity() : Observable<any>{
-    return this.http.get('http://localhost:8085/api/driver/'+ this.userId + '/activity');
-
-  }
-
-  getVehicles() : Observable<any>{
-    return this.http.get('http://localhost:8085/api/driver/vehicles');
-  }
-
   getFavoriteRoutes(): Observable<any>{
     return this.http.get('http://localhost:8085/api/ride/favorites/' + this.userId)
   }

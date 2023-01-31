@@ -3,6 +3,7 @@ import { Component, ElementRef, ViewChild } from '@angular/core';
 import { Route, Router } from '@angular/router';
 import { User } from 'src/app/model/User';
 import { AuthService } from 'src/app/services/auth/auth.service';
+import { DriverService } from 'src/app/services/driver-vehicle/driver.service';
 
 @Component({
   selector: 'app-ride-history',
@@ -13,7 +14,9 @@ export class RideHistoryComponent {
   drivers : Array<User> = [];
 
   role : string | null | undefined;
-  constructor(private http: HttpClient, private authService : AuthService, private router : Router) { }
+  constructor(private authService : AuthService,
+              private driverService : DriverService,          
+              private router : Router) { }
   static scrollInto() {
     document.getElementById('rideHistory')?.scrollIntoView();
   }
@@ -50,7 +53,7 @@ export class RideHistoryComponent {
     });
 
 
-    this.authService.getDrivers().subscribe({
+    this.driverService.getDrivers().subscribe({
       next : (result) => {
         this.drivers = result['results'];
       },

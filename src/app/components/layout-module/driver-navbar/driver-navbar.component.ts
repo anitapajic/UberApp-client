@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthService } from 'src/app/services/auth/auth.service';
 import { RideHistoryComponent } from 'src/app/components/registered-user/ride-history/ride-history.component';
+import { DriverService } from 'src/app/services/driver-vehicle/driver.service';
 
 @Component({
   selector: 'app-driver-navbar',
@@ -9,13 +9,13 @@ import { RideHistoryComponent } from 'src/app/components/registered-user/ride-hi
   styleUrls: ['./driver-navbar.component.css']
 })
 export class DriverNavbarComponent {
-  constructor( private router: Router, private authService : AuthService) {}
+  constructor( private router: Router, private driverService : DriverService) {}
 
   active : boolean = false;
 
   changeActivity(active : boolean){
     this.active = active;
-    this.authService.changeDriverActivity().subscribe({
+    this.driverService.changeDriverActivity().subscribe({
       next : (result) => {
         console.log(result);
       },error : (er) =>{

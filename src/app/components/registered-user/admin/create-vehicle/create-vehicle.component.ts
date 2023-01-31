@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth/auth.service';
+import { DriverService } from 'src/app/services/driver-vehicle/driver.service';
 
 @Component({
   selector: 'app-create-vehicle',
@@ -9,7 +10,7 @@ import { AuthService } from 'src/app/services/auth/auth.service';
   styleUrls: ['./create-vehicle.component.css']
 })
 export class CreateVehicleComponent {
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(private driverService: DriverService, private router: Router) {}
   registrationForm = new FormGroup({
     model: new FormControl('', [Validators.required]),
     vehicleType: new FormControl('', [Validators.required]),
@@ -37,7 +38,7 @@ export class CreateVehicleComponent {
     console.log(registrationVal)
 
     if(this.registrationForm.valid){
-      this.authService.createVehicle(registrationVal).subscribe({
+      this.driverService.createVehicle(registrationVal).subscribe({
         next: (result) => {
           console.log(result);
           this.router.navigate(['/register-driver']);
