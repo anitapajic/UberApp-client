@@ -11,6 +11,7 @@ import { Review, ReviewDTO } from 'src/app/model/Review';
 import * as Stomp from 'stompjs';
 import * as SockJS from 'sockjs-client';
 import { MapService } from 'src/app/services/map/map.service';
+import { StatisticsService } from 'src/app/services/statistics/statistics.service';
 
 @Component({
   selector: 'app-ride-history-review',
@@ -34,7 +35,9 @@ export class RideHistoryReviewComponent implements OnInit{
   sDate: any;
   eDate: any;
   // private map : any;
-  constructor(private authService : AuthService, private routee : ActivatedRoute, private router: Router,private mapService: MapService){};
+  constructor(private authService : AuthService,
+              private routee : ActivatedRoute, 
+              private statisticsService : StatisticsService){};
 
   options = {
     layers: [
@@ -54,7 +57,7 @@ export class RideHistoryReviewComponent implements OnInit{
     this.authService.userState$.subscribe((result) => {
       this.role = result;
     });
-    this.authService.getRideHistory(this.filter).subscribe({
+    this.statisticsService.getRideHistory(this.filter).subscribe({
       next: (result) => {
         this.rideHistory = result['results'];
         if(this.rideHistory.length === 0){

@@ -45,14 +45,6 @@ export class AuthService {
       this.userId = JSON.parse(accessToken)['id'];
       console.log('get role ',helper.decodeToken(accessToken).role[0] )
       const role = helper.decodeToken(accessToken).role[0].authority;
-      
-      // if(role == 'DRIVER'){
-      //   this.driverId = JSON.parse(accessToken)['id']
-      // }
-      // else{
-      //    this.userId = JSON.parse(accessToken)['id'];
-      // }
-      //alert(helper.decodeToken(accessToken).sub);
       return role;
     }
     return null;
@@ -178,68 +170,7 @@ export class AuthService {
     return this.http.post('http://localhost:8085/api/user/note', note);
   }
 
-//Ride History and Reports
-  getRideHistory(filter : Filter):Observable<any>{
-    let params = new HttpParams();
-    if (filter.startDate) {
-      params = params.append('startDate', filter.startDate);
-    }
-    if (filter.endDate) {
-      params = params.append('endDate', filter.endDate);
-    }
-
-    if(this.getRole() == 'PASSENGER'){
-      return this.http.get('http://localhost:8085/api/passenger/' + this.userId + '/ride', {
-        params : params
-      });
-
-    }
-    if(this.getRole()== 'DRIVER'){
-      return this.http.get('http://localhost:8085/api/driver/' + this.userId + '/ride', {
-        params : params
-      });
-    }
-
-    return this.http.post('http://localhost:8085/api/ride/all', filter);
-  }
-
-  getTotalIncome(): Observable<any>{
-      return this.http.get('http://localhost:8085/api/statistics/totalIncome')
-  }
-
-  getTotalNumberOfRides():Observable<any>{
-    return this.http.get('http://localhost:8085/api/statistics/totalRides')
-  }
-
-  getTotalNumOfKm(): Observable<any> {
-    return this.http.get('http://localhost:8085/api/statistics/km')
-  }
-  getTodaysIncome(): Observable<any> {
-    return this.http.get('http://localhost:8085/api/statistics/todaysIncome')
-  }
-
-  getIncomeFromDates(filter : Filter):Observable<any>{
-    return this.http.post('http://localhost:8085/api/statistics/date/totalIncome', filter);
-  }
-
-  getRidesFromDates(filter2 : FilterRidesFromDate):Observable<any>{
-    return this.http.post('http://localhost:8085/api/statistics/date/rides', filter2);
-  }
-
-  getRFilterNumOfRides(passengerId : number):Observable<any>{
-    return this.http.get('http://localhost:8085/api/statistics/date/passengerRides/' + passengerId);
-  }
-
-  getFilterNumOfDriverRides(driverId : number):Observable<any>{
-    return this.http.get('http://localhost:8085/api/statistics/date/driverRides/' + driverId);
-  }
-  getKmOfDriverRides(driverId : number):Observable<any>{
-    return this.http.get('http://localhost:8085/api/statistics/driverKm/' + driverId);
-  }
-  getKmOfPassengerRides(passengerId : number):Observable<any>{
-    return this.http.get('http://localhost:8085/api/statistics/passengerKm/' + passengerId);
-  }
-
+ 
 //Drivers and Vehicles
   getDrivers() : Observable<any>{
     return this.http.get('http://localhost:8085/api/driver', {

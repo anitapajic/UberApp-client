@@ -3,13 +3,14 @@ import { AuthService } from 'src/app/services/auth/auth.service';
 import {ActivatedRoute} from "@angular/router";
 import {Ride} from "../../../../model/Ride";
 import {Chart} from "chart.js";
+import { StatisticsService } from 'src/app/services/statistics/statistics.service';
 @Component({
   selector: 'app-statistics',
   templateUrl: './statistics.component.html',
   styleUrls: ['./statistics.component.css']
 })
 export class StatisticsComponent implements OnInit{
-  constructor(private authService : AuthService){}
+  constructor(private authService : AuthService, private statisticsService : StatisticsService){}
   totalIncome = 0;
   totalNumberOfRides = 0;
   numOfKm = 0;
@@ -31,10 +32,10 @@ export class StatisticsComponent implements OnInit{
   @ViewChild('endInputRides') endDateRides: ElementRef | undefined;
 
   ngOnInit(): void {
-    this.authService.getTotalIncome().subscribe({next:(result)=>{this.totalIncome = result;}});
-    this.authService.getTotalNumberOfRides().subscribe({next:(result)=>{this.totalNumberOfRides = result;}});
-    this.authService.getTotalNumOfKm().subscribe({next:(result)=>{this.numOfKm = result;}});
-    this.authService.getTodaysIncome().subscribe({next:(result)=>{this.todaysIncome = result;}});
+    this.statisticsService.getTotalIncome().subscribe({next:(result)=>{this.totalIncome = result;}});
+    this.statisticsService.getTotalNumberOfRides().subscribe({next:(result)=>{this.totalNumberOfRides = result;}});
+    this.statisticsService.getTotalNumOfKm().subscribe({next:(result)=>{this.numOfKm = result;}});
+    this.statisticsService.getTodaysIncome().subscribe({next:(result)=>{this.todaysIncome = result;}});
     }
 
   data = [
@@ -53,7 +54,7 @@ export class StatisticsComponent implements OnInit{
       endDate : this.endDate?.nativeElement.value,
     }
     console.log(this.filter)
-    this.authService.getIncomeFromDates(this.filter).subscribe({
+    this.statisticsService.getIncomeFromDates(this.filter).subscribe({
       next: (result) => {
         this.income = result;
         console.log(this.income)
@@ -76,7 +77,7 @@ export class StatisticsComponent implements OnInit{
       endDateRides : this.endDateRides?.nativeElement.value,
     }
     console.log(this.filter2)
-    this.authService.getRidesFromDates(this.filter2).subscribe({
+    this.statisticsService.getRidesFromDates(this.filter2).subscribe({
       next: (result) => {
         this.rides = result;
         console.log(this.rides)

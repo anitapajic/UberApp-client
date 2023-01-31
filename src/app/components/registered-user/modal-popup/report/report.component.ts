@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { Ride } from 'src/app/model/Ride';
+import { StatisticsService } from 'src/app/services/statistics/statistics.service';
 
 @Component({
   selector: 'app-report',
@@ -11,7 +12,9 @@ import { Ride } from 'src/app/model/Ride';
 export class ReportComponent {
 
    
-  constructor(private authService : AuthService, private route : ActivatedRoute){};
+  constructor(private authService : AuthService,
+              private route : ActivatedRoute, 
+              private statisticsService : StatisticsService){};
   rideHistory: Array<Ride> = [];
   labels: Array<String> = [];
   public datas: Array<number> = [];
@@ -65,7 +68,7 @@ export class ReportComponent {
     this.route.queryParams.subscribe(params => {
       this.filter = params;
     });
-    this.authService.getRideHistory(this.filter).subscribe({
+    this.statisticsService.getRideHistory(this.filter).subscribe({
       next: (result) => {
         this.rideHistory = result['results'];
         console.log(this.rideHistory);
@@ -79,7 +82,7 @@ export class ReportComponent {
       },
     });
     if(this.authService.getRole()=='PASSENGER'){
-      this.authService.getRFilterNumOfRides(this.authService.getId()).subscribe({
+      this.statisticsService.getRFilterNumOfRides(this.authService.getId()).subscribe({
         next: (result) => {
           this.numOfRides = result;
           console.log(this.numOfRides)
@@ -100,10 +103,10 @@ export class ReportComponent {
           this.labels = this.numOfRidesDates;
         }
       });  
-      this.authService.getKmOfPassengerRides(this.authService.getId()).subscribe({next:(result)=>{this.totalKm = result;}});
+      this.statisticsService.getKmOfPassengerRides(this.authService.getId()).subscribe({next:(result)=>{this.totalKm = result;}});
     }
     if(this.authService.getRole()=='DRIVER'){
-      this.authService.getFilterNumOfDriverRides(this.authService.getId()).subscribe({
+      this.statisticsService.getFilterNumOfDriverRides(this.authService.getId()).subscribe({
         next: (result) => {
           this.numOfRides = result;
           console.log(this.numOfRides)
@@ -124,7 +127,7 @@ export class ReportComponent {
           this.labels = this.numOfRidesDates;
         }
       });
-      this.authService.getKmOfDriverRides(this.authService.getId()).subscribe({next:(result)=>{this.totalKm = result;}});
+      this.statisticsService.getKmOfDriverRides(this.authService.getId()).subscribe({next:(result)=>{this.totalKm = result;}});
     }
   }
 }
