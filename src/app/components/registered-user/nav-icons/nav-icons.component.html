@@ -6,7 +6,7 @@
             </a>
         </div>
         <div class="col col-lg-2 text-center">
-            <a href="#"><img class = "img-logo" data-bs-toggle="modal" data-bs-target=".bd-example-modal-sm" src="./assets/images/ratings.png"></a>
+            <a href="#"><img class = "img-logo" data-bs-toggle="modal" data-bs-target=".bd-example-modal-sm" src="./assets/images/ratingsNavIcon.png"></a>
             <div class="modal fade bd-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-sm">
                     <div class="modal-content">
@@ -15,13 +15,13 @@
                                 <span aria-hidden="true">&times;</span>
                             </button>
                             <div class="circle">
-                                <img class = "img-logo-ratings " src="./assets/images/commentLogo.png">
+                                <img class = "img-logo-ratings " src="./assets/images/starLogo.png">
                             </div>
                             <label for="text" class="titleLabel">Enjoying TAXXI?</label>
                             <p for="text" class="price">How would you rate our service?</p>
                             <div class="container d-flex justify-content-center mt-100">
                                 <div class="row row-ratings">
-                                             <span class="myratings" id="myratings" [innerHTML]="star">4.2</span>
+                                             <span class="myratings" id="myratings" [innerHTML]="star"></span>
                                                 <fieldset class="rating">
                                                     <input type="radio" id="star5" name="rating" value="5" /><label class = "full" for="star5" title="Awesome - 5 stars"></label>
                                                     <input type="radio" id="star4half" name="rating" value="4.5" /><label class="half" for="star4half" title="Pretty good - 4.5 stars"></label>
@@ -43,7 +43,7 @@
             </div>
         </div>
         <div class="col col-lg-2 text-center">
-            <a href="#"><img class = "img-logo" data-bs-toggle="modal" data-bs-target=".bd-example2-modal-sm" src="./assets/images/ratings.png" src="./assets/images/favoriteRoute.png"></a>
+            <a href="#"><img class = "img-logo" data-bs-toggle="modal" data-bs-target=".bd-example2-modal-sm" src="./assets/images/favoriteRouteNavIcon.png"></a>
             <div class="modal fade bd-example2-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-sm">
                     <div class="modal-content">
@@ -52,11 +52,11 @@
                                 <span aria-hidden="true">&times;</span>
                             </button>
                             <div class="circle">
-                                <img class = "img-logo-ratings" src="./assets/images/starLogo.png">
+                                <img class = "img-logo-ratings" src="./assets/images/commentLogo.png">
                             </div>
                             <label for="text" class="titleLabel">Favorite routes</label>
                             <div *ngFor="let favRoute of favoriteRoutes">
-                            <p class="label"><a (click)="deleteFavRoute(favRoute.id)"><img class = "img-star" src="./assets/images/star.png"></a>&nbsp;&nbsp;{{favRoute.favoriteName}}</p>
+                            <p class="label"><a (click)="deleteFavRoute(favRoute.id)"><img class = "img-star" src="./assets/images/heart.png"></a>&nbsp;&nbsp;{{favRoute.favoriteName}}</p>
                             <p class="location" [ngClass]="{'limitTextHeight': true}"><img class = "img-dot" src="./assets/images/dot.png">&nbsp;&nbsp;&nbsp;{{favRoute.locations[0].departure.address}}</p>
                             <p class="location" [ngClass]="{'limitTextHeight': true}"><img class = "img-pin" src="./assets/images/pin.png">&nbsp;&nbsp;{{favRoute.locations[0].destination.address}} </p>
 

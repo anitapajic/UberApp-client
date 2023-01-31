@@ -17,13 +17,22 @@
     <p for="text" class="price"><span style="font-size: 30px;">&nbsp;{{ride.totalCost}}</span>&nbsp; RSD</p>
     <label for="text" class="titleLabel" style="margin-top: 0;">Duration</label>
     <p for="text" class="price"><span style="font-size: 30px;">&nbsp;{{rideDuration}}</span>&nbsp; MIN</p>
-    <div (click)="showText()">
-        <p class="card-text time"[ngClass]="{'limitTextHeight': isReadMore}"><img class = "img dot-img" src="./assets/images/whiteDot.png">&nbsp;&nbsp;&nbsp;{{ride.locations[0].departure.address}}</p>
-        <p class="card-text time"[ngClass]="{'limitTextHeight': isReadMore}"><img class = "img pin-img" src="./assets/images/whitePin.png">&nbsp;&nbsp; {{ride.locations[0].destination.address}}</p>
+    <p for="text" class="card-text saveToFav"><a (click)="openInputFav()"><img src="./assets/images/favBookmark.png" alt="" class="favBookmark"></a>&nbsp;Add to favorites</p>
+    <!-- <button class="addToFavLoc" (click)="openInputFav()">Add to favorites</button>  -->
+    
+    <div class="row" id="favRouteRow"  style="display: none;">
+      <div class="col-6">
+        <input type="text" id="favRouteName" class="inputNameFavLoc" placeholder="Name">
+      </div>
+      <div class="col-1">
+        <button class="greenBtn2" id="createBtn">/</button>
+      </div>
     </div>
-    <button class="addToFavLoc" (click)="openInputFav()">Add to favorites</button>
-    <div  id="inputFavLoc" style="display: none;">
-      <input type="text" class="inputNameFavLoc" placeholder="Name">
+    
+    
+    <div (click)="showText()">
+        <p id="favFromLocation" class="card-text time"[ngClass]="{'limitTextHeight': isReadMore}"><img class = "img dot-img" src="./assets/images/whiteDot.png">&nbsp;&nbsp;&nbsp;{{ride.locations[0].departure.address}}</p>
+        <p id="favToLocation" class="card-text time"[ngClass]="{'limitTextHeight': isReadMore}"><img class = "img pin-img" src="./assets/images/whitePin.png">&nbsp;&nbsp; {{ride.locations[0].destination.address}}</p>
     </div>
     <div class="row">
             <p for="text" class="rate">Rate driver:</p>
