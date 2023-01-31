@@ -97,7 +97,7 @@ ul{
     font-size: 20px;
     line-height: 24px;
     margin-bottom: 1px;
-    margin-top: 30px;
+    margin-top: 5px;
     color: #FFFFFF;
 }
 hr{
@@ -218,3 +218,22 @@ position: absolute;
 .rating > [id^="star"]:checked ~ label:hover,
 .rating > label:hover ~ [id^="star"]:checked ~ label, /* lighten current selection */
 .rating > [id^="star"]:checked ~ label:hover ~ label { color: #FFED85;  }
+
+.addToFavLoc{
+    cursor: pointer;
+    margin-top: 15px;
+    background-color: #D14054;
+    border-color: #D14054;
+    padding: 7px;
+    margin-bottom: 10px;
+}
+.inputNameFavLoc{
+    display: block;
+    justify-content: center;
+    background-color: #1F2931;
+    color: #EBEAE5;
+    border-radius: 0%;
+    border: 0;
+    height: 45px;
+    padding-left: 10px;
+}

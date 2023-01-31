@@ -4,7 +4,7 @@
       <div class="col-3">
         <h1>History</h1>
       </div>
-      <div class="col-4">
+      <div class="col-4" *ngIf="role != 'ADMIN'">
         <button data-bs-toggle="modal" data-bs-target=".bd-example-modal-sm" class="btn generete-btn">Generete report</button>
 
         <div class="modal fade bd-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
@@ -161,16 +161,16 @@
                                           <div class="vl-ride"></div>
                                         </div>
                                         <div class="col-2-ride">
-                                          <h5 class="r-h5-d total" *ngIf="role == 'DRIVER'">Income</h5>
+                                          <h5 class="r-h5-d total" *ngIf="role == 'DRIVER' || role == 'ADMIN'">Income</h5>
                                           <h5 class="r-h5-d total" *ngIf="role == 'PASSENGER'">Total</h5>
                                           <h5 class="h5-ride">{{currentRide.totalCost}} RSD</h5>
                                         </div>
                                       </div>
                                     </div>
                                   </div>
-                                  <div class="card card-ride">
+                                  <div class="card card-ride"  *ngIf="role == 'DRIVER' || role == 'ADMIN'">
                                     <div class="card-body">
-                                      <div class="row" *ngIf="role == 'DRIVER' || role == 'ADMIN'">
+                                      <div class="row">
                                         <div class="col-2">
                                           <h5 class="r-h5-d">Passenger</h5>
                                         </div>
@@ -180,11 +180,14 @@
                                         <div class="col-7">
                                           <div *ngFor="let passenger of currentRide.passengers">
                                             <h5 class="r-h5-d">{{passenger.name + " " + passenger.surname}}</h5>
-
                                           </div>
-                                          </div>
+                                        </div>
                                       </div>
-                                      <div class="row" *ngIf="role == 'PASSENGER' || role == 'ADMIN'">
+                                    </div>
+                                  </div>
+                                  <div class="card card-ride" *ngIf="role == 'PASSENGER' || role == 'ADMIN'">
+                                      <div class="card-body">
+                                      <div class="row">
                                         <div class="col-2">
                                           <h5 class="r-h5-d">Driver</h5>
                                         </div>
@@ -192,7 +195,6 @@
                                           <div class="vl"></div>
                                         </div>
                                         <div class="col-7">
-
                                           <h5 class="r-h5-d">{{currentRide.driver.name + " " + currentRide.driver.surname}}</h5>
                                         </div>
                                       </div>
@@ -207,8 +209,26 @@
                                         <div class="col-1">
                                           <div class="vl"></div>
                                         </div>
-                                        <div class="col-7">
-                                          <p class="r-h5-p">4.5 &nbsp;<img class="star-img" src="./assets/images/star.png"></p>
+                                        <div class="col-6">
+                                          <p class="r-h5-p" *ngIf="currentRide.reviews[0]">{{currentRide.reviews[0].rating}} &nbsp;<img class="star-img" src="./assets/images/star.png"></p>
+                                          <div class="row row-ratings" *ngIf="!currentRide.reviews[0]">
+                                            <span class="myratings" id="myratings"></span>
+                                               <fieldset class="rating">
+                                                   <input type="radio" id="star5" name="rating" value="5" /><label class = "full" for="star5" title="Awesome - 5 stars"></label>
+                                                   <input type="radio" id="star4half" name="rating" value="4.5" /><label class="half" for="star4half" title="Pretty good - 4.5 stars"></label>
+                                                   <input type="radio" id="star4" name="rating" value="4" /><label class = "full" for="star4" title="Pretty good - 4 stars"></label>
+                                                   <input type="radio" id="star3half" name="rating" value="3.5" /><label class="half" for="star3half" title="Meh - 3.5 stars"></label>
+                                                   <input type="radio" id="star3" name="rating" value="3" /><label class = "full" for="star3" title="Meh - 3 stars"></label>
+                                                   <input type="radio" id="star2half" name="rating" value="2.5" /><label class="half" for="star2half" title="Kinda bad - 2.5 stars"></label>
+                                                   <input type="radio" id="star2" name="rating" value="2" /><label class = "full" for="star2" title="Kinda bad - 2 stars"></label>
+                                                   <input type="radio" id="star1half" name="rating" value="1.5" /><label class="half" for="star1half" title="Meh - 1.5 stars"></label>
+                                                   <input type="radio" id="star1" name="rating" value="1" /><label class = "full" for="star1" title="Sucks big time - 1 star"></label>
+                                                   <input type="radio" id="starhalf" name="rating" value="0.5" /><label class="half" for="starhalf" title="Sucks big time - 0.5 stars"></label>
+                                               </fieldset>
+                                           </div>
+                                        </div>
+                                        <div class="col-1" *ngIf="!currentRide.reviews[0]">
+                                          <button class="greenBtn2" (click)="postToController()">/</button>
                                         </div>
                                       </div>
                                     </div>

@@ -21,6 +21,10 @@
         <p class="card-text time"[ngClass]="{'limitTextHeight': isReadMore}"><img class = "img dot-img" src="./assets/images/whiteDot.png">&nbsp;&nbsp;&nbsp;{{ride.locations[0].departure.address}}</p>
         <p class="card-text time"[ngClass]="{'limitTextHeight': isReadMore}"><img class = "img pin-img" src="./assets/images/whitePin.png">&nbsp;&nbsp; {{ride.locations[0].destination.address}}</p>
     </div>
+    <button class="addToFavLoc" (click)="openInputFav()">Add to favorites</button>
+    <div  id="inputFavLoc" style="display: none;">
+      <input type="text" class="inputNameFavLoc" placeholder="Name">
+    </div>
     <div class="row">
             <p for="text" class="rate">Rate driver:</p>
             <div class="container d-flex justify-content-center mt-100">
