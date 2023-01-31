@@ -1,6 +1,5 @@
 import {Component, EventEmitter, Output} from '@angular/core';
 import { Ride } from 'src/app/model/Ride';
-import { MapService } from '../../map/map.service';
 import * as Stomp from 'stompjs';
 import * as SockJS from 'sockjs-client';
 import { AuthService } from '../../auth/auth.service';
@@ -10,6 +9,7 @@ import {Panic} from "../../../model/Panic";
 import {Reason} from "../../../model/Reason";
 import {DataService} from "../../admin/data.service";
 import { RideService } from 'src/app/services/ride/ride.service';
+import { MapService } from 'src/app/services/map/map.service';
 
 @Component({
   selector: 'app-follow-ride-driver',

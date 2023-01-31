@@ -3,10 +3,10 @@ import { Router } from '@angular/router';
 import { LatLng } from 'leaflet';
 import { FavoriteRoute, FavoriteRouteCreate } from 'src/app/model/FavoriteRoute';
 import { AuthService } from '../../auth/auth.service';
-import { MapService } from '../../map/map.service';
 import { RideHistoryComponent } from '../ride-history/ride-history.component';
 import * as Stomp from 'stompjs';
 import * as SockJS from 'sockjs-client';
+import { MapService } from 'src/app/services/map/map.service';
 
 @Component({
   selector: 'app-nav-icons',

@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Output} from '@angular/core';
 import { Ride } from 'src/app/model/Ride';
 import { AuthService } from '../../auth/auth.service';
-import { MapService } from '../../map/map.service';
+import { MapService } from 'src/app/services/map/map.service';
 import * as Stomp from 'stompjs';
 import * as SockJS from 'sockjs-client';
 import {Reason} from "src/app/model/Reason";

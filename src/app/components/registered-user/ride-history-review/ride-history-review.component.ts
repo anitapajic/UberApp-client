@@ -4,13 +4,13 @@ import 'leaflet-routing-machine';
 import { AuthService } from '../../auth/auth.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Ride } from 'src/app/model/Ride';
-import { MapService } from '../../map/map.service'; 
 import { LatLng,  marker, geoJSON, LayerGroup, icon } from 'leaflet';
 import { LeafletDirective, LeafletModule } from '@asymmetrik/ngx-leaflet';
 import { FavoriteRoute } from 'src/app/model/FavoriteRoute';
 import { Review, ReviewDTO } from 'src/app/model/Review';
 import * as Stomp from 'stompjs';
 import * as SockJS from 'sockjs-client';
+import { MapService } from 'src/app/services/map/map.service';
 
 @Component({
   selector: 'app-ride-history-review',
