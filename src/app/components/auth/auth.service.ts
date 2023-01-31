@@ -14,6 +14,7 @@ import { Login } from 'src/app/model/Login';
 import { DriverRegistration, Registration } from 'src/app/model/Registration';
 import {FilterRidesFromDate} from "../../model/FilterRidesFromDate";
 import { FavoriteRouteCreate } from 'src/app/model/FavoriteRoute';
+import { Review } from 'src/app/model/Review';
 
 @Injectable({
   providedIn: 'root'
@@ -258,6 +259,9 @@ export class AuthService {
   getFavoriteRoutes(): Observable<any>{
     return this.http.get('http://localhost:8085/api/ride/favorites/' + this.userId)
   }
-
+  
+  postReview(review: Review): Observable<any>{
+    return this.http.post('http://localhost:8085/api/review/' + review.rideId, review);
+  }
 
 }

@@ -56,6 +56,10 @@ export class FollowRideComponent {
     let remove = document.getElementById("panicBtn") as HTMLElement;
     remove.style.display="none"
   }
+  openInputFav(){
+    let changeDiv = document.getElementById("inputFavLoc") as HTMLElement;
+    changeDiv.style.display="block"
+  }
 
   panic(){
     this.hasRide = false;

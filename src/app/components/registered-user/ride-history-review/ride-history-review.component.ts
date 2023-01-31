@@ -8,7 +8,9 @@ import { MapService } from '../../map/map.service';
 import { LatLng,  marker, geoJSON, LayerGroup, icon } from 'leaflet';
 import { LeafletDirective, LeafletModule } from '@asymmetrik/ngx-leaflet';
 import { FavoriteRoute } from 'src/app/model/FavoriteRoute';
-
+import { Review, ReviewDTO } from 'src/app/model/Review';
+import * as Stomp from 'stompjs';
+import * as SockJS from 'sockjs-client';
 
 @Component({
   selector: 'app-ride-history-review',
@@ -20,7 +22,7 @@ export class RideHistoryReviewComponent implements OnInit{
   filter : any;
   public rideId: any;
   noRides: boolean = false;
-
+  private stompClient: any;
   rideHistory: Array<Ride> = [];
   
 
@@ -44,9 +46,8 @@ export class RideHistoryReviewComponent implements OnInit{
     zoom: 14,
     center: L.latLng(45.253434, 19.831323),
   };
-
   ngOnInit() {
-
+   this.initializeWebSocketConnection();
    this.routee.queryParams.subscribe(params => {
       this.filter = params;
     });
@@ -67,6 +68,27 @@ export class RideHistoryReviewComponent implements OnInit{
     this.sDate = this.filter.startDate
     this.eDate = this.filter.endDate
   }
+  postToController(): void{
+    var starChecked = document.querySelector('input[name="rating"]:checked') as HTMLInputElement;
+    console.log(starChecked.value)
+    var star = document.getElementById('myratings') as HTMLElement;
+    star.innerHTML = starChecked.value;
+    let review: Review = {
+      rating: parseInt(starChecked.value),
+      rideId: this.currentRide.id,
+      comment: '',
+      driver: this.currentRide.driver.id
+    }
+    this.authService.postReview(review).subscribe({
+      next: (result) => {
+        console.log(result)
+      },
+      error: (error) => {
+        console.log(error);
+      },
+    });
+
+}
   openDetails(ride : Ride){
     this.currentRide = ride;
     this.addRoute(ride);
@@ -161,5 +183,29 @@ export class RideHistoryReviewComponent implements OnInit{
 
   //   this.map = this.leafletDirective?.getMap();    
   // }
-
+  initializeWebSocketConnection() {
+    let ws = new SockJS('http://localhost:8085/socket');
+    this.stompClient = Stomp.over(ws);
+    this.stompClient.debug = null;
+    let that = this;
+    this.stompClient.connect({}, function () {
+      that.openGlobalSocket();
+    });
+  }
+  openGlobalSocket(){
+    this.stompClient.subscribe('/map-updates/review', (message: { body: string }) => {
+      let review: ReviewDTO = JSON.parse(message.body);
+      console.log(review);
+      console.log(this.currentRide)
+      if(this.currentRide.id == review.ride){
+        let r : Review = {
+          rating: review.rating,
+          rideId: review.ride,
+          comment: review.comment,
+          driver: review.driver
+        }
+        this.currentRide.reviews.push(r);
+      }
+    });
+  }
 }
