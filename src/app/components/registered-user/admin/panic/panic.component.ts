@@ -1,10 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import { AuthService } from 'src/app/services/auth/auth.service';
-import {User} from "../../../model/User";
-import {Panic} from "../../../model/Panic";
+import {User} from "../../../../model/User";
+import {Panic} from "../../../../model/Panic";
 import * as Stomp from 'stompjs';
-import {FollowRideDriverComponent} from "../../registered-user/follow-ride-driver/follow-ride-driver.component";
-import {DataService} from "../data.service";
+import {FollowRideDriverComponent} from "../../follow-ride-driver/follow-ride-driver.component";
 import * as SockJS from "sockjs-client";
 import {Howl} from "howler";
 import { MatSnackBar } from '@angular/material/snack-bar';

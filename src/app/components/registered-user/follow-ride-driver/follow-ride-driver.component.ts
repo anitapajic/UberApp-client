@@ -7,7 +7,6 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Rejection } from 'src/app/model/Rejection';
 import {Panic} from "../../../model/Panic";
 import {Reason} from "../../../model/Reason";
-import {DataService} from "../../admin/data.service";
 import { RideService } from 'src/app/services/ride/ride.service';
 import { MapService } from 'src/app/services/map/map.service';
 
