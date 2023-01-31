@@ -2,7 +2,7 @@ import {Component, EventEmitter, Output} from '@angular/core';
 import { Ride } from 'src/app/model/Ride';
 import * as Stomp from 'stompjs';
 import * as SockJS from 'sockjs-client';
-import { AuthService } from '../../auth/auth.service';
+import { AuthService } from 'src/app/services/auth/auth.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Rejection } from 'src/app/model/Rejection';
 import {Panic} from "../../../model/Panic";

@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {AuthService} from "../../auth/auth.service";
+import { AuthService } from 'src/app/services/auth/auth.service';
 import {User} from "../../../model/User";
 import {Panic} from "../../../model/Panic";
 import * as Stomp from 'stompjs';

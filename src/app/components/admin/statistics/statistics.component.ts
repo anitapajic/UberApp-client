@@ -1,5 +1,5 @@
 import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import {AuthService} from "../../auth/auth.service";
+import { AuthService } from 'src/app/services/auth/auth.service';
 import {ActivatedRoute} from "@angular/router";
 import {Ride} from "../../../model/Ride";
 import {Chart} from "chart.js";

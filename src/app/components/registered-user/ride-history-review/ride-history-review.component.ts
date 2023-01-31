@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import * as L from 'leaflet';
 import 'leaflet-routing-machine';
-import { AuthService } from '../../auth/auth.service';
+import { AuthService } from 'src/app/services/auth/auth.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Ride } from 'src/app/model/Ride';
 import { LatLng,  marker, geoJSON, LayerGroup, icon } from 'leaflet';

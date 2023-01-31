@@ -5,7 +5,7 @@ import { FormControl,
         Validators,
         FormBuilder 
       } from '@angular/forms';
-import { AuthService } from '../auth.service';
+import { AuthService } from 'src/app/services/auth/auth.service';
 import { Router } from '@angular/router';
 
 @Component({

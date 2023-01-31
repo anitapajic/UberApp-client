@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { AuthService } from 'src/app/components/auth/auth.service';
+import { AuthService } from 'src/app/services/auth/auth.service';
 import { Ride } from 'src/app/model/Ride';
 
 @Component({

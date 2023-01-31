@@ -3,7 +3,7 @@ import { Component, AfterViewInit, ViewChild } from '@angular/core';
 import * as L from 'leaflet';
 import { LatLng,  marker, geoJSON, LayerGroup, icon } from 'leaflet';
 import 'leaflet-routing-machine';
-import { AuthService } from '../../auth/auth.service';
+import { AuthService } from 'src/app/services/auth/auth.service';
 import { MapService } from 'src/app/services/map/map.service';
 import * as Stomp from 'stompjs';
 import * as SockJS from 'sockjs-client';

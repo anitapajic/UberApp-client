@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthService } from 'src/app/components/auth/auth.service';
+import { AuthService } from 'src/app/services/auth/auth.service';
 import { RideHistoryComponent } from 'src/app/components/registered-user/ride-history/ride-history.component';
 
 @Component({

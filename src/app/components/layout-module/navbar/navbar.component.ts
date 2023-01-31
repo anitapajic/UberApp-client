@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { MapComponent } from '../../map/map/map.component';
 import { Router } from '@angular/router';
-import { AuthService } from 'src/app/components/auth/auth.service';
+import { AuthService } from 'src/app/services/auth/auth.service';
 import { DownloadAppComponent } from 'src/app/components/unregistered-user/download-app/download-app.component';
 import { VehicleCardsComponent } from 'src/app/components/unregistered-user/vehicle-cards/vehicle-cards.component';
 @Component({

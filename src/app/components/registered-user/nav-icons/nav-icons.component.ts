@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { LatLng } from 'leaflet';
 import { FavoriteRoute, FavoriteRouteCreate } from 'src/app/model/FavoriteRoute';
-import { AuthService } from '../../auth/auth.service';
+import { AuthService } from 'src/app/services/auth/auth.service';
 import { RideHistoryComponent } from '../ride-history/ride-history.component';
 import * as Stomp from 'stompjs';
 import * as SockJS from 'sockjs-client';

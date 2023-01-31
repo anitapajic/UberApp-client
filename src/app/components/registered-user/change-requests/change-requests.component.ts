@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { User } from 'src/app/model/User';
-import { AuthService } from '../../auth/auth.service';
+import { AuthService } from 'src/app/services/auth/auth.service';
 
 @Component({
   selector: 'app-change-requests',
