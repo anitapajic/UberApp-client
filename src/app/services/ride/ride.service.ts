@@ -68,8 +68,8 @@ export class RideService {
     return this.http.put<Panic>('http://localhost:8085/api/ride/' + rideId + '/panic', reason);
   }
 
-  postReview(review: Review): Observable<any>{
-    return this.http.post('http://localhost:8085/api/review/' + review.rideId, review);
+  postReview(review: Review): Observable<Review>{
+    return this.http.post<Review>('http://localhost:8085/api/review/' + review.rideId, review);
   }
 
 }

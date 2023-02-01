@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ChangePassword } from 'src/app/model/ChangePasswordDTO';
 import { ChangeUserInfo } from 'src/app/model/ChangeUserInfo';
+import { User } from 'src/app/model/User';
 import { AuthService } from '../auth/auth.service';
 
 @Injectable({
@@ -32,16 +33,16 @@ export class UserService {
     );
   }
 
-  getChangeRequests() : Observable<any>{
-    return this.http.get('http://localhost:8085/api/driver/update');
+  getChangeRequests() : Observable<User[]>{
+    return this.http.get<User[]>('http://localhost:8085/api/driver/update');
   }
 
-  approveRequest(id : number): Observable<any>{
-    return this.http.put('http://localhost:8085/api/driver/update/' + id + '/approve', null);
+  approveRequest(id : number): Observable<Response>{
+    return this.http.put<Response>('http://localhost:8085/api/driver/update/' + id + '/approve', null);
   }
 
-  deleteRequest(id : number): Observable<any>{
-    return this.http.delete('http://localhost:8085/api/driver/update/' + id + '/delete');
+  deleteRequest(id : number): Observable<Response>{
+    return this.http.delete<Response>('http://localhost:8085/api/driver/update/' + id + '/delete');
   }
 
 

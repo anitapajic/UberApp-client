@@ -36,41 +36,40 @@ export class StatisticsService {
     return this.http.post('http://localhost:8085/api/ride/all', filter);
   }
 
-  getTotalIncome(): Observable<any>{
-      return this.http.get('http://localhost:8085/api/statistics/totalIncome')
+  getTotalIncome(): Observable<number>{
+      return this.http.get<number>('http://localhost:8085/api/statistics/totalIncome')
   }
 
-  getTotalNumberOfRides():Observable<any>{
-    return this.http.get('http://localhost:8085/api/statistics/totalRides')
+  getTotalNumberOfRides():Observable<number>{
+    return this.http.get<number>('http://localhost:8085/api/statistics/totalRides')
   }
 
-  getTotalNumOfKm(): Observable<any> {
-    return this.http.get('http://localhost:8085/api/statistics/km')
+  getTotalNumOfKm(): Observable<number> {
+    return this.http.get<number>('http://localhost:8085/api/statistics/km')
   }
-  getTodaysIncome(): Observable<any> {
-    return this.http.get('http://localhost:8085/api/statistics/todaysIncome')
-  }
-
-  getIncomeFromDates(filter : Filter):Observable<any>{
-    return this.http.post('http://localhost:8085/api/statistics/date/totalIncome', filter);
+  getTodaysIncome(): Observable<number> {
+    return this.http.get<number>('http://localhost:8085/api/statistics/todaysIncome')
   }
 
-  getRidesFromDates(filter2 : FilterRidesFromDate):Observable<any>{
-    return this.http.post('http://localhost:8085/api/statistics/date/rides', filter2);
+  getIncomeFromDates(filter : Filter):Observable<Map<String, Number>>{
+    return this.http.post<Map<String, Number>>('http://localhost:8085/api/statistics/date/totalIncome', filter);
   }
 
-  getRFilterNumOfRides(passengerId : number):Observable<any>{
-    return this.http.get('http://localhost:8085/api/statistics/date/passengerRides/' + passengerId);
+  getRidesFromDates(filter2 : FilterRidesFromDate):Observable<Map<String, Number>>{
+    return this.http.post<Map<String, Number>>('http://localhost:8085/api/statistics/date/rides', filter2);
   }
 
-  getFilterNumOfDriverRides(driverId : number):Observable<any>{
-    return this.http.get('http://localhost:8085/api/statistics/date/driverRides/' + driverId);
-  }
-  getKmOfDriverRides(driverId : number):Observable<any>{
-    return this.http.get('http://localhost:8085/api/statistics/driverKm/' + driverId);
-  }
-  getKmOfPassengerRides(passengerId : number):Observable<any>{
-    return this.http.get('http://localhost:8085/api/statistics/passengerKm/' + passengerId);
+  getRFilterNumOfRides(passengerId : number):Observable<Map<String, Number>>{
+    return this.http.get<Map<String, Number>>('http://localhost:8085/api/statistics/date/passengerRides/' + passengerId);
   }
 
+  getFilterNumOfDriverRides(driverId : number):Observable<Map<String, Number>>{
+    return this.http.get<Map<String, Number>>('http://localhost:8085/api/statistics/date/driverRides/' + driverId);
+  }
+  getKmOfDriverRides(driverId : number):Observable<number>{
+    return this.http.get<number>('http://localhost:8085/api/statistics/driverKm/' + driverId);
+  }
+  getKmOfPassengerRides(passengerId : number):Observable<number>{
+    return this.http.get<number>('http://localhost:8085/api/statistics/passengerKm/' + passengerId);
+  }
 }

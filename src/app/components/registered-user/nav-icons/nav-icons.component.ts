@@ -46,10 +46,12 @@ export class NavIconsComponent {
 
 }
   ngOnInit(){
-    this.getFavorites()
-    this.createFavRoute()
-    this.initializeWebSocketConnection()
     this.role=this.authService.getRole();
+    if(this.role == 'PASSENGER'){
+      this.getFavorites()
+      this.createFavRoute()
+    }
+    this.initializeWebSocketConnection()
   }
   getFavorites(){
     this.favService.getFavoriteRoutes().subscribe({

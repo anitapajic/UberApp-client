@@ -78,8 +78,8 @@ export class AuthService {
     });
   }
 
-  registration(newPassenger: Registration): Observable<any> {
-    return this.http.post(
+  registration(newPassenger: Registration): Observable<User> {
+    return this.http.post<User>(
       'http://localhost:8085/api/passenger', newPassenger
     );
   }
@@ -96,7 +96,7 @@ export class AuthService {
     );
   }
 
-  resetPassword(reset : ResetPassword): Observable<any> {
+  resetPassword(reset : ResetPassword): Observable<string> {
     return this.http.put('http://localhost:8085/api/user/' + this.userId + '/resetPassword', reset, {
       headers: this.headers,
       responseType: 'text',
