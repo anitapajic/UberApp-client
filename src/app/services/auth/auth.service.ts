@@ -85,37 +85,7 @@ export class AuthService {
   }
 
 
-
-// Profil info and changes
-
-  getUser(): Observable<any>{
-    return this.http.get('http://localhost:8085/api/user/' + this.userId)
-  }
-
-  changeProfileInfo(userInfo: ChangeUserInfo): Observable<any>{
-    if(this.getRole() == 'PASSENGER'){
-      return this.http.put('http://localhost:8085/api/passenger/' + this.userId, userInfo);
-
-    }
-    alert('Changes sent to admin');
-    return this.http.post('http://localhost:8085/api/driver/update/' + this.userId, userInfo);
-  }
-
-  getChangeRequests() : Observable<any>{
-    return this.http.get('http://localhost:8085/api/driver/update');
-  }
-
-  approveRequest(id : number): Observable<any>{
-    return this.http.put('http://localhost:8085/api/driver/update/' + id + '/approve', null);
-  }
-
-  deleteRequest(id : number): Observable<any>{
-    return this.http.delete('http://localhost:8085/api/driver/update/' + id + '/delete');
-  }
-
-
-
- //Password changes
+ //Password reset
 
   sendCode(username : any): Observable<any> {
     return this.http.get('http://localhost:8085/api/user/' + this.userId + '/resetPassword', {
@@ -134,10 +104,7 @@ export class AuthService {
     );
   }
 
-  changePassword(change : ChangePassword): Observable<any> {
-    return this.http.put('http://localhost:8085/api/user/' + this.userId + '/changePassword', change
-    );
-  }
+
 
 //Blocking users and leaving notes
 
@@ -158,7 +125,4 @@ export class AuthService {
   }
 
  
-//Drivers and Vehicles
-
-
 }

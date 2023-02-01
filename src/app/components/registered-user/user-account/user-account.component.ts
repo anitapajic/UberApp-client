@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import { UrlSegment } from '@angular/router';
 import { User } from 'src/app/model/User';
 import { AuthService } from 'src/app/services/auth/auth.service';
+import { UserService } from 'src/app/services/user/user.service';
 
 @Component({
   selector: 'app-user-account',
@@ -14,7 +15,7 @@ export class UserAccountComponent {
   isShow = true;
   isHidden = false;
   user : User | undefined;
-  constructor(private authService : AuthService){};
+  constructor(private userService : UserService){};
 
   async formVisible(){
     this.isShow = !this.isShow;
@@ -45,7 +46,7 @@ export class UserAccountComponent {
     }
     console.log(newInfo);
 
-    this.authService.changeProfileInfo(newInfo).subscribe({
+    this.userService.changeProfileInfo(newInfo).subscribe({
       next: (result) => {
         this.user = result;
         console.log(this.user);
@@ -80,7 +81,7 @@ export class UserAccountComponent {
       newPassword: newPassword.value
     }
 
-    this.authService.changePassword(change).subscribe({
+    this.userService.changePassword(change).subscribe({
       next: (result) => {
         alert("Password successfully changed")
       },
@@ -113,7 +114,7 @@ export class UserAccountComponent {
 
   ngOnInit() {
 
-    this.authService.getUser().subscribe({
+    this.userService.getUser().subscribe({
       next: (result) => {
         this.user = result;
       },
