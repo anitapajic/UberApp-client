@@ -75,10 +75,15 @@ export class UserAccountComponent {
   changePassword(){
     let oldPassword = document.getElementById("oldPass") as HTMLInputElement;    
     let newPassword = document.getElementById("newPass") as HTMLInputElement;
+    let confirmPassword = document.getElementById("confirmNewPass") as HTMLInputElement;
 
     let change = {
       oldPassword: oldPassword.value,
       newPassword: newPassword.value
+    }
+    if(newPassword.value != confirmPassword.value){
+      alert("Passwords not matching")
+      return;
     }
 
     this.userService.changePassword(change).subscribe({

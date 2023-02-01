@@ -11,9 +11,6 @@ import { AuthService } from '../auth/auth.service';
 export class StatisticsService {
 
   constructor(private http: HttpClient, private authService : AuthService) { }
-
-
-
   
   getRideHistory(filter : Filter):Observable<any>{
     let params = new HttpParams();
