@@ -104,25 +104,4 @@ export class AuthService {
     );
   }
 
-
-
-//Blocking users and leaving notes
-
-  getUsersWithNotes() : Observable<any>{
-    return this.http.get('http://localhost:8085/api/user?size=1000');
-  }
-
-  blockUser(id : number): Observable<any>{
-    return this.http.put('http://localhost:8085/api/user/' + id + '/block', null);
-  }
-
-  unblockUser(id : number): Observable<any>{
-    return this.http.put('http://localhost:8085/api/user/' + id + '/unblock', null);
-  }
-
-  sendNote(note : Note): Observable<any>{
-    return this.http.post('http://localhost:8085/api/user/note', note);
-  }
-
- 
 }
