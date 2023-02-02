@@ -17,24 +17,27 @@
     <p for="text" class="price"><span style="font-size: 30px;">&nbsp;{{ride.totalCost}}</span>&nbsp; RSD</p>
     <label for="text" class="titleLabel" style="margin-top: 0;">Duration</label>
     <p for="text" class="price"><span style="font-size: 30px;">&nbsp;{{rideDuration}}</span>&nbsp; MIN</p>
-    <p for="text" class="card-text saveToFav"><a (click)="openInputFav()"><img src="./assets/images/favBookmark.png" alt="" class="favBookmark"></a>&nbsp;Add to favorites</p>
-    <!-- <button class="addToFavLoc" (click)="openInputFav()">Add to favorites</button>  -->
-    
-    <div class="row" id="favRouteRow"  style="display: none;">
-      <div class="col-6">
-        <input type="text" id="favRouteName" class="inputNameFavLoc" placeholder="Name">
-      </div>
-      <div class="col-1">
-        <button class="greenBtn2" id="createBtn">/</button>
-      </div>
-    </div>
     
     
     <div (click)="showText()">
         <p id="favFromLocation" class="card-text time"[ngClass]="{'limitTextHeight': isReadMore}"><img class = "img dot-img" src="./assets/images/whiteDot.png">&nbsp;&nbsp;&nbsp;{{ride.locations[0].departure.address}}</p>
         <p id="favToLocation" class="card-text time"[ngClass]="{'limitTextHeight': isReadMore}"><img class = "img pin-img" src="./assets/images/whitePin.png">&nbsp;&nbsp; {{ride.locations[0].destination.address}}</p>
     </div>
-    <div class="row">
+
+    <p for="text" class="card-text saveToFav"><a (click)="openInputFav()"><img src="./assets/images/favBookmark.png" alt="" class="favBookmark"></a>&nbsp;Add to favorites</p>
+    <div id="favRouteRow"  style="display: none;">
+      <div class="row" >
+        <div class="col-8">
+          <input type="text" id="favRouteName" class="inputNameFavLoc" placeholder="Name">
+        </div>
+        <div class="col-1">
+          <button class="greenBtn2" id="createBtn">/</button>
+        </div>
+      </div>
+    </div>
+    
+    
+    <!-- <div class="row">
             <p for="text" class="rate">Rate driver:</p>
             <div class="container d-flex justify-content-center mt-100">
                 <div class="row row-ratings">
@@ -53,10 +56,10 @@
                 </div>
             </div>
 
-    </div>
+    </div> -->
 </div>
-<button id="panicBtn" class="btn" type="button" (click)="openForm()" style="display: block;" *ngIf="rideStarted">PANIC</button>
 
+<button id="panicBtn" class="btn" type="button" (click)="openForm()" style="display: block;" *ngIf="rideStarted">PANIC</button>
 
 <div class="card mt-3" id="panicReason" style="display: none;">
   <ul class="list-group list-group-flush">
@@ -82,28 +85,3 @@
   </ul>
 
 </div>
-
-
-
-
-
-<!-- <div class="card mt-3" id="changePassword" style="display: none;">
-  <ul class="list-group list-group-flush">
-    <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-      <h6>Reason of panic</h6>
-    </li>
-    <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-      <div class="col-sm-3">
-        <h6 class="mt-2">Reason:</h6>
-      </div>
-      <div class="col-sm-9 text-secondary">
-        <input type="text" id="oldPass" class="form-control">
-      </div>
-    </li>
-    <li>
-      <div class="col-sm-9 text-secondary">
-        <button class="btn" id="changePass" (click)="panic()" style="width:100% ;">Send panic</button>
-      </div>
-    </li>
-  </ul>
-</div> -->

@@ -38,6 +38,10 @@
 .col-md-3{
     margin-left: 20px;
 }
+.col-6{
+    max-width: 50%;
+    flex: 0 0 50.666667%;
+}
 .vl {
     border-left: 1px solid #25313c44;
     height: 50px;

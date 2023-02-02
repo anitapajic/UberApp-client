@@ -125,6 +125,7 @@ hr{
 }
 .card-text{
     color: #FFFFFF;
+    margin-top: 10px;
 }
 .btn {
     position: absolute;
@@ -240,8 +241,6 @@ position: absolute;
     margin-bottom: 10px;
 }
 .inputNameFavLoc{
-    display: block;
-    justify-content: center;
     background-color: #1F2931;
     color: #EBEAE5;
     border-radius: 0%;
@@ -255,12 +254,6 @@ position: absolute;
     border-radius: 5px;
     border-color: green;
     color: #fff;
-    margin-top: 6px;
     width: 40px;
     height: 40px;
-}
-.col-7 {
-    -ms-flex: 0 0 38.333333%;
-    flex: 0 0 38.333333%;
-    max-width: 38.333333%;
 }
