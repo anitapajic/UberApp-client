@@ -177,7 +177,7 @@
                                         <div class="col-1">
                                           <div class="vl"></div>
                                         </div>
-                                        <div class="col-7">
+                                        <div class="col-7" style="max-width: 40%;">
                                           <div *ngFor="let passenger of currentRide.passengers">
                                             <h5 class="r-h5-d">{{passenger.name + " " + passenger.surname}}</h5>
                                           </div>
@@ -211,7 +211,8 @@
                                         </div>
                                         <div class="col-6">
                                           <p class="r-h5-p" *ngIf="currentRide.reviews[0]">{{currentRide.reviews[0].rating}} &nbsp;<img class="star-img" src="./assets/images/star.png"></p>
-                                          <div class="row row-ratings" *ngIf="!currentRide.reviews[0]">
+                                          <p class="r-h5-p" *ngIf="!currentRide.reviews[0] && (role != 'PASSENGER')">No rating</p>
+                                          <div class="row row-ratings" *ngIf="!currentRide.reviews[0]  && (role == 'PASSENGER')">
                                             <span class="myratings" id="myratings"></span>
                                                <fieldset class="rating">
                                                    <input type="radio" id="star5" name="rating" value="5" /><label class = "full" for="star5" title="Awesome - 5 stars"></label>
@@ -227,14 +228,14 @@
                                                </fieldset>
                                            </div>
                                         </div>
-                                        <div class="col-1" *ngIf="!currentRide.reviews[0]">
+                                        <div class="col-1" *ngIf="!currentRide.reviews[0] && role == 'PASSENGER'">
                                           <button class="greenBtn2" (click)="postToController()">/</button>
                                         </div>
                                       </div>
                                     </div>
                                   </div>
                                   <div class="row">
-                                    <button class="bookBtn" *ngIf="role != 'DRIVER'" (click)="bookAgain()">Book again</button>
+                                    <button class="bookBtn" *ngIf="role == 'PASSENGER'" (click)="bookAgain()">Book again</button>
 
                                       <div class="card card-ride"  id="bookAgain" style="display: none;">
                                         <div class="card-body">

@@ -48,6 +48,7 @@ export class MapComponent implements AfterViewInit {
   // drivers : Array<Driver> = [];
 
   private map: any;
+  bookBtn! : HTMLButtonElement;
 
   role: string | null | undefined;
   result!: any;
@@ -85,9 +86,11 @@ export class MapComponent implements AfterViewInit {
     if(this.role == "PASSENGER" || this.role == null){
       this.dep_input =  document.getElementById('fromLocation') as HTMLInputElement;
       this.des_input =  document.getElementById('toLocation') as HTMLInputElement;
+      this.bookBtn = document.getElementById('bookBtn') as HTMLButtonElement;
 
       this.registerOnInput();
       this.registerOnClick();
+
     }
   }
 
@@ -120,7 +123,6 @@ export class MapComponent implements AfterViewInit {
         let markerLayer;
         let iconSize : L.PointExpression = [30,30];
         let iconUrl = '.\\assets\\images\\available-car.png'
-        console.log(driver, "driver")
         if(!driver.active){
           iconUrl = '.\\assets\\images\\not-working-car.png'
         }
@@ -176,8 +178,7 @@ export class MapComponent implements AfterViewInit {
   }
 
   registerOnInput() : void{
-    let bookBtn = document.getElementById('bookBtn');
-    bookBtn?.addEventListener('click', async (e : any) => {
+    this.bookBtn?.addEventListener('click', async (e : any) => {
       const dep = await this.search(this.dep_input.value);
       this.dep = new LatLng(Number(dep[0].lat), Number(dep[0].lon));
 
@@ -309,7 +310,6 @@ export class MapComponent implements AfterViewInit {
 
     this.rideService.calculateEstimatedPrice(rideInfo).subscribe({
       next: (result) => {
-        console.log(JSON.stringify(result))
         estimated.style.display = "block";
         price.innerText = result['estimatedCost'];
         time.innerText = result['estimatedTimeInMinutes'];
@@ -435,7 +435,6 @@ export class MapComponent implements AfterViewInit {
       let ride: Ride = JSON.parse(message.body);
       if(this.role == 'ADMIN' || this.authService.getId() == ride.driver.id || this.authService.getId() == ride.passengers[0].id){
         this.hasRide = false;
-        this.hasRequest = false;
         this.mainGroup = this.mainGroup.filter((lg: LayerGroup) => lg !== this.rides[ride.id]);
         delete this.rides[ride.id];
       }
@@ -448,6 +447,15 @@ export class MapComponent implements AfterViewInit {
     });
 
 
+    this.stompClient.subscribe('/map-updates/review', (message: { body: string }) => {
+      this.hasRequest = false;
+      this.dep_input =  document.getElementById('fromLocation') as HTMLInputElement;
+      this.des_input =  document.getElementById('toLocation') as HTMLInputElement;
+      console.log(this.bookBtn);
+      this.registerOnInput();
+      this.registerOnClick();
+
+    });
     // //PANIC PROCEDURE
     // this.stompClient.subscribe('/map-updates/panic', (message: { body: string }) => {
     //   let panic: Panic = JSON.parse(message.body);

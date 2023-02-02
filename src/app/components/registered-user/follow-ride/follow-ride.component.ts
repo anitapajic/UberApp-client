@@ -11,6 +11,7 @@ import { RideService } from 'src/app/services/ride/ride.service';
 import { FavoriteRoute, FavoriteRouteCreate } from 'src/app/model/FavoriteRoute';
 import { LatLng } from 'leaflet';
 import { FavoriteRouteService } from 'src/app/services/favourite-route/favorite-route.service';
+import { Review, ReviewDTO } from 'src/app/model/Review';
 
 @Component({
   selector: 'app-follow-ride',
@@ -28,6 +29,7 @@ export class FollowRideComponent {
   hasRide : boolean = false;
   waitingForDriver : boolean = false;
   rideStarted : boolean = false;
+  rateNow : boolean = false
   ride! : Ride;
   time : string = "";
   rideDuration! : number;
@@ -43,7 +45,6 @@ export class FollowRideComponent {
   des_input! : HTMLElement;
 
   ngOnInit() {
-    this.createFavRoute()
     this.initializeWebSocketConnection();
     this.role = this.authService.getRole();
   }
@@ -82,6 +83,7 @@ createFavRoute(){
   let favoriteName =  document.getElementById('favRouteName') as HTMLInputElement;
 
   let addBtn = document.getElementById('createBtn');
+  console.log(addBtn);
   addBtn?.addEventListener('click', async (e : any) => {
     const dep = await this.search(this.dep_input.innerText);
     console.log(dep);
@@ -121,7 +123,6 @@ createFavRoute(){
     })
     let changeDiv = document.getElementById("favRouteRow") as HTMLElement;
     changeDiv.style.display="none"
-    console.log("AAAAAAAAAAAAAAAAAAA")
     console.log(favoriteRoute);
 });
 };
@@ -134,6 +135,7 @@ createFavRoute(){
   openInputFav(){
     let changeDiv = document.getElementById("favRouteRow") as HTMLElement;
     changeDiv.style.display="block"
+    this.createFavRoute();
   }
 
   panic(){
@@ -157,6 +159,31 @@ createFavRoute(){
     });
 
   }
+
+
+  rateDriver(){
+    var starChecked = document.querySelector('input[name="rating"]:checked') as HTMLInputElement;
+    console.log(starChecked.value)
+    var star = document.getElementById('myratings') as HTMLElement;
+    star.innerHTML = starChecked.value;
+    let review: Review = {
+      rating: parseInt(starChecked.value),
+      rideId: this.ride.id,
+      comment: '',
+      driver: this.ride.driver.id
+    }
+    this.rideService.postReview(review).subscribe({
+      next: (result) => {
+        console.log(result)
+      },
+      error: (error) => {
+        console.log(error);
+      },
+    });
+
+  }
+
+
   initializeWebSocketConnection() {
     let ws = new SockJS('http://localhost:8085/socket');
     this.stompClient = Stomp.over(ws);
@@ -232,9 +259,15 @@ createFavRoute(){
       let ride: Ride = JSON.parse(message.body);
       if(this.authService.getId() == ride.passengers[0].id){
         this.hasRide = false;
+        this.rateNow = true;
+        this.rideStarted = false;
       }
     });
 
-
+    this.stompClient.subscribe('/map-updates/review', (message: { body: string }) => {
+      let review: ReviewDTO = JSON.parse(message.body);
+      this.rateNow = false;
+    });
+  
   }
 }

@@ -61,6 +61,7 @@ export class RideHistoryReviewComponent implements OnInit{
     this.statisticsService.getRideHistory(this.filter).subscribe({
       next: (result) => {
         this.rideHistory = result['results'];
+        console.log(this.rideHistory);
         if(this.rideHistory.length === 0){
           this.noRides = true;
         }
@@ -91,8 +92,8 @@ export class RideHistoryReviewComponent implements OnInit{
         console.log(error);
       },
     });
-
-}
+  }
+  
   openDetails(ride : Ride){
     this.currentRide = ride;
     this.addRoute(ride);
@@ -100,9 +101,9 @@ export class RideHistoryReviewComponent implements OnInit{
     mapc.style.display = 'block';
   }
   addRoute(ride : Ride){
+    console.log(ride);
     let geoLayerRouteGroup: LayerGroup = new LayerGroup();
     for (let step of JSON.parse(ride.routeJSON)['routes'][0]['legs'][0]['steps']) {
-      console.log(step, "step");
       let routeLayer = geoJSON(step.geometry);
       routeLayer.setStyle({ color: `#D14054` });
       routeLayer.addTo(geoLayerRouteGroup);

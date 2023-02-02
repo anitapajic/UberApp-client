@@ -62,7 +62,7 @@
 
                         </div>
                             <div>
-                                <button class="addNewBtn" (click)="addNewRoute()">ADD NEW</button>
+                                <button class="addNewBtn" (click)="addNewRoute()" [disabled]="role!='PASSENGER'">ADD NEW</button>
                                 <div class="card card-ride"  id="addNewBtn" style="display: none;">
                                     <div class="card-body">
                                           <h5 class="r-h5-f">New favorite route</h5>

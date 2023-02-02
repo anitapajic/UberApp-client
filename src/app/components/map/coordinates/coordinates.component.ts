@@ -1,6 +1,10 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth/auth.service';
+import * as Stomp from 'stompjs';
+import * as SockJS from 'sockjs-client';
+import { Ride } from 'src/app/model/Ride';
+import { ReviewDTO } from 'src/app/model/Review';
 
 @Component({
   selector: 'app-coordinates',
@@ -9,6 +13,8 @@ import { AuthService } from 'src/app/services/auth/auth.service';
 })
 export class CoordinatesComponent {
   role: String | null | undefined;
+  private stompClient: any;
+
   constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit(): void {
@@ -24,5 +30,6 @@ export class CoordinatesComponent {
 
     }
   }
+
 
 }
