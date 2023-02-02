@@ -1,16 +1,18 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import * as L from 'leaflet';
 import 'leaflet-routing-machine';
-import { AuthService } from '../../auth/auth.service';
+import { AuthService } from 'src/app/services/auth/auth.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Ride } from 'src/app/model/Ride';
-import { MapService } from '../../map/map.service'; 
 import { LatLng,  marker, geoJSON, LayerGroup, icon } from 'leaflet';
 import { LeafletDirective, LeafletModule } from '@asymmetrik/ngx-leaflet';
 import { FavoriteRoute } from 'src/app/model/FavoriteRoute';
 import { Review, ReviewDTO } from 'src/app/model/Review';
 import * as Stomp from 'stompjs';
 import * as SockJS from 'sockjs-client';
+import { MapService } from 'src/app/services/map/map.service';
+import { StatisticsService } from 'src/app/services/statistics/statistics.service';
+import { RideService } from 'src/app/services/ride/ride.service';
 
 @Component({
   selector: 'app-ride-history-review',
@@ -33,8 +35,10 @@ export class RideHistoryReviewComponent implements OnInit{
   mainGroup: LayerGroup[] = [];
   sDate: any;
   eDate: any;
-  // private map : any;
-  constructor(private authService : AuthService, private routee : ActivatedRoute, private router: Router,private mapService: MapService){};
+  constructor(private authService : AuthService,
+              private rideService : RideService,
+              private routee : ActivatedRoute, 
+              private statisticsService : StatisticsService){};
 
   options = {
     layers: [
@@ -54,9 +58,10 @@ export class RideHistoryReviewComponent implements OnInit{
     this.authService.userState$.subscribe((result) => {
       this.role = result;
     });
-    this.authService.getRideHistory(this.filter).subscribe({
+    this.statisticsService.getRideHistory(this.filter).subscribe({
       next: (result) => {
         this.rideHistory = result['results'];
+        console.log(this.rideHistory);
         if(this.rideHistory.length === 0){
           this.noRides = true;
         }
@@ -79,7 +84,7 @@ export class RideHistoryReviewComponent implements OnInit{
       comment: '',
       driver: this.currentRide.driver.id
     }
-    this.authService.postReview(review).subscribe({
+    this.rideService.postReview(review).subscribe({
       next: (result) => {
         console.log(result)
       },
@@ -87,8 +92,8 @@ export class RideHistoryReviewComponent implements OnInit{
         console.log(error);
       },
     });
-
-}
+  }
+  
   openDetails(ride : Ride){
     this.currentRide = ride;
     this.addRoute(ride);
@@ -96,9 +101,9 @@ export class RideHistoryReviewComponent implements OnInit{
     mapc.style.display = 'block';
   }
   addRoute(ride : Ride){
+    console.log(ride);
     let geoLayerRouteGroup: LayerGroup = new LayerGroup();
     for (let step of JSON.parse(ride.routeJSON)['routes'][0]['legs'][0]['steps']) {
-      console.log(step, "step");
       let routeLayer = geoJSON(step.geometry);
       routeLayer.setStyle({ color: `#D14054` });
       routeLayer.addTo(geoLayerRouteGroup);
@@ -106,83 +111,10 @@ export class RideHistoryReviewComponent implements OnInit{
     }
     this.mainGroup = [geoLayerRouteGroup];
   }
-  // innitMap(){
-  //   this.map = L.map('map', {
-  //     center: [45.2396, 19.8227],
-  //     zoom: 13,
-  //   });
-  //   const tiles = L.tileLayer(
-  //     'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-  //     {
-  //       maxZoom: 18,
-  //       minZoom: 3,
-  //       attribution:
-  //         '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-  //     }
-  //   );
-  //   tiles.addTo(this.map);
-  // }
   bookAgain(){
     let changeDiv = document.getElementById("bookAgain") as HTMLElement;
     changeDiv.style.display="block"
   }
-  // setRideId(id?:number){
-  //   this.rideId = id;
-  // }
-  // getRideId():number{
-  //   return this.rideId;
-  // }
-//   registerOnInput() {
-//     let bookBtn = document.getElementById('detRideId');
-//     bookBtn?.addEventListener('click', async (e : any) => {
-//       const dep = await this.search("Mise Dimitrijevica 6");
-//       this.dep = new LatLng(Number(dep[0].lat), Number(dep[0].lon));
-
-//       const des = await this.search("Brace Ribnikar 17");
-//       this.des = new LatLng(Number(des[0].lat), Number(des[0].lon));
-//       this.route(this.dep, this.des);
-//       console.log(this.dep,this.des)
-      
-//     });
-// }
-//   async search(input: string): Promise<any> {
-//     return new Promise((resolve, reject) => {
-//       this.mapService.search(input).subscribe({
-//         next: (result) => {
-//           resolve(result);
-//         },
-//         error: (error) => {
-//           reject(error);
-//         },
-//       });
-//     });
-//   }
-//   route(r1: any, r2: any): void {
-//     if (this.routingControl != null)
-//           this.removeRoutingControl();
-
-//     this.routingControl = L.Routing.control({
-//     waypoints: [
-//       r1, r2
-//     ]
-
-//   }).addTo(this.map);
-// }
-//   removeRoutingControl(){
-//     this.dep_marker.removeFrom(this.map);
-//     this.des_marker.removeFrom(this.map);
-//     this.routingControl.remove();   
-//   }
-  // ngAfterViewInit(): void {
-
-  //   let DefaultIcon = L.icon({
-  //     iconUrl: 'https://unpkg.com/leaflet@1.6.0/dist/images/marker-icon.png',
-  //   });
-
-  //   L.Marker.prototype.options.icon = DefaultIcon;
-
-  //   this.map = this.leafletDirective?.getMap();    
-  // }
   initializeWebSocketConnection() {
     let ws = new SockJS('http://localhost:8085/socket');
     this.stompClient = Stomp.over(ws);

@@ -257,3 +257,13 @@ position: absolute;
     width: 40px;
     height: 40px;
 }
+
+.rateNow{
+    height: 200px;
+    width: 300px;
+    position: absolute;
+    background: #D14054;
+    left: 45%;
+    top: 200px;
+    z-index: 100;
+}

@@ -3,8 +3,8 @@ import { Component, AfterViewInit, ViewChild } from '@angular/core';
 import * as L from 'leaflet';
 import { LatLng,  marker, geoJSON, LayerGroup, icon } from 'leaflet';
 import 'leaflet-routing-machine';
-import { AuthService } from '../../auth/auth.service';
-import { MapService } from '../map.service';
+import { AuthService } from 'src/app/services/auth/auth.service';
+import { MapService } from 'src/app/services/map/map.service';
 import * as Stomp from 'stompjs';
 import * as SockJS from 'sockjs-client';
 import { CreateRide, Ride, RideInfo } from 'src/app/model/Ride';
@@ -16,6 +16,8 @@ import { ToastrService } from 'ngx-toastr'
 import {Panic} from "../../../model/Panic";
 import {Howl} from "howler";
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { RideService } from 'src/app/services/ride/ride.service';
+import { DriverService } from 'src/app/services/driver-vehicle/driver.service';
 
 @Component({
   selector: 'app-map',
@@ -46,6 +48,7 @@ export class MapComponent implements AfterViewInit {
   // drivers : Array<Driver> = [];
 
   private map: any;
+  bookBtn! : HTMLButtonElement;
 
   role: string | null | undefined;
   result!: any;
@@ -63,7 +66,10 @@ export class MapComponent implements AfterViewInit {
   routingControl = L.Routing.control({ waypoints: [    ]});
 
 
-  constructor(private mapService: MapService, private authService : AuthService, private toastr: ToastrService, private snackBar: MatSnackBar) {}
+  constructor(private mapService: MapService,
+              private authService : AuthService,
+              private driverService : DriverService,
+              private rideService : RideService) {}
 
 
   ngAfterViewInit(): void {
@@ -80,9 +86,11 @@ export class MapComponent implements AfterViewInit {
     if(this.role == "PASSENGER" || this.role == null){
       this.dep_input =  document.getElementById('fromLocation') as HTMLInputElement;
       this.des_input =  document.getElementById('toLocation') as HTMLInputElement;
+      this.bookBtn = document.getElementById('bookBtn') as HTMLButtonElement;
 
       this.registerOnInput();
       this.registerOnClick();
+
     }
   }
 
@@ -109,13 +117,12 @@ export class MapComponent implements AfterViewInit {
   }
 
   getAllDrivers(){
-    this.authService.getDrivers().subscribe((ret) => {
+    this.driverService.getDrivers().subscribe((ret) => {
       for (let driver of ret['results']) {
         let geoLayerRouteGroup: LayerGroup = new LayerGroup();
         let markerLayer;
         let iconSize : L.PointExpression = [30,30];
         let iconUrl = '.\\assets\\images\\available-car.png'
-        console.log(driver, "driver")
         if(!driver.active){
           iconUrl = '.\\assets\\images\\not-working-car.png'
         }
@@ -142,7 +149,7 @@ export class MapComponent implements AfterViewInit {
   }
 
   adminMapView(){
-    this.mapService.getAllActiveRides().subscribe((ret) => {
+    this.rideService.getAllActiveRides().subscribe((ret) => {
       for (let ride of ret) {
         // let color = Math.floor(Math.random() * 16777215).toString(16);
         let geoLayerRouteGroup: LayerGroup = new LayerGroup();
@@ -171,8 +178,7 @@ export class MapComponent implements AfterViewInit {
   }
 
   registerOnInput() : void{
-    let bookBtn = document.getElementById('bookBtn');
-    bookBtn?.addEventListener('click', async (e : any) => {
+    this.bookBtn?.addEventListener('click', async (e : any) => {
       const dep = await this.search(this.dep_input.value);
       this.dep = new LatLng(Number(dep[0].lat), Number(dep[0].lon));
 
@@ -235,7 +241,7 @@ export class MapComponent implements AfterViewInit {
           vehicleType : vehicleType.value,
           routeJSON : ""
         };
-        (await this.mapService.createRide(rideInfo))
+        (await this.rideService.createRide(rideInfo))
         .subscribe({
           next: (result) => {
             console.log(result);
@@ -302,9 +308,8 @@ export class MapComponent implements AfterViewInit {
 
     console.log("Ride Info: ", JSON.stringify(rideInfo));
 
-    this.mapService.calculateEstimatedPrice(rideInfo).subscribe({
+    this.rideService.calculateEstimatedPrice(rideInfo).subscribe({
       next: (result) => {
-        console.log(JSON.stringify(result))
         estimated.style.display = "block";
         price.innerText = result['estimatedCost'];
         time.innerText = result['estimatedTimeInMinutes'];
@@ -430,7 +435,6 @@ export class MapComponent implements AfterViewInit {
       let ride: Ride = JSON.parse(message.body);
       if(this.role == 'ADMIN' || this.authService.getId() == ride.driver.id || this.authService.getId() == ride.passengers[0].id){
         this.hasRide = false;
-        this.hasRequest = false;
         this.mainGroup = this.mainGroup.filter((lg: LayerGroup) => lg !== this.rides[ride.id]);
         delete this.rides[ride.id];
       }
@@ -443,6 +447,15 @@ export class MapComponent implements AfterViewInit {
     });
 
 
+    this.stompClient.subscribe('/map-updates/review', (message: { body: string }) => {
+      this.hasRequest = false;
+      this.dep_input =  document.getElementById('fromLocation') as HTMLInputElement;
+      this.des_input =  document.getElementById('toLocation') as HTMLInputElement;
+      console.log(this.bookBtn);
+      this.registerOnInput();
+      this.registerOnClick();
+
+    });
     // //PANIC PROCEDURE
     // this.stompClient.subscribe('/map-updates/panic', (message: { body: string }) => {
     //   let panic: Panic = JSON.parse(message.body);
