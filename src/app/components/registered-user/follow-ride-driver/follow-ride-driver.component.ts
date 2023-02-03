@@ -1,14 +1,14 @@
 import {Component, EventEmitter, Output} from '@angular/core';
 import { Ride } from 'src/app/model/Ride';
-import { MapService } from '../../map/map.service';
 import * as Stomp from 'stompjs';
 import * as SockJS from 'sockjs-client';
-import { AuthService } from '../../auth/auth.service';
+import { AuthService } from 'src/app/services/auth/auth.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Rejection } from 'src/app/model/Rejection';
 import {Panic} from "../../../model/Panic";
 import {Reason} from "../../../model/Reason";
-import {DataService} from "../../admin/data.service";
+import { RideService } from 'src/app/services/ride/ride.service';
+import { MapService } from 'src/app/services/map/map.service';
 
 @Component({
   selector: 'app-follow-ride-driver',
@@ -17,7 +17,9 @@ import {DataService} from "../../admin/data.service";
 })
 export class FollowRideDriverComponent {
 
-  constructor(private mapService : MapService, private authService : AuthService){}
+  constructor(private mapService : MapService,
+              private rideService : RideService,
+              private authService : AuthService){}
   private stompClient: any;
   role: string | null | undefined;
 
@@ -48,7 +50,7 @@ export class FollowRideDriverComponent {
   }
 
   accept(){
-    this.mapService.acceptRide(this.ride.id).subscribe({
+    this.rideService.acceptRide(this.ride.id).subscribe({
       next: (result) => {
         console.log(result);
         this.started = false;
@@ -69,7 +71,7 @@ export class FollowRideDriverComponent {
       reason : this.rejection.value.reason
     }
 
-    this.mapService.cancelRide(this.ride.id, rejection).subscribe({
+    this.rideService.cancelRide(this.ride.id, rejection).subscribe({
       next: (result) => {
         console.log(result);
         this.hasRide = false;
@@ -81,7 +83,7 @@ export class FollowRideDriverComponent {
   }
 
   start(){
-    this.mapService.startRide(this.ride.id).subscribe({
+    this.rideService.startRide(this.ride.id).subscribe({
       next: (result) => {
         console.log(result);
         this.started = true;
@@ -94,7 +96,7 @@ export class FollowRideDriverComponent {
   }
   end(){
       this.hasRide = false;
-      this.mapService.endRide(this.ride.id).subscribe({
+      this.rideService.endRide(this.ride.id).subscribe({
         next: (result) => {
           console.log(result);
           this.hasRide = false;
@@ -113,7 +115,7 @@ export class FollowRideDriverComponent {
     this.reason = {
       reason : oldPassword.value
     }
-    this.mapService.panicRide(this.ride.id, this.reason).subscribe({
+    this.rideService.panicRide(this.ride.id, this.reason).subscribe({
       next: (result) => {
         this.panicObject = result;
         this.panics.push(this.panicObject);

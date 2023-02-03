@@ -1,14 +1,17 @@
 import {Component, EventEmitter, Output} from '@angular/core';
 import { Ride } from 'src/app/model/Ride';
-import { AuthService } from '../../auth/auth.service';
-import { MapService } from '../../map/map.service';
+import { AuthService } from 'src/app/services/auth/auth.service';
+import { MapService } from 'src/app/services/map/map.service';
 import * as Stomp from 'stompjs';
 import * as SockJS from 'sockjs-client';
 import {Reason} from "src/app/model/Reason";
 import { min } from 'rxjs';
 import { Panic } from 'src/app/model/Panic';
+import { RideService } from 'src/app/services/ride/ride.service';
 import { FavoriteRoute, FavoriteRouteCreate } from 'src/app/model/FavoriteRoute';
 import { LatLng } from 'leaflet';
+import { FavoriteRouteService } from 'src/app/services/favourite-route/favorite-route.service';
+import { Review, ReviewDTO } from 'src/app/model/Review';
 
 @Component({
   selector: 'app-follow-ride',
@@ -16,13 +19,17 @@ import { LatLng } from 'leaflet';
   styleUrls: ['./follow-ride.component.css']
 })
 export class FollowRideComponent {
-  constructor(private mapService : MapService, private authService : AuthService){}
+  constructor(private mapService : MapService,
+              private rideService : RideService,
+              private favService : FavoriteRouteService,
+              private authService : AuthService){}
   private stompClient: any;
   role: string | null | undefined;
   hasRequest : boolean = false;
   hasRide : boolean = false;
   waitingForDriver : boolean = false;
   rideStarted : boolean = false;
+  rateNow : boolean = false
   ride! : Ride;
   time : string = "";
   rideDuration! : number;
@@ -38,7 +45,6 @@ export class FollowRideComponent {
   des_input! : HTMLElement;
 
   ngOnInit() {
-    this.createFavRoute()
     this.initializeWebSocketConnection();
     this.role = this.authService.getRole();
   }
@@ -47,7 +53,7 @@ export class FollowRideComponent {
  }
 
  decline(){
-  this.mapService.declineRide(this.ride.id).subscribe({
+  this.rideService.declineRide(this.ride.id).subscribe({
     next: (result) => {
       console.log(result);
       this.hasRide = false;
@@ -77,6 +83,7 @@ createFavRoute(){
   let favoriteName =  document.getElementById('favRouteName') as HTMLInputElement;
 
   let addBtn = document.getElementById('createBtn');
+  console.log(addBtn);
   addBtn?.addEventListener('click', async (e : any) => {
     const dep = await this.search(this.dep_input.innerText);
     console.log(dep);
@@ -106,7 +113,7 @@ createFavRoute(){
       scheduledTime: null,
       passengers: [{id: this.authService.getId()}]
     };
-    this.authService.createFavoriteRoute(favoriteRoute).subscribe({
+    this.favService.createFavoriteRoute(favoriteRoute).subscribe({
       next: (result) => {
         console.log(result)
       },
@@ -116,7 +123,6 @@ createFavRoute(){
     })
     let changeDiv = document.getElementById("favRouteRow") as HTMLElement;
     changeDiv.style.display="none"
-    console.log("AAAAAAAAAAAAAAAAAAA")
     console.log(favoriteRoute);
 });
 };
@@ -129,6 +135,7 @@ createFavRoute(){
   openInputFav(){
     let changeDiv = document.getElementById("favRouteRow") as HTMLElement;
     changeDiv.style.display="block"
+    this.createFavRoute();
   }
 
   panic(){
@@ -138,7 +145,7 @@ createFavRoute(){
     this.reason = {
       reason : oldPassword.value
     }
-    this.mapService.panicRide(this.ride.id, this.reason).subscribe({
+    this.rideService.panicRide(this.ride.id, this.reason).subscribe({
       next: (result) => {
         this.panicObject = result;
         this.panics.push(this.panicObject);
@@ -152,6 +159,31 @@ createFavRoute(){
     });
 
   }
+
+
+  rateDriver(){
+    var starChecked = document.querySelector('input[name="rating"]:checked') as HTMLInputElement;
+    console.log(starChecked.value)
+    var star = document.getElementById('myratings') as HTMLElement;
+    star.innerHTML = starChecked.value;
+    let review: Review = {
+      rating: parseInt(starChecked.value),
+      rideId: this.ride.id,
+      comment: '',
+      driver: this.ride.driver.id
+    }
+    this.rideService.postReview(review).subscribe({
+      next: (result) => {
+        console.log(result)
+      },
+      error: (error) => {
+        console.log(error);
+      },
+    });
+
+  }
+
+
   initializeWebSocketConnection() {
     let ws = new SockJS('http://localhost:8085/socket');
     this.stompClient = Stomp.over(ws);
@@ -227,9 +259,15 @@ createFavRoute(){
       let ride: Ride = JSON.parse(message.body);
       if(this.authService.getId() == ride.passengers[0].id){
         this.hasRide = false;
+        this.rateNow = true;
+        this.rideStarted = false;
       }
     });
 
-
+    this.stompClient.subscribe('/map-updates/review', (message: { body: string }) => {
+      let review: ReviewDTO = JSON.parse(message.body);
+      this.rateNow = false;
+    });
+  
   }
 }
