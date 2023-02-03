@@ -211,8 +211,8 @@
                                         </div>
                                         <div class="col-6">
                                           <p class="r-h5-p" *ngIf="currentRide.reviews[0] && currentRide.reviews[0].rating != 0">{{currentRide.reviews[0].rating}} &nbsp;<img class="star-img" src="./assets/images/star.png"></p>
-                                          <p class="r-h5-p" *ngIf="!currentRide.reviews[0] || currentRide.reviews[0].rating == 0 &&  (role != 'PASSENGER')">No rating</p>
-                                          <div class="row row-ratings" *ngIf="!currentRide.reviews[0] || currentRide.reviews[0].rating == 0  && (role == 'PASSENGER')">
+                                          <p class="r-h5-p" *ngIf="(!currentRide.reviews[0] || currentRide.reviews[0].rating == 0) &&  (role != 'PASSENGER')">No rating</p>
+                                          <div class="row row-ratings" *ngIf="(role == 'PASSENGER') && (!currentRide.reviews[0] || currentRide.reviews[0].rating == 0)">
                                             <span class="myratings" id="myratings"></span>
                                                <fieldset class="rating">
                                                    <input type="radio" id="star5" name="rating" value="5" /><label class = "full" for="star5" title="Awesome - 5 stars"></label>
@@ -228,7 +228,7 @@
                                                </fieldset>
                                            </div>
                                         </div>
-                                        <div class="col-1" *ngIf="!currentRide.reviews[0] || currentRide.reviews[0].rating == 0  && role == 'PASSENGER'">
+                                        <div class="col-1" *ngIf="(!currentRide.reviews[0] || currentRide.reviews[0].rating == 0)  && role == 'PASSENGER'">
                                           <button class="greenBtn2" (click)="postToController()">/</button>
                                         </div>
                                       </div>

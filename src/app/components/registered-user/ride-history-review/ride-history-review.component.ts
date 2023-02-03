@@ -79,7 +79,7 @@ export class RideHistoryReviewComponent implements OnInit{
     var star = document.getElementById('myratings') as HTMLElement;
     star.innerHTML = starChecked.value;
     let review: Review = {
-      rating: parseInt(starChecked.value),
+      rating: parseFloat(starChecked.value),
       rideId: this.currentRide.id,
       comment: '',
       driver: this.currentRide.driver.id
