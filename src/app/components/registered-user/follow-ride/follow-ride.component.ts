@@ -161,17 +161,23 @@ createFavRoute(){
   }
 
 
-  rateDriver(){
-    var starChecked = document.querySelector('input[name="rating"]:checked') as HTMLInputElement;
-    console.log(starChecked.value)
-    var star = document.getElementById('myratings') as HTMLElement;
-    star.innerHTML = starChecked.value;
+  rateDriver(rate: boolean){
     let review: Review = {
-      rating: parseInt(starChecked.value),
+      rating: null,
       rideId: this.ride.id,
       comment: '',
       driver: this.ride.driver.id
     }
+    
+    if(rate){
+      var starChecked = document.querySelector('input[name="rating"]:checked') as HTMLInputElement;
+      console.log(starChecked.value)
+      var star = document.getElementById('myratings') as HTMLElement;
+      star.innerHTML = starChecked.value;
+      review.rating = parseFloat(starChecked.value);
+    }
+    
+    
     this.rideService.postReview(review).subscribe({
       next: (result) => {
         console.log(result)
