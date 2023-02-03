@@ -316,3 +316,12 @@ position: absolute;
     cursor: pointer;
 
 }
+.commentInput{
+    background-color: #d8374c;
+    margin-left: 30px;
+    place-content: #fff;
+    border-color: #d8374c;
+    height: 40px;
+    width: max-content;
+    margin-bottom: 15px;
+}

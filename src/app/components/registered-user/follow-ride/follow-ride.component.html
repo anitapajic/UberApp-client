@@ -12,13 +12,16 @@
 
 
 <div id="rateNow"  class="rateNow rectangle" *ngIf="rateNow">
-    <div class="circle">
-        <img class = "img-logo-ratings " src="./assets/images/starLogo.png">
+    <div class="circle2">
+        <img class = "img-logo-ratings" src="./assets/images/starLogo.png">
     </div>
-    <p for="text" class="rate">Rate driver:</p>
+    <label for="text" class="rate2">Enjoying TAXXI?</label>
+    <p for="text" class="price">How would you rate our service?</p>
+    <input type="text" placeholder="Comment" class="commentInput">
     <div class="container d-flex justify-content-center mt-100">
         <div class="row row-ratings">
-            <span class="myratings" id="myratings"></span>
+           <span class="myratings" id="myratings"></span>
+           <div class="col-6">
            <fieldset class="rating">
                <input type="radio" id="star5" name="rating" value="5" /><label class = "full" for="star5" title="Awesome - 5 stars"></label>
                <input type="radio" id="star4half" name="rating" value="4.5" /><label class="half" for="star4half" title="Pretty good - 4.5 stars"></label>
@@ -31,17 +34,19 @@
                <input type="radio" id="star1" name="rating" value="1" /><label class = "full" for="star1" title="Sucks big time - 1 star"></label>
                <input type="radio" id="starhalf" name="rating" value="0.5" /><label class="half" for="starhalf" title="Sucks big time - 0.5 stars"></label>
            </fieldset>
+           </div>
+           <div class="col-1">
+            <button class="greenBtn2" (click)="rateDriver(true)">/</button>
+          </div>
        </div>
     </div>
-    <div class="col-1">
-      <button class="greenBtn2" (click)="rateDriver()">/</button>
-    </div>
+       <a class="a-close" (click)="rateDriver(false)"><p for="text" class="underlined" >Maybe, next time!</p></a>
 </div>
 
 
 
 
-<!-- <div class="rectangle" *ngIf="hasRide" >
+<div class="rectangle" *ngIf="hasRide" >
     <div class="circle">
         <img class = "img-logo " src="./assets/images/logoCircle.png">
     </div>
@@ -69,7 +74,7 @@
     </div>
     
     
-     <div class="row">
+    <!--  <div class="row">
             <p for="text" class="rate">Rate driver:</p>
             <div class="container d-flex justify-content-center mt-100">
                 <div class="row row-ratings">
@@ -88,8 +93,8 @@
                 </div>
             </div>
 
-    </div> 
-</div> -->
+    </div>  -->
+</div>
 
 <button id="panicBtn" class="btn" type="button" (click)="openForm()" style="display: block;" *ngIf="rideStarted">PANIC</button>
 
