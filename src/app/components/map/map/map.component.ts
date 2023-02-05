@@ -247,7 +247,12 @@ export class MapComponent implements AfterViewInit {
             console.log(result);
           },
           error: (error) => {
-            console.log("No available driver");
+            setTimeout(() => {
+              this.hasRide = false;
+              this.hasRequest = false;
+              alert("No available driver");
+              console.log("No available driver");
+          }, 3000);
           },
         });
       }
