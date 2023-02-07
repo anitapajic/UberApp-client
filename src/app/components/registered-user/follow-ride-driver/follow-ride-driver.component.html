@@ -12,7 +12,7 @@
     </div>
       <div class="row">
         <div *ngIf="!accepted">
-            <button class="accept-btn" (click)="accept()">ACCEPT</button>
+            <button class="accept-btn" id="acceptBtn" (click)="accept()">ACCEPT</button>
             <button class="decline-btn" (click)="decline()" [disabled]="!rejection.valid">DECLINE</button>
             <div>
                 <form [formGroup]="rejection" >
@@ -21,8 +21,8 @@
             </div>
         </div>
         <div *ngIf="accepted">
-            <button class="accept-btn" (click)="start()" [disabled] = "started == true">START</button>
-            <button class="decline-btn" (click)="end()" [disabled] = "started == false">END</button>
+            <button class="accept-btn" id="startBtn" (click)="start()" [disabled] = "started == true">START</button>
+            <button class="decline-btn" id="endBtn" (click)="end()" [disabled] = "started == false">END</button>
         </div>
 
 

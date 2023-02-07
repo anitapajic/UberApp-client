@@ -1,4 +1,4 @@
-<div class="rectangle left white" *ngIf="!hasRide && !rateNow">
+<div class="rectangle left white" id="searchingForRide" *ngIf="!hasRide && !rateNow">
     <div class="circle white" >
         <img class = "img-logo " src="./assets/images/logoCircle.png">
     </div>
@@ -17,13 +17,13 @@
     </div>
     <label for="text" class="rate2">Enjoying TAXXI?</label>
     <p for="text" class="price">How would you rate our service?</p>
-    <input type="text" placeholder="Comment" class="commentInput">
+    <input type="text" placeholder="Comment" id="commentInput" class="commentInput">
     <div class="container d-flex justify-content-center mt-100">
         <div class="row row-ratings">
            <span class="myratings" id="myratings"></span>
            <div class="col-6">
            <fieldset class="rating">
-               <input type="radio" id="star5" name="rating" value="5" /><label class = "full" for="star5" title="Awesome - 5 stars"></label>
+               <input type="radio" id="star5" name="rating" value="5" /><label  class = "full" for="star5" title="Awesome - 5 stars"></label>
                <input type="radio" id="star4half" name="rating" value="4.5" /><label class="half" for="star4half" title="Pretty good - 4.5 stars"></label>
                <input type="radio" id="star4" name="rating" value="4" /><label class = "full" for="star4" title="Pretty good - 4 stars"></label>
                <input type="radio" id="star3half" name="rating" value="3.5" /><label class="half" for="star3half" title="Meh - 3.5 stars"></label>
@@ -36,7 +36,7 @@
            </fieldset>
            </div>
            <div class="col-1">
-            <button class="greenBtn2" (click)="rateDriver(true)">/</button>
+            <button class="greenBtn2" id="gBtn" (click)="rateDriver(true)">/</button>
           </div>
        </div>
     </div>
