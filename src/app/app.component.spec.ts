@@ -1,6 +1,8 @@
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { AppComponent } from './app.component';
+import { LayoutModuleModule } from './components/layout-module/layout-module.module';
+import { NavbarComponent } from './components/layout-module/navbar/navbar.component';
 
 describe('AppComponent', () => {
   beforeEach(async () => {
@@ -12,6 +14,7 @@ describe('AppComponent', () => {
         AppComponent
       ],
     }).compileComponents();
+    
   });
 
   it('should create the app', () => {

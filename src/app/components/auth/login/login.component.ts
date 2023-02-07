@@ -1,5 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component } from '@angular/core';
+import { Component, Injectable } from '@angular/core';
 import { FormControl,
         FormGroup,
         Validators,
@@ -13,11 +13,14 @@ import { Router } from '@angular/router';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
+@Injectable({
+  providedIn: 'root',
+})
 export class LoginComponent{
 
   constructor(private authService: AuthService, private router:Router) {}
   hasError: boolean = false;
- 
+  valid : boolean = false;
   loginForm = new FormGroup({
     email: new FormControl('', [Validators.required]),
     password: new FormControl('', [Validators.required]),
@@ -31,6 +34,7 @@ export class LoginComponent{
 
 
     if (this.loginForm.valid) {
+      this.valid = true;
       this.authService.login(loginVal).subscribe({
         next: (result) => {
           localStorage.setItem('user', JSON.stringify(result));
@@ -45,6 +49,9 @@ export class LoginComponent{
           }
         },
       });
+    }
+    else{
+      this.valid = false;
     }
 
   }

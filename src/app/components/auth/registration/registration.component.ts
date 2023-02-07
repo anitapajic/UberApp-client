@@ -12,8 +12,10 @@ import { User } from 'src/app/model/User';
 })
 export class RegistrationComponent implements OnInit{
 
+
   constructor(private authService: AuthService, private router: Router) {}
   hasError: boolean = false;
+  passMatch : boolean = false;
   registrationForm = new FormGroup({
     firstname: new FormControl('', [Validators.required]),
     lastname: new FormControl('', [Validators.required]),
@@ -37,8 +39,8 @@ export class RegistrationComponent implements OnInit{
       confirmPassword: this.registrationForm.value.confirmPassword,
       address: this.registrationForm.value.address,
     };
-
     if(registrationVal.password===registrationVal.confirmPassword) {
+      this.passMatch = true;
       if (this.registrationForm.valid) {
         this.authService.registration(registrationVal).subscribe({
           next: (result) => {
@@ -56,6 +58,7 @@ export class RegistrationComponent implements OnInit{
       }
     }
     else {
+      this.passMatch = false;
       alert("Your password is not the same as the confirmed one!")
     }
   }

@@ -3,17 +3,14 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { NavbarComponent } from './components/layout-module/navbar/navbar.component';
 import { LoginComponent } from './components/auth/login/login.component';
 import { RegistrationComponent } from './components/auth/registration/registration.component';
-import { ReactiveFormsModule} from "@angular/forms";
-import { FooterComponent } from './components/layout-module/footer/footer.component';
+import { FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {  HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { Interceptor } from './services/interceptor/interceptor.interceptor';
 import { compileDirectiveFromMetadata } from '@angular/compiler';
 import { LayoutModuleModule } from './components/layout-module/layout-module.module';
 import { ResetPasswordComponent } from './components/registered-user/reset-password/reset-password.component';
-import { RideHistoryComponent } from './components/registered-user/ride-history/ride-history.component';
 import { UserAccountComponent } from './components/registered-user/user-account/user-account.component';
 import { RideHistoryReviewComponent } from './components/registered-user/ride-history-review/ride-history-review.component';
 import { ChangeRequestsComponent } from './components/registered-user/admin/change-requests/change-requests.component';
@@ -56,6 +53,7 @@ compileDirectiveFromMetadata
     ReactiveFormsModule,
     BrowserAnimationsModule,
     MapModule,
+    FormsModule,
     LayoutModuleModule,
     HttpClientModule,
     NgChartsModule,

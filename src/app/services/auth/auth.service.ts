@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import {BehaviorSubject, Observable} from 'rxjs';
 import {HttpClient, HttpErrorResponse, HttpHeaders, HttpParams} from '@angular/common/http';
-import { Token } from '@angular/compiler';
+// import { Token } from '@angular/compiler';
+import { Token } from 'src/app/model/token'
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { Note } from 'src/app/model/Note';
 import { CreateVehicle, Vehicle } from 'src/app/model/Vehicle';
