@@ -50,7 +50,7 @@ describe('RegistrationComponent', () => {
     expect(component.registrationForm.valid).toBeFalsy();
   });
 
-  
+
   it('form where password and confirmPassword do not match', () =>{
     component.registrationForm.controls['firstname'].setValue('Anita');
     component.registrationForm.controls['lastname'].setValue('Pajic');
@@ -61,6 +61,18 @@ describe('RegistrationComponent', () => {
     component.registrationForm.controls['telephoneNumber'].setValue('0669024480');
     component.registrationForm.controls['address'].setValue('Strumicka 6');
     expect(component.passMatch).toBeFalse();
+  });
+
+  it('form should be invalid when no input', () =>{
+    component.registrationForm.controls['firstname'].setValue('');
+    component.registrationForm.controls['lastname'].setValue('');
+    component.registrationForm.controls['email'].setValue('');
+    component.registrationForm.controls['dateOfBirth'].setValue('');
+    component.registrationForm.controls['password'].setValue('');
+    component.registrationForm.controls['confirmPassword'].setValue('');
+    component.registrationForm.controls['telephoneNumber'].setValue('');
+    component.registrationForm.controls['address'].setValue('');
+    expect(component.registrationForm.valid).toBeFalsy();
   });
 
 
