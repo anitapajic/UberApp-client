@@ -24,6 +24,12 @@ describe('LoginComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  
+  it('form should valid', () =>{
+    component.loginForm.controls['email'].setValue('anita@gmail.com');
+    component.loginForm.controls['password'].setValue('test');
+    expect(component.loginForm.valid).toBeTruthy();
+  });
 
 
   it('form should be invalid when missing input', () =>{
