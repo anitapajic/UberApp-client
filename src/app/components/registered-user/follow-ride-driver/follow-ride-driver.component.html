@@ -13,10 +13,10 @@
       <div class="row">
         <div *ngIf="!accepted">
             <button class="accept-btn" id="acceptBtn" (click)="accept()">ACCEPT</button>
-            <button class="decline-btn" (click)="decline()" [disabled]="!rejection.valid">DECLINE</button>
+            <button class="decline-btn" id="declineBtn" (click)="decline()" [disabled]="!rejection.valid">DECLINE</button>
             <div>
                 <form [formGroup]="rejection" >
-                    <input  class="rejection" type="text" placeholder="Rejection reason" formControlName="reason">
+                    <input  class="rejection" type="text" id="declineReason" placeholder="Rejection reason" formControlName="reason">
                 </form>
             </div>
         </div>
@@ -29,7 +29,7 @@
 
     </div>
 </div>
-<button id="panicBtn" class="btn" type="button" (click)="openForm()" style="display: block;"  *ngIf="accepted">PANIC</button>
+<button id="panicBtn" class="btn" type="button" (click)="openForm()" style="display: block;"  *ngIf="hasRide">PANIC</button>
 
 <div class="card mt-3" id="panicReason" style="display: none;">
     <ul class="list-group list-group-flush">

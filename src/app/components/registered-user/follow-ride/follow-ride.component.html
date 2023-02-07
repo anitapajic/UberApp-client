@@ -96,7 +96,7 @@
     </div>  -->
 </div>
 
-<button id="panicBtn" class="btn" type="button" (click)="openForm()" style="display: block;" *ngIf="rideStarted">PANIC</button>
+<button id="panicBtn" class="btn" type="button" (click)="openForm()" style="display: block;" *ngIf="hasRide">PANIC</button>
 
 <div class="card mt-3" id="panicReason" style="display: none;">
   <ul class="list-group list-group-flush">

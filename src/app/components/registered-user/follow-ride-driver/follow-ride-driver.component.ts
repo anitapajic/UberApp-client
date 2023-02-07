@@ -121,6 +121,8 @@ export class FollowRideDriverComponent {
         this.panics.push(this.panicObject);
         console.log(result);
         this.hasRide = false;
+        let changeDiv = document.getElementById("panicReason") as HTMLElement;
+        changeDiv.style.display="none"
 
       },
       error: (error) => {
